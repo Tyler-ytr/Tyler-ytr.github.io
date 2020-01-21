@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
-  
+  <title>Tyler-yin&#39;s blog</title>
+  <icon>https://www.gravatar.com/avatar/9cf7a8e81293a5a77561848afbba692b</icon>
   
   <link href="/atom.xml" rel="self"/>
   
@@ -10,8 +10,8 @@
   <id>http://Tyler-ytr.github.io/</id>
   
   <author>
-    <name>John Doe</name>
-    
+    <name>Tyler-yin</name>
+    <email>ytrpossible@gmail.com</email>
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
