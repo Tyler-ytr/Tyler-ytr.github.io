@@ -14,7 +14,7 @@
     
     
     
-    <title>ubuntu_back | Tyler-yin&#39;s blog</title>
+    <title>ubuntu教程 | Tyler-yin&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -23,13 +23,13 @@
     <meta name="keywords" content="教程">
     <meta name="description" content="反思 之前崩的原因是搜狗输入法安装的时候没有提前安装fcix框架,导致乱码然后系统就傻掉了; 重装很多次的原因是因为没有在重装之前完全的格式化分区,我建议每一次玩具坏了都要用windows格式化一次呜呜呜  复活操作基本配置 管理员权限,换源,安装vim    sudo passwd(修改sudo密码)   sudo apt-get update   sudo apt-get install vi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ubuntu_back">
+<meta property="og:title" content="ubuntu教程">
 <meta property="og:url" content="http://tyler-ytr.github.io/2020/01/22/ubuntu-back/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
 <meta property="og:description" content="反思 之前崩的原因是搜狗输入法安装的时候没有提前安装fcix框架,导致乱码然后系统就傻掉了; 重装很多次的原因是因为没有在重装之前完全的格式化分区,我建议每一次玩具坏了都要用windows格式化一次呜呜呜  复活操作基本配置 管理员权限,换源,安装vim    sudo passwd(修改sudo密码)   sudo apt-get update   sudo apt-get install vi">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-01-22T08:28:15.000Z">
-<meta property="article:modified_time" content="2020-01-22T08:28:50.602Z">
+<meta property="article:modified_time" content="2020-01-22T08:30:36.423Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="教程">
 <meta name="twitter:card" content="summary">
@@ -127,7 +127,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">ubuntu_back</div>
+        <div class="flex-col header-title ellipsis">ubuntu教程</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -149,7 +149,7 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">ubuntu_back</h1>
+        <h1 class="title">ubuntu教程</h1>
         <h5 class="subtitle">
             
                 <time datetime="2020-01-22T08:28:15.000Z" itemprop="datePublished" class="page-time">
@@ -157,7 +157,7 @@
 </time>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/">个人笔记</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
 
             
         </h5>
@@ -183,12 +183,12 @@
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">ubuntu_back</h1>
+        <h1 class="post-card-title">ubuntu教程</h1>
         <div class="post-meta">
             <time class="post-time" title="2020-01-22 16:28:15" datetime="2020-01-22T08:28:15.000Z"  itemprop="datePublished">2020-01-22</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/">个人笔记</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
 
 
 
@@ -256,22 +256,28 @@ ss-local -c ~/shadowsocks/shadowsocks.json
 <li>然后在终端里面起别名:<br><pre><code>vim ~/.bashrc<br>在末尾添加:<br>alias ss=’. ~/.ssstart.sh’<br>:wq 保存,退出<br>在终端里面:<br>source ~/.bashrc<br>(如果是zsh:source ~/.zshrc)<br></code></pre><br>尝试一下在终端输入ss,它lei了;</li>
 </ul>
 </li>
-<li>因为后面的netdata需要<strong>终端</strong>翻墙,我也就尝试了一下,如果没有需求可以跳过这一步:<ul>
+<li><p>因为后面的netdata需要<strong>终端</strong>翻墙,我也就尝试了一下,如果没有需求可以跳过这一步:</p>
+<ul>
 <li>主要参考的是谷歌出来的<a href="http://www.totorocyx.me/2018/10/02/ubuntu_shadowsocks/" target="_blank" rel="noopener">网站</a></li>
 <li>首先用pip -V康康有没有pip,没有的话使用sudo apt-get install python-pip安装</li>
-<li>下面尝试全局代理(我也不确定能不能成功)：<ul>
+<li><p>下面尝试全局代理(我也不确定能不能成功)：</p>
+<ul>
 <li>sudo pip install genpac</li>
 <li>选择安装配置文件的目录,我选择的是:<pre><code>/home/larryytr/shadowsocks</code></pre></li>
 <li>然后执行以下命令:<pre><code>sudo genpac –proxy=”SOCKS5 127.0.0.1:1080” –gfwlist-proxy=”SOCKS5 127.0.0.1:1080” -o autoproxy.pac –gfwlist-url=”<a href="https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt&quot;" target="_blank" rel="noopener">https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt&quot;</a></code></pre></li>
 <li>下面是一句搬运,我没有遇到过:<pre><code>注意：如果报错“fetch gfwlist fail.online: <a href="https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt" target="_blank" rel="noopener">https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt</a> local:None”，可以使用后面的语句：sudo genpac –proxy=”SOCKS5 127.0.0.1:1080” -o autoproxy.pac –gfwlist-url=”<a href="https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt&quot;" target="_blank" rel="noopener">https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt&quot;</a><br></pre></code></li>
 <li>执行完之后,目录下面会有一个autoproxy.pac文件。</li>
-<li>然后在右上角,打开系统设置——网络——网络代理：“方法”选择“自动”，“配置URL”填写：<pre><code>file:///home/larryytr/shadowsocks/autoproxy.pac (请根据自己的实际情况修改)</code></pre></li>
+<li><p>然后在右上角,打开系统设置——网络——网络代理：“方法”选择“自动”，“配置URL”填写：</p>
+<pre><code>file:///home/larryytr/shadowsocks/autoproxy.pac (请根据自己的实际情况修改)</code></pre></li>
 </ul>
 </li>
-<li>然后使得终端也能使用代理。我们需要<strong>privoxy</strong>代理工具:<ul>
+<li><p>然后使得终端也能使用代理。我们需要<strong>privoxy</strong>代理工具:</p>
+<ul>
 <li>安装很自然:sudo apt-get install privoxy</li>
 <li>然后编辑配置文件<pre><code>sudo vim /etc/privoxy/config </pre></code></li>
-<li>在文档中搜索(vim 使用/搜索)“<strong>listen-address</strong>”（即监听地址），找到如下一行：<strong>listen-address localhost:8118</strong> 确保它没有被注释（如果这一行有#号，就手动删除）。再查找“<strong>forward-socks5t</strong>”，找到如下一行：<strong>forward-socks5t / 127.0.0.1:1080</strong> . 同样确保它没有被注释。如果没有这一行，就手动添加（注意！句尾那个点 . 是要写的！）。然后保存退出，再执行以下命令启动privoxy：<br><pre><code>sudo privoxy –user privoxy /etc/privoxy/config</pre></code></li>
+<li><p>在文档中搜索(vim 使用/搜索)“<strong>listen-address</strong>”（即监听地址），找到如下一行：<strong>listen-address localhost:8118</strong> 确保它没有被注释（如果这一行有#号，就手动删除）。再查找“<strong>forward-socks5t</strong>”，找到如下一行：<strong>forward-socks5t / 127.0.0.1:1080</strong> . 同样确保它没有被注释。如果没有这一行，就手动添加（注意！句尾那个点 . 是要写的！）。然后保存退出，再执行以下命令启动privoxy：</p>
+<p><pre><code>sudo privoxy –user privoxy /etc/privoxy/config</pre></code></p>
+</li>
 <li>最后，再配置/etc/profile：<pre><code><pre><code># 先进入编辑模式
 </code></pre>sudo vim /etc/profile<pre><code># 在末尾添加以下三行：
 </code></pre>export http_proxy=<a href="http://127.0.0.1:8118" target="_blank" rel="noopener">http://127.0.0.1:8118</a><br>export https_proxy=<a href="http://127.0.0.1:8118" target="_blank" rel="noopener">http://127.0.0.1:8118</a><br>export ftp_proxy=<a href="http://127.0.0.1:8118" target="_blank" rel="noopener">http://127.0.0.1:8118</a><pre><code># 退出之后记得执行
@@ -375,7 +381,7 @@ vscode的保存即编译请<pre><code>Ctrl+Shift+p,搜索setting,搜索Build,Lat
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2020-01-22T08:28:50.602Z" itemprop="dateUpdated">2020-01-22 16:28:50</time>
+    Last updated: <time datetime="2020-01-22T08:30:36.423Z" itemprop="dateUpdated">2020-01-22 16:30:36</time>
 </span><br>
 
 
@@ -407,7 +413,7 @@ vscode的保存即编译请<pre><code>Ctrl+Shift+p,搜索setting,搜索Build,Lat
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&title=《ubuntu_back》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&title=《ubuntu教程》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -417,7 +423,7 @@ vscode的保存即编译请<pre><code>Ctrl+Shift+p,搜索setting,搜索Build,Lat
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&title=《ubuntu_back》 — Tyler-yin's blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&title=《ubuntu教程》 — Tyler-yin's blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -427,7 +433,7 @@ vscode的保存即编译请<pre><code>Ctrl+Shift+p,搜索setting,搜索Build,Lat
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ubuntu_back》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ubuntu教程》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
@@ -533,7 +539,7 @@ vscode的保存即编译请<pre><code>Ctrl+Shift+p,搜索setting,搜索Build,Lat
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&title=《ubuntu_back》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&title=《ubuntu教程》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -543,7 +549,7 @@ vscode的保存即编译请<pre><code>Ctrl+Shift+p,搜索setting,搜索Build,Lat
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&title=《ubuntu_back》 — Tyler-yin's blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&title=《ubuntu教程》 — Tyler-yin's blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -553,7 +559,7 @@ vscode的保存即编译请<pre><code>Ctrl+Shift+p,搜索setting,搜索Build,Lat
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ubuntu_back》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ubuntu教程》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
