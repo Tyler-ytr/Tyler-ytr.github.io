@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>leetcode990_m | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="union-find">
+    <meta name="description" content="990. 等式方程的可满足性难度中等73 给定一个由表示变量之间关系的字符串方程组成的数组，每个字符串方程 equations[i] 的长度为 4，并采用两种不同的形式之一：&quot;a&#x3D;&#x3D;b&quot; 或 &quot;a!&#x3D;b&quot;。在这里，a 和 b 是小写字母（不一定不同），表示单字母变量名。 只有当可以将整数分配给变量名，以便满足所有给定的方程时才返回 true，否则返回 fal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode990_m">
+<meta property="og:url" content="http://tyler-ytr.github.io/2020/08/31/leetcode990-m/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="990. 等式方程的可满足性难度中等73 给定一个由表示变量之间关系的字符串方程组成的数组，每个字符串方程 equations[i] 的长度为 4，并采用两种不同的形式之一：&quot;a&#x3D;&#x3D;b&quot; 或 &quot;a!&#x3D;b&quot;。在这里，a 和 b 是小写字母（不一定不同），表示单字母变量名。 只有当可以将整数分配给变量名，以便满足所有给定的方程时才返回 true，否则返回 fal">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-08-31T14:28:06.000Z">
+<meta property="article:modified_time" content="2020-08-31T14:28:32.215Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="union-find">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">leetcode990_m</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">leetcode990_m</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-08-31T14:28:06.000Z" itemprop="datePublished" class="page-time">
+  2020-08-31
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/leetcode%E5%88%B7%E9%A2%98/">leetcode刷题</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#990-等式方程的可满足性"><span class="post-toc-number">1.</span> <span class="post-toc-text">990. 等式方程的可满足性</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-leetcode990-m"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">leetcode990_m</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-08-31 22:28:06" datetime="2020-08-31T14:28:06.000Z"  itemprop="datePublished">2020-08-31</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/leetcode%E5%88%B7%E9%A2%98/">leetcode刷题</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h4 id="990-等式方程的可满足性"><a href="#990-等式方程的可满足性" class="headerlink" title="990. 等式方程的可满足性"></a><a href="https://leetcode-cn.com/problems/satisfiability-of-equality-equations/" target="_blank" rel="noopener">990. 等式方程的可满足性</a></h4><p>难度中等73</p>
+<p>给定一个由表示变量之间关系的字符串方程组成的数组，每个字符串方程 <code>equations[i]</code> 的长度为 <code>4</code>，并采用两种不同的形式之一：<code>&quot;a==b&quot;</code> 或 <code>&quot;a!=b&quot;</code>。在这里，a 和 b 是小写字母（不一定不同），表示单字母变量名。</p>
+<p>只有当可以将整数分配给变量名，以便满足所有给定的方程时才返回 <code>true</code>，否则返回 <code>false</code>。 </p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：[&quot;a&#x3D;&#x3D;b&quot;,&quot;b!&#x3D;a&quot;]</span><br><span class="line">输出：false</span><br><span class="line">解释：如果我们指定，a &#x3D; 1 且 b &#x3D; 1，那么可以满足第一个方程，但无法满足第二个方程。没有办法分配变量同时满足这两个方程。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输出：[&quot;b&#x3D;&#x3D;a&quot;,&quot;a&#x3D;&#x3D;b&quot;]</span><br><span class="line">输入：true</span><br><span class="line">解释：我们可以指定 a &#x3D; 1 且 b &#x3D; 1 以满足满足这两个方程。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 3：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：[&quot;a&#x3D;&#x3D;b&quot;,&quot;b&#x3D;&#x3D;c&quot;,&quot;a&#x3D;&#x3D;c&quot;]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+<p><strong>示例 4：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：[&quot;a&#x3D;&#x3D;b&quot;,&quot;b!&#x3D;c&quot;,&quot;c&#x3D;&#x3D;a&quot;]</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
+<p><strong>示例 5：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：[&quot;c&#x3D;&#x3D;c&quot;,&quot;b&#x3D;&#x3D;d&quot;,&quot;x!&#x3D;z&quot;]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ol>
+<li><code>1 &lt;= equations.length &lt;= 500</code></li>
+<li><code>equations[i].length == 4</code></li>
+<li><code>equations[i][0]</code> 和 <code>equations[i][3]</code> 是小写字母</li>
+<li><code>equations[i][1]</code> 要么是 <code>&#39;=&#39;</code>，要么是 <code>&#39;!&#39;</code></li>
+<li><code>equations[i][2]</code> 是 <code>&#39;=&#39;</code></li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> p[<span class="number">26</span>];</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">find_set</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(x!=p[x])&#123;</span><br><span class="line">            p[x]=find_set(p[x]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p[x];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">equationsPossible</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; equations)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//图的连通性问题---并查集</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)&#123;</span><br><span class="line">            p[i]=i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;equations.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            <span class="comment">//==就合并;</span></span><br><span class="line">            <span class="keyword">if</span>(equations[i][<span class="number">1</span>]==<span class="string">'='</span>)&#123;</span><br><span class="line">                <span class="keyword">int</span> x1=equations[i][<span class="number">0</span>]-<span class="string">'a'</span>;</span><br><span class="line">                <span class="keyword">int</span> x2=equations[i][<span class="number">3</span>]-<span class="string">'a'</span>;</span><br><span class="line">                <span class="keyword">int</span> fx1=find_set(x1);</span><br><span class="line">                <span class="keyword">int</span> fx2=find_set(x2);</span><br><span class="line">                <span class="keyword">if</span>(fx1!=fx2)&#123;</span><br><span class="line">                    p[fx1]=p[fx2];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;equations.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(equations[i][<span class="number">1</span>]==<span class="string">'!'</span>)&#123;</span><br><span class="line">                <span class="keyword">int</span> x1=equations[i][<span class="number">0</span>]-<span class="string">'a'</span>;</span><br><span class="line">                <span class="keyword">int</span> x2=equations[i][<span class="number">3</span>]-<span class="string">'a'</span>;</span><br><span class="line">                <span class="keyword">int</span> fx1=find_set(x1);</span><br><span class="line">                <span class="keyword">int</span> fx2=find_set(x2);</span><br><span class="line">                <span class="keyword">if</span>(fx1==fx2)<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>官方版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">class UnionFind &#123;</span><br><span class="line">private:</span><br><span class="line">    vector&lt;int&gt; parent;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">    UnionFind() &#123;</span><br><span class="line">        parent.resize(26);</span><br><span class="line">        iota(parent.begin(), parent.end(), 0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int find(int index) &#123;</span><br><span class="line">        if (index &#x3D;&#x3D; parent[index]) &#123;</span><br><span class="line">            return index;</span><br><span class="line">        &#125;</span><br><span class="line">        parent[index] &#x3D; find(parent[index]);</span><br><span class="line">        return parent[index];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void unite(int index1, int index2) &#123;</span><br><span class="line">        parent[find(index1)] &#x3D; find(index2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    bool equationsPossible(vector&lt;string&gt;&amp; equations) &#123;</span><br><span class="line">        UnionFind uf;</span><br><span class="line">        for (const string&amp; str: equations) &#123;</span><br><span class="line">            if (str[1] &#x3D;&#x3D; &#39;&#x3D;&#39;) &#123;</span><br><span class="line">                int index1 &#x3D; str[0] - &#39;a&#39;;</span><br><span class="line">                int index2 &#x3D; str[3] - &#39;a&#39;;</span><br><span class="line">                uf.unite(index1, index2);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        for (const string&amp; str: equations) &#123;</span><br><span class="line">            if (str[1] &#x3D;&#x3D; &#39;!&#39;) &#123;</span><br><span class="line">                int index1 &#x3D; str[0] - &#39;a&#39;;</span><br><span class="line">                int index2 &#x3D; str[3] - &#39;a&#39;;</span><br><span class="line">                if (uf.find(index1) &#x3D;&#x3D; uf.find(index2)) &#123;</span><br><span class="line">                    return false;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">作者：LeetCode-Solution</span><br><span class="line">链接：https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;satisfiability-of-equality-equations&#x2F;solution&#x2F;deng-shi-fang-cheng-de-ke-man-zu-xing-by-leetcode-&#x2F;</span><br><span class="line">来源：力扣（LeetCode）</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-08-31T14:28:32.215Z" itemprop="dateUpdated">2020-08-31 22:28:32</time>
+</span><br>
+
+
+        
+        Link：<a href="/2020/08/31/leetcode990-m/" target="_blank" rel="external">http://tyler-ytr.github.io/2020/08/31/leetcode990-m/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/union-find/" rel="tag">union-find</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2020/08/31/leetcode990-m/&title=《leetcode990_m》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2020/08/31/leetcode990-m/&title=《leetcode990_m》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2020/08/31/leetcode990-m/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《leetcode990_m》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2020/08/31/leetcode990-m/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2020/08/31/leetcode990-m/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/08/31/leetcode4-h/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">leetcode4_h</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/08/31/leetcode547-m/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">leetcode547_m</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2020/08/31/leetcode990-m/&title=《leetcode990_m》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2020/08/31/leetcode990-m/&title=《leetcode990_m》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2020/08/31/leetcode990-m/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《leetcode990_m》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2020/08/31/leetcode990-m/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2020/08/31/leetcode990-m/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKUlEQVR42u3au1LDMBAFUP7/p0NDQePk3pVTWDqumGCsPWZG2Yd+fuLr9e+6+iS5v13l5gsDA+OxjNfbK7/n6slXT3gfQ70uBgbGAYwkiHzfu/qrPNA8NgwMDIy77mnTSgwMDIx7N9wkscu3VwwMDIyVIrbFz8rXr9fiGBgYD2SslKbf/vkr8w0MDIxHMV7ltZ4I3hvP3zMxMDC2ZsyOQbxPHPOSuChQk2MZGBgYWzPaJn6OWT+tNnwCBgbGRoykBdYWtO0ns+HEZYaLgYGxHSNv6OdBrzf0k/sxMDBOY8wON7SNuZaXADAwMM5hzAaKeWmaHN1o2UuzVgwMjAcyckAbymwbzfHR9wYGBsbDGcmSebizAWeSdBZdQwwMjO0YbbM+Ca5tq7Xb64fyFQMDYzvGygGsYTssfk1FwYyBgXEAY33c2KaSeSI4zHAxMDA2Zcw23PYV5AVz/ioxMDBOYKxvprOtc2WEgIGBcQ4jXz5p1q8cyMgL5qhriIGBsSkjX2a2ISavqR0Y1OMBDAyMLRizwxNt6OtHKz4MMjEwMDZlJMGtjw3yIrbe9DEwMDZlvMrr3hDz4rn4P2BgYGzHuKsRliR/+VGwJPR2m8bAwHg6YzYAaH/bJn918YyBgXEAoy1B8yDadt4MiYGBgZEPL/OnraSMxckODAyM4xmzllleEucrYmBgnMBoU7p20Ni2++vCGAMDY2tGe8RhtnW2hWv7NYCBgbEp4xdUSGqY/mYbxQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"superSample":2,"width":125,"height":125,"position":"left","hOffset":30,"vOffset":-20},"mobile":{"show":false,"scale":0.05},"react":{"opacityDefault":1,"opacityOnHover":0.2},"log":false});</script></body>
+</html>
