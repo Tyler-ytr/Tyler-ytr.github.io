@@ -28,17 +28,17 @@
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
 <meta property="og:description" content="多校联合训练的常见问题回答（FAQ）   Cake slicing\Time Limit: 2000&#x2F;1000 MS (Java&#x2F;Others)  Memory Limit: 32768&#x2F;32768 K (Java&#x2F;Others) Total Submission(s): 583  Accepted Submission(s): 305 **  Problem Descriptio">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://tyler-ytr.github.io/2020/08/31/HDU2513/picture/C150-1009-1.jpg">
-<meta property="og:image" content="http://tyler-ytr.github.io/2020/08/31/HDU2513/picture/C150-1009-2.jpg">
-<meta property="og:image" content="http://tyler-ytr.github.io/2020/08/31/HDU2513/picture/C150-1009-3.jpg">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/C150-1009-1.jpg">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/C150-1009-2.jpg">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/C150-1009-3.jpg">
 <meta property="og:image" content="http://tyler-ytr.github.io/2020/08/31/HDU2513/picture/image-20200620162927557.png">
 <meta property="article:published_time" content="2020-08-31T13:21:36.000Z">
-<meta property="article:modified_time" content="2020-08-31T13:23:08.859Z">
+<meta property="article:modified_time" content="2020-09-10T02:31:46.762Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="动态规划">
 <meta property="article:tag" content="区间DP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://tyler-ytr.github.io/2020/08/31/HDU2513/picture/C150-1009-1.jpg">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/C150-1009-1.jpg">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
@@ -210,7 +210,7 @@
 <td><strong><a href="http://acm.hdu.edu.cn/discuss/public/post/reply.php?postid=40764&amp;messageid=1&amp;deep=0" target="_blank" rel="noopener">多校联合训练的常见问题回答（FAQ）</a></strong></td>
 </tr>
 <tr>
-<td>Cake slicing<strong><em>\</em>Time Limit: 2000/1000 MS (Java/Others)  Memory Limit: 32768/32768 K (Java/Others) Total Submission(s): 583  Accepted Submission(s): 305 **</strong>  Problem DescriptionA rectangular cake with a grid of m<em>n unit squares on its top needs to be sliced into pieces. Several cherries are scattered on the top of the cake with at most one cherry on a unit square. The slicing should follow the rules below: 1. each piece is rectangular or square; 2. each cutting edge is straight and along a grid line; 3. each piece has only one cherry on it; 4. each cut must split the cake you currently cut two separate parts  For example, assume that the cake has a grid of 3</em>4 unit squares on its top, and there are three cherries on the top, as shown in the figure below. <img src="picture/C150-1009-1.jpg" alt="img"> One allowable slicing is as follows. <img src="picture/C150-1009-2.jpg" alt="img"> For this way of slicing , the total length of the cutting edges is 2+4=6. Another way of slicing is <img src="picture/C150-1009-3.jpg" alt="img"> In this case, the total length of the cutting edges is 3+2=5.  Give the shape of the cake and the scatter of the cherries , you are supposed to find out the least total length of the cutting edges.   InputThe input file contains multiple test cases. For each test case: The first line contains three integers , n, m and k (1≤n, m≤20), where n*m is the size of the unit square with a cherry on it . The two integers show respectively the row number and the column number of the unit square in the grid . All integers in each line should be separated by blanks.   OutputOutput an integer indicating the least total length of the cutting edges.                                                       Sample Input<code>3 4 3 1 2 2 3 3 2</code>                                                                                                                        Sample Output<code>Case 1: 5</code>  Source<a href="http://acm.hdu.edu.cn/search.php?field=problem&amp;key=ECJTU+2008+Autumn+Contest&amp;source=1&amp;searchmode=source" target="_blank" rel="noopener">ECJTU 2008 Autumn Contest</a></td>
+<td>Cake slicing<strong><em>\</em>Time Limit: 2000/1000 MS (Java/Others)  Memory Limit: 32768/32768 K (Java/Others) Total Submission(s): 583  Accepted Submission(s): 305 **</strong>  Problem DescriptionA rectangular cake with a grid of m<em>n unit squares on its top needs to be sliced into pieces. Several cherries are scattered on the top of the cake with at most one cherry on a unit square. The slicing should follow the rules below: 1. each piece is rectangular or square; 2. each cutting edge is straight and along a grid line; 3. each piece has only one cherry on it; 4. each cut must split the cake you currently cut two separate parts  For example, assume that the cake has a grid of 3</em>4 unit squares on its top, and there are three cherries on the top, as shown in the figure below. <img src="/picture/C150-1009-1.jpg" alt="img"> One allowable slicing is as follows. <img src="/picture/C150-1009-2.jpg" alt="img"> For this way of slicing , the total length of the cutting edges is 2+4=6. Another way of slicing is <img src="/picture/C150-1009-3.jpg" alt="img"> In this case, the total length of the cutting edges is 3+2=5.  Give the shape of the cake and the scatter of the cherries , you are supposed to find out the least total length of the cutting edges.   InputThe input file contains multiple test cases. For each test case: The first line contains three integers , n, m and k (1≤n, m≤20), where n*m is the size of the unit square with a cherry on it . The two integers show respectively the row number and the column number of the unit square in the grid . All integers in each line should be separated by blanks.   OutputOutput an integer indicating the least total length of the cutting edges.                                                       Sample Input<code>3 4 3 1 2 2 3 3 2</code>                                                                                                                        Sample Output<code>Case 1: 5</code>  Source<a href="http://acm.hdu.edu.cn/search.php?field=problem&amp;key=ECJTU+2008+Autumn+Contest&amp;source=1&amp;searchmode=source" target="_blank" rel="noopener">ECJTU 2008 Autumn Contest</a></td>
 </tr>
 </tbody>
 </table>
@@ -233,7 +233,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2020-08-31T13:23:08.859Z" itemprop="dateUpdated">2020-08-31 21:23:08</time>
+    Last updated: <time datetime="2020-09-10T02:31:46.762Z" itemprop="dateUpdated">2020-09-10 10:31:46</time>
 </span><br>
 
 
