@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Tyler-ytr.github.io/"/>
-  <updated>2020-09-07T01:33:35.089Z</updated>
+  <updated>2020-09-10T01:47:25.252Z</updated>
   <id>http://Tyler-ytr.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>深度探索C++对象模型1</title>
+    <link href="http://Tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/"/>
+    <id>http://Tyler-ytr.github.io/2020/09/10/深度探索C-对象模型1/</id>
+    <published>2020-09-10T01:46:22.000Z</published>
+    <updated>2020-09-10T01:47:25.252Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="深度探索c-对象模型1"><a href="#深度探索c-对象模型1" class="headerlink" title="深度探索c++对象模型1"></a>深度探索c++对象模型1</h4><ul><li>C++的主要额外负担：<ul><li>virtual function 机制</li><li>virtual base class 用以实现“多次出现在继承体系中的base class，又一个单一而被共享的实例”</li><li>多重继承下的额外负担</li></ul></li></ul><h5 id="1-1-C-对象模式"><a href="#1-1-C-对象模式" class="headerlink" title="1.1 C++对象模式"></a>1.1 C++对象模式</h5><ul><li><p>C++对象模型</p><ul><li>非静态成员变量存放在每一个class object里面，静态成员变量存放在个别的class object 之外；静态函数，非静态函数成员放在个别的class object之外，虚函数特殊对待：<ul><li>每一个class 产生出一堆指向virtual function 的指针，放在表格中，这个表格称之为虚函数表（virtual table）</li><li>每一个class object被安插一个指针，指向相关的virtual table。通常这个指针称为$vtpr$.$vtpr$的设定由每一个class的constructor，destructor和copy assignment运算符自动完成。每一个class所关联的$tyle_info$ object(用来支持runtime type identification)也经由虚函数表纸出来，通常放在表格的第一个slot里面。<br>例子如下<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="picture/nGapT7QCPUdiFhS.jpg" alt="Alt" title="">                </div>                <div class="image-caption">Alt</div>            </figure></li></ul></li></ul></li><li><p>C++继承</p><ul><li>使用所谓的base table 模型。每一个class object内涵一个bptr,被初始化，指向它的base class table，然后这个表就如同虚函数表一样指向继承的类的对象，如下图<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="picture/u4XH1PLQEbrGwfv.jpg" alt="Alt" title="">                </div>                <div class="image-caption">Alt</div>            </figure></li></ul></li><li><p>什么时候一个人应该使用struct 取代class？当它让一个人感觉比较好的时候（狗头）<br>聚合（composition）而非继承才是把C++和C结合起来的好方法。<br>struct在C++中的一个合理用途，是当你要传递一个“复杂的class object的全部或者部分”到某一个C函数去的时候，struct声明可以将数据封装起来，并且保证拥有与C兼容的空间布局，然而这种保证只在聚合（composition）的情况下存在。如果是继承的话，可能会因为内存布局原因无法实现想要的结果。</p></li><li><p>C++以下列方法支持多态：</p><ul><li>经过一组隐式的转化操作，比如把一个派生类的指针转化为一个指向它的public base type的指针：<br>shape *ps=new circle ();</li><li>经由virtual function机制：<br>ps-&gt;rotate（）</li><li>经由$dynamic_cast$和typeid运算符：<br>$if(circle <em>pc=dynami_cast &lt; circle</em>&gt;(ps))$</li></ul></li><li><p>需要多少内存才能够表现一个class object：</p><ul><li>非静态成员变量的总和大小</li><li>加上任何由于alignment（对齐）的需求而填补（padding）上去的空间</li><li>加上为了支持virtual而内部产生的任何额外负担</li></ul></li><li><p>关于指针：<br>不同类型的指针从内存需求的观点来看没有什么不同，“指向不同类型之各指针‘间的差异，既不在其指针表示法的不同，也不再其内容的不同，而是在其所寻址出来的object类型不同。也就是说，“指针类型”会教导编译器如何解释某一个特定地址的内存内容及其大小。</p></li><li><p>最后一部分内容讨论了多态发生的条件，我认为总结下来就是引用和指针可能触发多态，通过虚函数来实现。然后将子对象赋值给父类对象一般会导致切割，来放置数据溢出。</p></li><li><p>具体问题：</p><ul><li><p>一个Bear指针和一个ZooAnimal指针有什么不同：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Bear b;</span><br><span class="line">ZooAnimal *pz&#x3D;&amp;b;</span><br><span class="line">Bear *pb&#x3D;&amp;;</span><br></pre></td></tr></table></figure><p>它们每一个都指向Bear object 的第一个type，它们的区别是：pb所涵盖的地址包含整个 Bear object但是pz所涵盖的地址之包含Bear object中的ZooAnimal subobject.<br>内存布局如下图：<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="picture/hozFU6gL9ubjs54.jpg" alt="Alt" title="">                </div>                <div class="image-caption">Alt</div>            </figure></p></li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;深度探索c-对象模型1&quot;&gt;&lt;a href=&quot;#深度探索c-对象模型1&quot; class=&quot;headerlink&quot; title=&quot;深度探索c++对象模型1&quot;&gt;&lt;/a&gt;深度探索c++对象模型1&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;C++的主要额外负担：&lt;ul&gt;
+&lt;li&gt;virtua
+      
+    
+    </summary>
+    
+      <category term="读书笔记" scheme="http://Tyler-ytr.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="深度探索C++对象模型" scheme="http://Tyler-ytr.github.io/tags/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B/"/>
+    
+      <category term="C++" scheme="http://Tyler-ytr.github.io/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode22_m</title>
