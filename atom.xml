@@ -251,9 +251,9 @@
       <category term="leetcode刷题" scheme="http://Tyler-ytr.github.io/categories/leetcode%E5%88%B7%E9%A2%98/"/>
     
     
-      <category term="数据结构" scheme="http://Tyler-ytr.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
       <category term="栈" scheme="http://Tyler-ytr.github.io/tags/%E6%A0%88/"/>
+    
+      <category term="数据结构" scheme="http://Tyler-ytr.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
   </entry>
   
@@ -934,8 +934,6 @@
       <category term="leetcode刷题" scheme="http://Tyler-ytr.github.io/categories/leetcode%E5%88%B7%E9%A2%98/"/>
     
     
-      <category term="union-find" scheme="http://Tyler-ytr.github.io/tags/union-find/"/>
-    
       <category term="BFS" scheme="http://Tyler-ytr.github.io/tags/BFS/"/>
     
       <category term="搜索" scheme="http://Tyler-ytr.github.io/tags/%E6%90%9C%E7%B4%A2/"/>
@@ -943,6 +941,8 @@
       <category term="图论" scheme="http://Tyler-ytr.github.io/tags/%E5%9B%BE%E8%AE%BA/"/>
     
       <category term="DFS" scheme="http://Tyler-ytr.github.io/tags/DFS/"/>
+    
+      <category term="union-find" scheme="http://Tyler-ytr.github.io/tags/union-find/"/>
     
   </entry>
   
