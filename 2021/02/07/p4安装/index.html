@@ -29,7 +29,7 @@
 <meta property="og:description" content="P4环境配置0.准备 基础环境ubuntu 18.04 LTS  使用trojan终端代理，不然一些下载太慢了  ubuntu换源到阿里云  在~目录新建P4目录并且加入环境变量 1234mkdir P4cd P4echo&quot;P4_HOME&#x3D;$(pwd)&quot;&gt;&gt; ~&#x2F;.bashrcsource ~&#x2F;.bashrc  安装依赖包 12sudo">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-07T08:25:10.000Z">
-<meta property="article:modified_time" content="2021-02-18T04:04:30.868Z">
+<meta property="article:modified_time" content="2021-02-21T17:09:15.473Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="p4">
 <meta name="twitter:card" content="summary">
@@ -174,7 +174,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#P4环境配置"><span class="post-toc-number">1.</span> <span class="post-toc-text">P4环境配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#0-准备"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">0.准备</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-安装依赖库protocol"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">1. 安装依赖库protocol</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-安装PI以及它的依赖"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">2. 安装PI以及它的依赖</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-安装bmv2"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">3. 安装bmv2</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4-安装p4c"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">4. 安装p4c</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#5-下载p4-tutorials"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">5. 下载p4 tutorials</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#参考博客"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">参考博客</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#P4环境配置"><span class="post-toc-number">1.</span> <span class="post-toc-text">P4环境配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#0-准备"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">0.准备</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-安装依赖库protocol"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">1. 安装依赖库protocol</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-安装PI以及它的依赖"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">2. 安装PI以及它的依赖</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-安装bmv2"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">3. 安装bmv2</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4-安装p4c"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">4. 安装p4c</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#5-下载p4-tutorials"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">5. 下载p4 tutorials</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#6-解决实验出现的bug"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">6. 解决实验出现的bug</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#参考博客"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">参考博客</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -264,6 +264,24 @@
 <h5 id="5-下载p4-tutorials"><a href="#5-下载p4-tutorials" class="headerlink" title="5. 下载p4 tutorials"></a>5. 下载p4 tutorials</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;p4lang&#x2F;tutorials</span><br></pre></td></tr></table></figure>
 <p>目前的目录:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">P4</span><br><span class="line">|——behavioral-model # BMv2 软件交换机</span><br><span class="line">|——grpc  # 作为BMv2的依赖</span><br><span class="line">|——mininet # 网络仿真</span><br><span class="line">|——p4c #p4c编译器</span><br><span class="line">|——PI # PI P4 runtime库</span><br><span class="line">|——protobuf # 依赖</span><br><span class="line">|——tutorials #教程</span><br></pre></td></tr></table></figure>
+<h5 id="6-解决实验出现的bug"><a href="#6-解决实验出现的bug" class="headerlink" title="6. 解决实验出现的bug"></a>6. 解决实验出现的bug</h5><p>在做实验的时候出现了陆陆续续的bug，还需要:</p>
+<ol>
+<li><p>No module named psutil</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;pypi.python.org&#x2F;packages&#x2F;source&#x2F;p&#x2F;psutil&#x2F;psutil-2.1.3.tar.gz </span><br><span class="line">    tar -zxvf psutil-2.1.3.tar.gz</span><br><span class="line">    cd psutil-2.1.3</span><br><span class="line">    python setup.py install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>No module named google.protobuf.internal</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install protobuf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据<a href="https://github.com/p4lang/behavioral-model/tree/main/targets/simple_switch_grpc" target="_blank" rel="noopener">https://github.com/p4lang/behavioral-model/tree/main/targets/simple_switch_grpc</a> 安装simple_switch_grpc</p>
+</li>
+<li><p>安装之后还是P4 switch s1 did not start correctly，根据issue<a href="https://github.com/p4lang/tutorials/issues/107" target="_blank" rel="noopener">https://github.com/p4lang/tutorials/issues/107</a> ，还需要：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ldconfig</span><br></pre></td></tr></table></figure>
+<p> 至此可以编译basic实验</p>
+</li>
+</ol>
+<blockquote>
+<p> PS: 最后发现其实最标准的安装操作是根据tutorials（<a href="https://github.com/p4lang/tutorials）里面的vm里面的两个脚本安装（为啥要手动还不是因为网速太慢" target="_blank" rel="noopener">https://github.com/p4lang/tutorials）里面的vm里面的两个脚本安装（为啥要手动还不是因为网速太慢</a></p>
+</blockquote>
 <h5 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h5><ul>
 <li><a href="https://p4.org/p4/getting-started-with-p4.html" target="_blank" rel="noopener">https://p4.org/p4/getting-started-with-p4.html</a></li>
 <li><a href="https://www.jianshu.com/p/2878192ba3f7" target="_blank" rel="noopener">https://www.jianshu.com/p/2878192ba3f7</a></li>
@@ -277,7 +295,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-02-18T04:04:30.868Z" itemprop="dateUpdated">2021-02-18 12:04:30</time>
+    Last updated: <time datetime="2021-02-21T17:09:15.473Z" itemprop="dateUpdated">2021-02-22 01:09:15</time>
 </span><br>
 
 
