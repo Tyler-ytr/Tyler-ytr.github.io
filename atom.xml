@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Tyler-ytr.github.io/"/>
-  <updated>2021-02-23T09:39:46.001Z</updated>
+  <updated>2021-02-23T09:56:30.121Z</updated>
   <id>http://Tyler-ytr.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode1052-m</title>
+    <link href="http://Tyler-ytr.github.io/2021/02/23/leetcode1052-m/"/>
+    <id>http://Tyler-ytr.github.io/2021/02/23/leetcode1052-m/</id>
+    <published>2021-02-23T09:54:13.000Z</published>
+    <updated>2021-02-23T09:56:30.121Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="1052-爱生气的书店老板"><a href="#1052-爱生气的书店老板" class="headerlink" title="1052. 爱生气的书店老板"></a><a href="https://leetcode-cn.com/problems/grumpy-bookstore-owner/" target="_blank" rel="noopener">1052. 爱生气的书店老板</a></h4><p>难度中等106</p><p>今天，书店老板有一家店打算试营业 <code>customers.length</code> 分钟。每分钟都有一些顾客（<code>customers[i]</code>）会进入书店，所有这些顾客都会在那一分钟结束后离开。</p><p>在某些时候，书店老板会生气。 如果书店老板在第 <code>i</code> 分钟生气，那么 <code>grumpy[i] = 1</code>，否则 <code>grumpy[i] = 0</code>。 当书店老板生气时，那一分钟的顾客就会不满意，不生气则他们是满意的。</p><p>书店老板知道一个秘密技巧，能抑制自己的情绪，可以让自己连续 <code>X</code> 分钟不生气，但却只能使用一次。</p><p>请你返回这一天营业下来，最多有多少客户能够感到满意的数量。</p><p><strong>示例：</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：customers &#x3D; [1,0,1,2,1,1,7,5], grumpy &#x3D; [0,1,0,1,0,1,0,1], X &#x3D; 3</span><br><span class="line">输出：16</span><br><span class="line">解释：</span><br><span class="line">书店老板在最后 3 分钟保持冷静。</span><br><span class="line">感到满意的最大客户数量 &#x3D; 1 + 1 + 1 + 1 + 7 + 5 &#x3D; 16.</span><br></pre></td></tr></table></figure><p><strong>提示：</strong></p><ul><li><code>1 &lt;= X &lt;= customers.length == grumpy.length &lt;= 20000</code></li><li><code>0 &lt;= customers[i] &lt;= 1000</code></li><li><code>0 &lt;= grumpy[i] &lt;= 1</code></li></ul><p><strong>解答:</strong></p><p>分为两部分，第一部分是不用秘密方法得到的满意度，第二部分是使用秘密方法得到的满意度</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSatisfied</span><span class="params">(self, customers: List[int], grumpy: List[int], X: int)</span> -&gt; int:</span></span><br><span class="line">        base=<span class="number">0</span></span><br><span class="line">        increase=<span class="number">0</span></span><br><span class="line">        maxincrease=<span class="number">0</span></span><br><span class="line">        length=len(customers)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,length):</span><br><span class="line">            base=base+customers[i]*(<span class="number">1</span>-grumpy[i])</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,X):</span><br><span class="line">            increase=increase+customers[i]*grumpy[i]</span><br><span class="line">        maxincrease=increase</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(X,length):</span><br><span class="line">            increase=increase+customers[i]*grumpy[i]-customers[i-X]*grumpy[i-X]</span><br><span class="line">            maxincrease=max(increase,maxincrease)</span><br><span class="line">        <span class="keyword">return</span> maxincrease+base</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;1052-爱生气的书店老板&quot;&gt;&lt;a href=&quot;#1052-爱生气的书店老板&quot; class=&quot;headerlink&quot; title=&quot;1052. 爱生气的书店老板&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/grum
+      
+    
+    </summary>
+    
+      <category term="leetcode刷题" scheme="http://Tyler-ytr.github.io/categories/leetcode%E5%88%B7%E9%A2%98/"/>
+    
+    
+      <category term="滑动窗口" scheme="http://Tyler-ytr.github.io/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/"/>
+    
+  </entry>
   
   <entry>
     <title>机器学习导论笔记</title>
@@ -892,31 +917,6 @@
   </entry>
   
   <entry>
-    <title>DNS刷新</title>
-    <link href="http://Tyler-ytr.github.io/2020/09/04/DNS%E5%88%B7%E6%96%B0/"/>
-    <id>http://Tyler-ytr.github.io/2020/09/04/DNS刷新/</id>
-    <published>2020-09-04T06:56:33.000Z</published>
-    <updated>2020-09-10T02:36:02.524Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="DNS刷新"><a href="#DNS刷新" class="headerlink" title="DNS刷新"></a>DNS刷新</h2><p>垃圾windows连接校园网的时候一直出现dns probe finished no Internet报错，和信息中心的工程师打完电话之后发现是自己电脑DNS的问题，因此bing搜索，发现了如下的方法进行DNS的刷新:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">netsh int ip reset </span><br><span class="line">netsh winsock reset</span><br><span class="line">ipconfig&#x2F;flushdns </span><br><span class="line">重启</span><br></pre></td></tr></table></figure><p>然后报错从dns probe finished no Internet变成了<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/picture/image-20200904150200196.png" alt="image-20200904150200196" title="">                </div>                <div class="image-caption">image-20200904150200196</div>            </figure></p><p>佛了</p><p>面对不知道咋整的东西，那就选择重装系列：</p><p>右击<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/picture/image-20200904184552395.png" alt="image-20200904184552395" title="">                </div>                <div class="image-caption">image-20200904184552395</div>            </figure>然后点击网络重置 好像就行了？！</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;DNS刷新&quot;&gt;&lt;a href=&quot;#DNS刷新&quot; class=&quot;headerlink&quot; title=&quot;DNS刷新&quot;&gt;&lt;/a&gt;DNS刷新&lt;/h2&gt;&lt;p&gt;垃圾windows连接校园网的时候一直出现dns probe finished no Internet报错，和信息中
-      
-    
-    </summary>
-    
-      <category term="电脑配置" scheme="http://Tyler-ytr.github.io/categories/%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE/"/>
-    
-    
-      <category term="windows配置" scheme="http://Tyler-ytr.github.io/tags/windows%E9%85%8D%E7%BD%AE/"/>
-    
-  </entry>
-  
-  <entry>
     <title>关于windows密钥登录服务器</title>
     <link href="http://Tyler-ytr.github.io/2020/09/04/cmd_vs_rsa/"/>
     <id>http://Tyler-ytr.github.io/2020/09/04/cmd_vs_rsa/</id>
@@ -930,6 +930,31 @@
       
       
         &lt;h2 id=&quot;关于windows密钥登录服务器&quot;&gt;&lt;a href=&quot;#关于windows密钥登录服务器&quot; class=&quot;headerlink&quot; title=&quot;关于windows密钥登录服务器&quot;&gt;&lt;/a&gt;关于windows密钥登录服务器&lt;/h2&gt;&lt;p&gt;前言:windows的权限管
+      
+    
+    </summary>
+    
+      <category term="电脑配置" scheme="http://Tyler-ytr.github.io/categories/%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE/"/>
+    
+    
+      <category term="windows配置" scheme="http://Tyler-ytr.github.io/tags/windows%E9%85%8D%E7%BD%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DNS刷新</title>
+    <link href="http://Tyler-ytr.github.io/2020/09/04/DNS%E5%88%B7%E6%96%B0/"/>
+    <id>http://Tyler-ytr.github.io/2020/09/04/DNS刷新/</id>
+    <published>2020-09-04T06:56:33.000Z</published>
+    <updated>2020-09-10T02:36:02.524Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="DNS刷新"><a href="#DNS刷新" class="headerlink" title="DNS刷新"></a>DNS刷新</h2><p>垃圾windows连接校园网的时候一直出现dns probe finished no Internet报错，和信息中心的工程师打完电话之后发现是自己电脑DNS的问题，因此bing搜索，发现了如下的方法进行DNS的刷新:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">netsh int ip reset </span><br><span class="line">netsh winsock reset</span><br><span class="line">ipconfig&#x2F;flushdns </span><br><span class="line">重启</span><br></pre></td></tr></table></figure><p>然后报错从dns probe finished no Internet变成了<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/picture/image-20200904150200196.png" alt="image-20200904150200196" title="">                </div>                <div class="image-caption">image-20200904150200196</div>            </figure></p><p>佛了</p><p>面对不知道咋整的东西，那就选择重装系列：</p><p>右击<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/picture/image-20200904184552395.png" alt="image-20200904184552395" title="">                </div>                <div class="image-caption">image-20200904184552395</div>            </figure>然后点击网络重置 好像就行了？！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;DNS刷新&quot;&gt;&lt;a href=&quot;#DNS刷新&quot; class=&quot;headerlink&quot; title=&quot;DNS刷新&quot;&gt;&lt;/a&gt;DNS刷新&lt;/h2&gt;&lt;p&gt;垃圾windows连接校园网的时候一直出现dns probe finished no Internet报错，和信息中
       
     
     </summary>
