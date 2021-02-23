@@ -21,12 +21,12 @@
     
     
     <meta name="keywords" content="p4">
-    <meta name="description" content="P4学习-1：实验前 P4的PISA(Protocol-Independent Switch Architecture)结构： Programmable  Parser—&gt;Programmable Match-Action Pipeline—&gt; Programmable Deparser； Parser作用:程序员声明应该被识别的头和它们在包中的顺序 Match-Action作用:程序">
+    <meta name="description" content="P4学习-1：实验前 P4的PISA(Protocol-Independent Switch Architecture)结构： Programmable  Parser—-&gt;Programmable Match-Action Pipeline—-&gt; Programmable Deparser； Parser作用:程序员声明应该被识别的头和它们在包中的顺序 Match-Action作用:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="p4学习-1">
 <meta property="og:url" content="http://tyler-ytr.github.io/2021/02/18/p4%E5%AD%A6%E4%B9%A0-1/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
-<meta property="og:description" content="P4学习-1：实验前 P4的PISA(Protocol-Independent Switch Architecture)结构： Programmable  Parser—&gt;Programmable Match-Action Pipeline—&gt; Programmable Deparser； Parser作用:程序员声明应该被识别的头和它们在包中的顺序 Match-Action作用:程序">
+<meta property="og:description" content="P4学习-1：实验前 P4的PISA(Protocol-Independent Switch Architecture)结构： Programmable  Parser—-&gt;Programmable Match-Action Pipeline—-&gt; Programmable Deparser； Parser作用:程序员声明应该被识别的头和它们在包中的顺序 Match-Action作用:">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://tyler-ytr.github.io/2021/02/18/p4%E5%AD%A6%E4%B9%A0-1/picture/image-20210220162023603.png">
 <meta property="article:published_time" content="2021-02-18T03:08:37.000Z">
@@ -204,7 +204,7 @@
         <div class="post-content" id="post-content" itemprop="postContent">
             <h2 id="P4学习-1："><a href="#P4学习-1：" class="headerlink" title="P4学习-1："></a>P4学习-1：</h2><h4 id="实验前"><a href="#实验前" class="headerlink" title="实验前"></a>实验前</h4><ol>
 <li><p>P4的PISA(Protocol-Independent Switch Architecture)结构：</p>
-<p>Programmable  Parser—&gt;Programmable Match-Action Pipeline—&gt; Programmable Deparser；</p>
+<p>Programmable  Parser—-&gt;Programmable Match-Action Pipeline—-&gt; Programmable Deparser；</p>
 <p>Parser作用:程序员声明应该被识别的头和它们在包中的顺序</p>
 <p>Match-Action作用:程序员定义表和精确的处理算法</p>
 <p>Deparser作用:程序员声明输出的包怎样输出到总线上</p>
@@ -482,6 +482,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 <script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

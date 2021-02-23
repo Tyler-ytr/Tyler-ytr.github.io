@@ -29,7 +29,7 @@
 <meta property="og:description" content="机器学习笔记感谢毕秋宇同学！！ Chapter 2空间 假设空间  假设满足XX条件的是好瓜   版本空间  有限训练集，已知XX是好瓜   归纳偏好  假设空间和训练集一致的假设 学习过程中对某种类型假设的偏好称为归纳偏好   No Free Lunch 奥卡姆剃刀：两个模型效果同样好，选择较为简单的    模型评估与选择 经验误差与过拟合 错误率率&amp;误差 错误率：错份样本的占$E&#x3D;a&#x2F;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-23T09:26:04.000Z">
-<meta property="article:modified_time" content="2021-02-23T09:26:39.062Z">
+<meta property="article:modified_time" content="2021-02-23T09:37:14.715Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -174,7 +174,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#机器学习笔记"><span class="post-toc-number">1.</span> <span class="post-toc-text">机器学习笔记</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chapter-2"><span class="post-toc-number">2.</span> <span class="post-toc-text">Chapter 2</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#空间"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">空间</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#模型评估与选择"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">模型评估与选择</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chapter-3"><span class="post-toc-number">3.</span> <span class="post-toc-text">Chapter 3</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基本形式"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">基本形式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#线性回归"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">线性回归</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二分类问题"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">二分类问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#多分类问题"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">多分类问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chapter4-决策树"><span class="post-toc-number">4.</span> <span class="post-toc-text">Chapter4 决策树</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-1-基本流程"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">4.1 基本流程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#决策树基于树结构来进行预测"><span class="post-toc-number">4.1.0.1.</span> <span class="post-toc-text">决策树基于树结构来进行预测</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#树结构的return"><span class="post-toc-number">4.1.0.2.</span> <span class="post-toc-text">树结构的return</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-当前节点包含的样本全部属于同一类别-没必要分类"><span class="post-toc-number">4.1.0.2.1.</span> <span class="post-toc-text">(1)当前节点包含的样本全部属于同一类别(没必要分类)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-当前的属性集为空-或所有样本所有属性上取值相同-没法分类"><span class="post-toc-number">4.1.0.2.2.</span> <span class="post-toc-text">(2)当前的属性集为空,或所有样本所有属性上取值相同(没法分类)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-当前节点包含的样本集合为空-emptyset"><span class="post-toc-number">4.1.0.2.3.</span> <span class="post-toc-text">(3)当前节点包含的样本集合为空($ \emptyset $)</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-2划分选择"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">4.2划分选择</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#划分选择-信息增益"><span class="post-toc-number">4.2.0.0.1.</span> <span class="post-toc-text">划分选择-信息增益</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#信息熵"><span class="post-toc-number">4.2.0.0.1.1.</span> <span class="post-toc-text">信息熵</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#信息增益"><span class="post-toc-number">4.2.0.0.1.2.</span> <span class="post-toc-text">信息增益</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#存在的问题"><span class="post-toc-number">4.2.0.0.1.3.</span> <span class="post-toc-text">存在的问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#划分选择-增益率"><span class="post-toc-number">4.2.0.0.2.</span> <span class="post-toc-text">划分选择-增益率</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#存在的问题-1"><span class="post-toc-number">4.2.0.0.2.1.</span> <span class="post-toc-text">存在的问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#划分选择-基尼指数"><span class="post-toc-number">4.2.0.0.3.</span> <span class="post-toc-text">划分选择-基尼指数</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-3剪枝处理"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">4.3剪枝处理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-5多变量决策树"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">4.5多变量决策树</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chapter-5"><span class="post-toc-number">5.</span> <span class="post-toc-text">Chapter 5</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-1-神经网络模型与发展史"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">5.1 神经网络模型与发展史</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-2-感知机与多层网络"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">5.2 感知机与多层网络</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-3-误差逆传播算法"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">5.3 误差逆传播算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-4-全局最小与局部极小"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">5.4 全局最小与局部极小</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-5-其他常见神经网络"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">5.5 其他常见神经网络</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chapter-6-支持向量机"><span class="post-toc-number">6.</span> <span class="post-toc-text">Chapter 6: 支持向量机</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#传奇——一刀999"><span class="post-toc-number">7.</span> <span class="post-toc-text">传奇——一刀999</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-1-间隔与支持向量"><span class="post-toc-number">7.1.</span> <span class="post-toc-text">6.1 间隔与支持向量</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-2-对偶问题"><span class="post-toc-number">7.2.</span> <span class="post-toc-text">6.2 对偶问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-3-核函数"><span class="post-toc-number">7.3.</span> <span class="post-toc-text">6.3 核函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-4-软间隔与正则化"><span class="post-toc-number">7.4.</span> <span class="post-toc-text">6.4 软间隔与正则化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-5-支持向量回归"><span class="post-toc-number">7.5.</span> <span class="post-toc-text">6.5 支持向量回归</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-6-核方法"><span class="post-toc-number">7.6.</span> <span class="post-toc-text">6.6 核方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chapter-7-贝叶斯"><span class="post-toc-number">8.</span> <span class="post-toc-text">Chapter 7 :贝叶斯</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-1-贝叶斯决策论"><span class="post-toc-number">8.1.</span> <span class="post-toc-text">7.1 贝叶斯决策论</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-2极大似然估计"><span class="post-toc-number">8.2.</span> <span class="post-toc-text">7.2极大似然估计</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-3-朴素贝叶斯分类器-naive-Bayes-classifier"><span class="post-toc-number">8.3.</span> <span class="post-toc-text">7.3 朴素贝叶斯分类器(naive Bayes classifier)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-4-半朴素贝叶斯分类器"><span class="post-toc-number">8.4.</span> <span class="post-toc-text">7.4 半朴素贝叶斯分类器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-5-贝叶斯网"><span class="post-toc-number">8.5.</span> <span class="post-toc-text">7.5 贝叶斯网</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chap-8-集成学习"><span class="post-toc-number">9.</span> <span class="post-toc-text">Chap 8 集成学习</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#机器学习笔记"><span class="post-toc-number">1.</span> <span class="post-toc-text">机器学习笔记</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chapter-2"><span class="post-toc-number">2.</span> <span class="post-toc-text">Chapter 2</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#空间"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">空间</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#模型评估与选择"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">模型评估与选择</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chapter-3"><span class="post-toc-number">3.</span> <span class="post-toc-text">Chapter 3</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基本形式"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">基本形式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#线性回归"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">线性回归</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二分类问题"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">二分类问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#多分类问题"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">多分类问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chapter4-决策树"><span class="post-toc-number">4.</span> <span class="post-toc-text">Chapter4 决策树</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-1-基本流程"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">4.1 基本流程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#决策树基于树结构来进行预测"><span class="post-toc-number">4.1.0.1.</span> <span class="post-toc-text">决策树基于树结构来进行预测</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#树结构的return"><span class="post-toc-number">4.1.0.2.</span> <span class="post-toc-text">树结构的return</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-当前节点包含的样本全部属于同一类别-没必要分类"><span class="post-toc-number">4.1.0.2.1.</span> <span class="post-toc-text">(1)当前节点包含的样本全部属于同一类别(没必要分类)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-当前的属性集为空-或所有样本所有属性上取值相同-没法分类"><span class="post-toc-number">4.1.0.2.2.</span> <span class="post-toc-text">(2)当前的属性集为空,或所有样本所有属性上取值相同(没法分类)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-当前节点包含的样本集合为空-emptyset"><span class="post-toc-number">4.1.0.2.3.</span> <span class="post-toc-text">(3)当前节点包含的样本集合为空($ \emptyset $)</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-2划分选择"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">4.2划分选择</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#划分选择-信息增益"><span class="post-toc-number">4.2.0.0.1.</span> <span class="post-toc-text">划分选择-信息增益</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#信息熵"><span class="post-toc-number">4.2.0.0.1.1.</span> <span class="post-toc-text">信息熵</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#信息增益"><span class="post-toc-number">4.2.0.0.1.2.</span> <span class="post-toc-text">信息增益</span></a></li><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#存在的问题"><span class="post-toc-number">4.2.0.0.1.3.</span> <span class="post-toc-text">存在的问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#划分选择-增益率"><span class="post-toc-number">4.2.0.0.2.</span> <span class="post-toc-text">划分选择-增益率</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#存在的问题-1"><span class="post-toc-number">4.2.0.0.2.1.</span> <span class="post-toc-text">存在的问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#划分选择-基尼指数"><span class="post-toc-number">4.2.0.0.3.</span> <span class="post-toc-text">划分选择-基尼指数</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-3剪枝处理"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">4.3剪枝处理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#预剪枝"><span class="post-toc-number">4.3.0.0.1.</span> <span class="post-toc-text">预剪枝</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#后剪枝"><span class="post-toc-number">4.3.0.0.2.</span> <span class="post-toc-text">后剪枝</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-4连续与缺失值"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">4.4连续与缺失值</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#连续与缺失值-连续值处理"><span class="post-toc-number">4.4.0.0.1.</span> <span class="post-toc-text">连续与缺失值-连续值处理</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-5多变量决策树"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">4.5多变量决策树</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chapter-5"><span class="post-toc-number">5.</span> <span class="post-toc-text">Chapter 5</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-1-神经网络模型与发展史"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">5.1 神经网络模型与发展史</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-2-感知机与多层网络"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">5.2 感知机与多层网络</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-3-误差逆传播算法"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">5.3 误差逆传播算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-4-全局最小与局部极小"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">5.4 全局最小与局部极小</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-5-其他常见神经网络"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">5.5 其他常见神经网络</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chapter-6-支持向量机"><span class="post-toc-number">6.</span> <span class="post-toc-text">Chapter 6: 支持向量机</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#传奇——一刀999"><span class="post-toc-number">7.</span> <span class="post-toc-text">传奇——一刀999</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-1-间隔与支持向量"><span class="post-toc-number">7.1.</span> <span class="post-toc-text">6.1 间隔与支持向量</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-2-对偶问题"><span class="post-toc-number">7.2.</span> <span class="post-toc-text">6.2 对偶问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-3-核函数"><span class="post-toc-number">7.3.</span> <span class="post-toc-text">6.3 核函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-4-软间隔与正则化"><span class="post-toc-number">7.4.</span> <span class="post-toc-text">6.4 软间隔与正则化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-5-支持向量回归"><span class="post-toc-number">7.5.</span> <span class="post-toc-text">6.5 支持向量回归</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-6-核方法"><span class="post-toc-number">7.6.</span> <span class="post-toc-text">6.6 核方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chapter-7-贝叶斯"><span class="post-toc-number">8.</span> <span class="post-toc-text">Chapter 7 :贝叶斯</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-1-贝叶斯决策论"><span class="post-toc-number">8.1.</span> <span class="post-toc-text">7.1 贝叶斯决策论</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-2极大似然估计"><span class="post-toc-number">8.2.</span> <span class="post-toc-text">7.2极大似然估计</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-3-朴素贝叶斯分类器-naive-Bayes-classifier"><span class="post-toc-number">8.3.</span> <span class="post-toc-text">7.3 朴素贝叶斯分类器(naive Bayes classifier)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-4-半朴素贝叶斯分类器"><span class="post-toc-number">8.4.</span> <span class="post-toc-text">7.4 半朴素贝叶斯分类器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-5-贝叶斯网"><span class="post-toc-number">8.5.</span> <span class="post-toc-text">7.5 贝叶斯网</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Chap-8-集成学习"><span class="post-toc-number">9.</span> <span class="post-toc-text">Chap 8 集成学习</span></a></li></ol>
         </nav>
     </aside>
 
@@ -305,7 +305,7 @@
 <li>以回归任务为例：<ul>
 <li>期望预期为：$\bar{f}(x)=\mathbb{E}_{D}[f(x;D)]$；</li>
 <li>使用样本数目相同的不同训练集产生的方差为$var(x)=\mathbb{E}_{D}[(f(x:D)-\bar{f}(x))^{2}]$；</li>
-<li>噪声为$\varepsilon^{2}=\mathbb{E}<em>{D}[(y</em>{D}-y)^{2}]$</li>
+<li>噪声为$\varepsilon^{2}=\mathbb{E}_{D}[(y_{D}-y)^{2}]$</li>
 </ul>
 </li>
 <li>$E(f;D)=bias^{2}(x)+var(x)+\varepsilon^2$</li>
@@ -402,13 +402,13 @@
 </li>
 <li><p>极大似然法</p>
 </li>
-<li><p>给定数据集${(x_{i}, y_{i})}^{m}_{i=1}$</p>
+<li><p>给定数据集$\{(x_{i}, y_{i})\}^{m}_{i=1}$</p>
 </li>
 <li><p>最大化样本属于其真实标记的概率</p>
 </li>
 <li><p>线性判别分析（Linear Discriminant Analysis）</p>
 <ul>
-<li>最大化目标$J=\frac{|w^{T}\mu_{0}-w^{T}\mu_{1}|^{2}<em>{2}}{w^{T}\sum</em>{0}w+w^{T}\sum_{1}w}=\frac{w^{T}(\mu_{0}-\mu_{1})(\mu_{0}-\mu_{1})^{T}w}{w^{T}(\sum_{0}+\sum_{1})w}$</li>
+<li>最大化目标$J=\frac{|w^{T}\mu_{0}-w^{T}\mu_{1}|^{2}_{2}}{w^{T}\sum_{0}w+w^{T}\sum_{1}w}=\frac{w^{T}(\mu_{0}-\mu_{1})(\mu_{0}-\mu_{1})^{T}w}{w^{T}(\sum_{0}+\sum_{1})w}$</li>
 <li>类间散度矩阵，类内散度矩阵</li>
 <li>广义瑞丽商$J=\frac{w^{T}S_{b}w}{w^{T}S_{w}w}$</li>
 <li>拉格朗日乘子法<ul>
@@ -470,9 +470,8 @@
 <h5 id="划分选择-信息增益"><a href="#划分选择-信息增益" class="headerlink" title="划分选择-信息增益"></a>划分选择-信息增益</h5></li>
 <li><p>“信息熵”是度量样本集合纯度最常用的一种指标</p>
 <h6 id="信息熵"><a href="#信息熵" class="headerlink" title="信息熵"></a>信息熵</h6></li>
-<li><p>$$Ent(D)=-\sum_{k=1}^{|y|}p_klog_2p_k$$</p>
-</li>
-<li><p>推导:$$\int P(x)f(x)dx\rightarrow E_{x - p}(f(x))\rightarrow E_{x-p} (log_2 \frac{1}{p_k})$$</p>
+<li><script type="math/tex; mode=display">Ent(D)=-\sum_{k=1}^{|y|}p_klog_2p_k</script></li>
+<li><p>推导:<script type="math/tex">\int P(x)f(x)dx\rightarrow E_{x - p}(f(x))\rightarrow E_{x-p} (log_2 \frac{1}{p_k})</script></p>
 <ul>
 <li><p>(log2可以表示用二进制表示,$\frac{1}{p_k}$可以显示信息(概率越低越刺激))</p>
 </li>
@@ -482,17 +481,15 @@
 <h6 id="信息增益"><a href="#信息增益" class="headerlink" title="信息增益"></a>信息增益</h6></li>
 </ul>
 </li>
-<li><p>$$Gain(D,a)=Ent(D)-\sum_{v=1}^{V}\frac{|D^{v}|}{|D|}Ent(D^{v})$$</p>
-</li>
+<li><script type="math/tex; mode=display">Gain(D,a)=Ent(D)-\sum_{v=1}^{V}\frac{|D^{v}|}{|D|}Ent(D^{v})</script></li>
 <li><p>算出信息增益之后,可以确定树的每一层应该对应哪些划分属性</p>
 <h6 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h6></li>
 <li><p>信息增益对可取值数目较多的属性有所偏好</p>
 <h5 id="划分选择-增益率"><a href="#划分选择-增益率" class="headerlink" title="划分选择-增益率"></a>划分选择-增益率</h5></li>
-<li><p>增益率：$$Gain_ ratio (D,a)=\frac{Gain(D,a)}{IV(a)}$$<br>其中    $$IV(a)=-\sum _{v=1}^{V}\frac{D^v}{D}log_2 \frac{D^v}{D}$$</p>
+<li><p>增益率：<script type="math/tex">Gain\_ ratio (D,a)=\frac{Gain(D,a)}{IV(a)}</script><br>其中    <script type="math/tex">IV(a)=-\sum _{v=1}^{V}\frac{D^v}{D}log_2 \frac{D^v}{D}</script></p>
 <h6 id="存在的问题-1"><a href="#存在的问题-1" class="headerlink" title="存在的问题"></a>存在的问题</h6></li>
 <li><p>增益率准则对可取值数目较少的属性有所偏好</p>
-<h5 id="划分选择-基尼指数"><a href="#划分选择-基尼指数" class="headerlink" title="划分选择-基尼指数"></a>划分选择-基尼指数</h5><p> $$ Gini(D)=\sum_{k=1}^{|y|}\sum _{k’\neq k}p_kp_{k’}=1-\sum_{k=1}^{|y|}p_k^{2}$$</p>
-</li>
+<h5 id="划分选择-基尼指数"><a href="#划分选择-基尼指数" class="headerlink" title="划分选择-基尼指数"></a>划分选择-基尼指数</h5><script type="math/tex; mode=display">Gini(D)=\sum_{k=1}^{|y|}\sum _{k'\neq k}p_kp_{k'}=1-\sum_{k=1}^{|y|}p_k^{2}</script></li>
 <li><p>Gini越小纯度越高</p>
 </li>
 </ul>
@@ -507,7 +504,7 @@
 </li>
 <li><p>判断决策树泛化性能是否提升的办法</p>
 <ul>
-<li>留出法<br>#####预剪枝</li>
+<li>留出法<h5 id="预剪枝"><a href="#预剪枝" class="headerlink" title="预剪枝"></a>预剪枝</h5></li>
 </ul>
 </li>
 <li><p>优点</p>
@@ -518,7 +515,7 @@
 </li>
 <li><p>缺点</p>
 <ul>
-<li>欠拟合风险<br>#####后剪枝</li>
+<li>欠拟合风险<h5 id="后剪枝"><a href="#后剪枝" class="headerlink" title="后剪枝"></a>后剪枝</h5></li>
 </ul>
 </li>
 <li><p>优点</p>
@@ -528,19 +525,18 @@
 </li>
 <li><p>缺点</p>
 <ul>
-<li>时间开销<br>##4.4连续与缺失值<br>#####连续与缺失值-连续值处理</li>
+<li>时间开销<h2 id="4-4连续与缺失值"><a href="#4-4连续与缺失值" class="headerlink" title="4.4连续与缺失值"></a>4.4连续与缺失值</h2><h5 id="连续与缺失值-连续值处理"><a href="#连续与缺失值-连续值处理" class="headerlink" title="连续与缺失值-连续值处理"></a>连续与缺失值-连续值处理</h5></li>
 </ul>
 </li>
 <li><p>连续属性离散化(二分法)</p>
 </li>
 <li><p>缺失值处理</p>
 <ul>
-<li><p>面临两个问题 如何划分,如何测试</p>
-<h2 id="4-5多变量决策树"><a href="#4-5多变量决策树" class="headerlink" title="4.5多变量决策树"></a>4.5多变量决策树</h2></li>
+<li>面临两个问题 如何划分,如何测试</li>
 </ul>
 </li>
 </ul>
-<h1 id="Chapter-5"><a href="#Chapter-5" class="headerlink" title="Chapter 5"></a>Chapter 5</h1><h2 id="5-1-神经网络模型与发展史"><a href="#5-1-神经网络模型与发展史" class="headerlink" title="5.1 神经网络模型与发展史"></a>5.1 神经网络模型与发展史</h2><ul>
+<h2 id="4-5多变量决策树"><a href="#4-5多变量决策树" class="headerlink" title="4.5多变量决策树"></a>4.5多变量决策树</h2><h1 id="Chapter-5"><a href="#Chapter-5" class="headerlink" title="Chapter 5"></a>Chapter 5</h1><h2 id="5-1-神经网络模型与发展史"><a href="#5-1-神经网络模型与发展史" class="headerlink" title="5.1 神经网络模型与发展史"></a>5.1 神经网络模型与发展史</h2><ul>
 <li>第一阶段<ul>
 <li>M-P模型</li>
 <li>Hebb学习规则:类似于巴普洛夫,if input and output 同时激活或者失活, 那么这两个神经元的链接应该被加强,else 应该减弱</li>
@@ -586,17 +582,17 @@
 <h2 id="5-3-误差逆传播算法"><a href="#5-3-误差逆传播算法" class="headerlink" title="5.3 误差逆传播算法"></a>5.3 误差逆传播算法</h2><ul>
 <li>误差逆传播算法(BP)<ul>
 <li>前向计算:<ul>
-<li>$b_h=f(\beta _h -y_h ),\beta <em>h=\sum</em>{i=1}^{d}v_{ih}x_i$</li>
+<li>$b_h=f(\beta _h -y_h ),\beta _h=\sum_{i=1}^{d}v_{ih}x_i$</li>
 <li>$\hat{y}_i^{k}=f(a_j-\theta _j),\alpha_h=\sum_{i=1}^{d} w_{hj}b_{h}$ </li>
-<li>$E_k=\frac{1}{2}\sum_{j=1}^{l}(\hat{y}<em>{j}^{k}-\hat{y}</em>{j}^{k})^{2}$</li>
+<li>$E_k=\frac{1}{2}\sum_{j=1}^{l}(\hat{y}_{j}^{k}-\hat{y}_{j}^{k})^{2}$</li>
 </ul>
 </li>
 <li>参数数目<ul>
-<li>权重:$v_{ih},w_{hj}$, 阈值:$\theta <em>{j}$,$y</em>{h}$ (i=1,…,d,h=1,…,q,j=1,…,l)<br>因此网络中需要(d+l+1)q+l个参数需要优化</li>
+<li>权重:$v_{ih},w_{hj}$, 阈值:$\theta _{j}$,$y_{h}$ (i=1,…,d,h=1,…,q,j=1,…,l)<br>因此网络中需要(d+l+1)q+l个参数需要优化</li>
 </ul>
 </li>
 <li>参数优化<ul>
-<li>BP是迭代学习算法,在迭代的每一轮中采用广义的感知机学习规则对参数进行更新估计,任意的参数v的更新估计式为<br>$$v\leftarrow v+\Delta v$$</li>
+<li>BP是迭代学习算法,在迭代的每一轮中采用广义的感知机学习规则对参数进行更新估计,任意的参数v的更新估计式为<script type="math/tex; mode=display">v\leftarrow v+\Delta v</script></li>
 <li>梯度咋整? 梯度消失咋整?</li>
 <li>因为本质上还是函数的复合,因此不能用线性函数做传递函数</li>
 </ul>
@@ -632,13 +628,14 @@
 </li>
 </ul>
 <h2 id="5-5-其他常见神经网络"><a href="#5-5-其他常见神经网络" class="headerlink" title="5.5 其他常见神经网络"></a>5.5 其他常见神经网络</h2><ul>
-<li>RBF网络:单隐层,激活函数与输入向量有关:<br>$$\phi(x)=\sum^{q}_{i=1}w_i\rho(x,c_i)$$<br>$\rho(x,c_i)$是径向基函数：<br>$$\rho(x,c_i)=e^{-\beta_i ||x-c_i||^{2}}$$</li>
+<li>RBF网络:单隐层,激活函数与输入向量有关:<script type="math/tex; mode=display">\phi(x)=\sum^{q}_{i=1}w_i\rho(x,c_i)</script>$\rho(x,c_i)$是径向基函数：<script type="math/tex; mode=display">\rho(x,c_i)=e^{-\beta_i ||x-c_i||^{2}}</script></li>
 <li>ART网络：自适应谐振理论<br>竞争性学习网络,输出神经元互相竞争,遵循胜者通吃原则<br>比较层,识别层(???)</li>
 <li>SOM网络：获取数据内在的结构</li>
 <li>级联相关,或则隐层节点的构造</li>
 <li>Elman网络：递归神经网络 </li>
 </ul>
-<h1 id="Chapter-6-支持向量机"><a href="#Chapter-6-支持向量机" class="headerlink" title="Chapter 6: 支持向量机"></a>Chapter 6: 支持向量机</h1><h1 id="传奇——一刀999"><a href="#传奇——一刀999" class="headerlink" title="传奇——一刀999"></a>传奇——一刀999</h1><p>神经网络(1989-1994)(BP算法)———–&gt;支持向量机 (1995-2005)(核方法,统计学习)(Vapnik)———&gt; 神经网络(2006-今)(深度学习)</p>
+<h1 id="Chapter-6-支持向量机"><a href="#Chapter-6-支持向量机" class="headerlink" title="Chapter 6: 支持向量机"></a>Chapter 6: 支持向量机</h1><h1 id="传奇——一刀999"><a href="#传奇——一刀999" class="headerlink" title="传奇——一刀999"></a>传奇——一刀999</h1><p>神经网络(1989-1994)(BP算法)—————-&gt;支持向量机 (1995-2005)(核方法,统计学习)(Vapnik)————-&gt; 神经网络(2006-今)(深度学习)</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -676,14 +673,13 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h2 id="6-1-间隔与支持向量"><a href="#6-1-间隔与支持向量" class="headerlink" title="6.1 间隔与支持向量"></a>6.1 间隔与支持向量</h2><ul>
 <li><p>最大间隔: 寻找参数$w$,b,使得$\nu=\frac{2}{||w||}$ 最大 </p>
 <ul>
-<li><p>$$arg~max_{w,b}~\frac{2}{||w||}$$    </p>
-<p>s.t. $y_i(w^{T}x_i+b)\geq 1,i=1,2,…,m$</p>
+<li><script type="math/tex; mode=display">arg~max_{w,b}~\frac{2}{||w||}</script><p>s.t. $y_i(w^{T}x_i+b)\geq 1,i=1,2,…,m$</p>
 </li>
-<li><p>$$arg~min~\frac{1}{2}||w||^{2}$$</p>
-<p>s.t. $y_i(w^{T}x_i+b) \geq 1,i=1,2,…,m$</p>
+<li><script type="math/tex; mode=display">arg~min~\frac{1}{2}||w||^{2}</script><p>s.t. $y_i(w^{T}x_i+b) \geq 1,i=1,2,…,m$</p>
 </li>
 </ul>
 </li>
@@ -699,8 +695,10 @@
 <li><p>最终模型:$f(x)=w^Tx+b=\sum_{i=1}^{m}a_iy_ix_{i}^{T}x+b$</p>
 </li>
 <li><p>KKT条件:</p>
-<p>$${<br>\begin{cases}<br>a_i\geq 0\<br>y_if(x_i)\geq 1\a_i(y_if(x_i)-1)=0\end{cases}}$$</p>
-</li>
+<script type="math/tex; mode=display">{
+\begin{cases}
+a_i\geq 0\\
+y_if(x_i)\geq 1\\a_i(y_if(x_i)-1)=0\end{cases}}</script></li>
 </ul>
 </li>
 <li><p>SMO-求解方法,选两个固定搞，因为两个有闭式解；</p>
@@ -711,7 +709,7 @@
 </li>
 <li><p>将x映射到$\phi(x)$转换前面的最终模型为:$f(x)=w^Tx+b=\sum_{i=1}^{m}a_iy_i\phi(x)_{i}^{T}\phi(x)+b$</p>
 <p>定义核函数:$k(x_i,x_j)=\phi(x_i)^{T}\phi(x_j)$</p>
-<p>定义核矩阵:$$K= {\left[  \begin{matrix}    k(x_1,x_1) &amp; k(x_1,x_2) &amp; … &amp; k(x_1,x_n)\  k(x_2,x_1) &amp; k(x_2,x_2) &amp; … &amp; k(x_2,y_n) \   …&amp;… &amp; … &amp; ..  \   k(x_n,x_1) &amp; k(x_n,x_2) &amp; … &amp; k(x_n,y_n)  \end{matrix}  \right]} $$</p>
+<p>定义核矩阵:<script type="math/tex">K= {\left[  \begin{matrix}    k(x_1,x_1) & k(x_1,x_2) & ... & k(x_1,x_n)\\  k(x_2,x_1) & k(x_2,x_2) & ... & k(x_2,y_n) \\   ...&... & ... & ..  \\   k(x_n,x_1) & k(x_n,x_2) & ... & k(x_n,y_n)  \end{matrix}  \right]}</script></p>
 </li>
 </ul>
 <h2 id="6-4-软间隔与正则化"><a href="#6-4-软间隔与正则化" class="headerlink" title="6.4 软间隔与正则化"></a>6.4 软间隔与正则化</h2><ul>
@@ -770,8 +768,7 @@
 </ul>
 <h2 id="7-2极大似然估计"><a href="#7-2极大似然估计" class="headerlink" title="7.2极大似然估计"></a>7.2极大似然估计</h2><p>fenleiqifenleiqi（不太懂 <a href="https://blog.csdn.net/chenjianbo88/article/details/52398181" target="_blank" rel="noopener">https://blog.csdn.net/chenjianbo88/article/details/52398181</a></p>
 <h2 id="7-3-朴素贝叶斯分类器-naive-Bayes-classifier"><a href="#7-3-朴素贝叶斯分类器-naive-Bayes-classifier" class="headerlink" title="7.3 朴素贝叶斯分类器(naive Bayes classifier)"></a>7.3 朴素贝叶斯分类器(naive Bayes classifier)</h2><p>假定属性独立地对分类结果发生影响</p>
-<p>$$P(c|x)=\frac{P(c)P(x|c)}{P(x)}=\frac{P(c)}{P(x)}\Pi^{d}_{i=1}P(x_i|c)$$</p>
-<ul>
+<script type="math/tex; mode=display">P(c|x)=\frac{P(c)P(x|c)}{P(x)}=\frac{P(c)}{P(x)}\Pi^{d}_{i=1}P(x_i|c)</script><ul>
 <li>P(c)=$\frac{D_c}{D}$</li>
 <li>$P(x_i|c)=\frac{D_{c,x_i}}{D_c}$</li>
 <li>拉普拉斯修正(为了解决某一个属性值在训练集中没有与某个类同时出现过就凉了 所以要假设出现了一次)<ul>
@@ -818,7 +815,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-02-23T09:26:39.062Z" itemprop="dateUpdated">2021-02-23 17:26:39</time>
+    Last updated: <time datetime="2021-02-23T09:37:14.715Z" itemprop="dateUpdated">2021-02-23 17:37:14</time>
 </span><br>
 
 
@@ -1048,6 +1045,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 <script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

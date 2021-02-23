@@ -414,10 +414,11 @@
 
 
 
+
 多校联合训练的常见问题回答（FAQ）
 
 
-Cake slicing\Time Limit: 2000/1000 MS (Java/Others)  Memory Limit: 32768/32768 K (Java/Others) Total Submission(s): 583  Accepted Submission(s): 305 **  Problem Descrip...
+Cake slicing\Time Limit: 2000/1000 MS (Java/Others)  Memory Limit: 32768/32768 K (Java/Others) Total Submission(s): 583  Accepted Submission(s): 305 **  Problem Descri...
     
 
         <a href="/2020/08/31/HDU2513/" class="post-more waves-effect waves-button">
@@ -824,6 +825,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 <script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

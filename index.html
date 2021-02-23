@@ -268,8 +268,8 @@ No Free Lunch
         
 离散型:$\sum _{k=1}^{\infty}x_kp_k$,需要它绝对收敛;
 连续型:$\int_{-\infty}^{\infty}xp(x)dx$,同样需要它绝对收敛,如果$\int_{-\infty}^{\infty}|x|p(x)dx$发散,则X的数学期望不存在
-Gamma函数:$$\Gamma(x)=\int_{0}^{+\infty}t^{x-1}e^{-t}$$
-$\G...
+Gamma函数:\Gamma(x)=\int_{0}^{+\infty}t^{x-1}e^{-t}
+$\Gamma...
     
 
         <a href="/2021/02/23/%E6%95%B0%E5%AD%A6%E6%9C%9F%E6%9C%9B/" class="post-more waves-effect waves-button">
@@ -367,9 +367,9 @@ $\G...
     
         P4学习-1：实验前
 P4的PISA(Protocol-Independent Switch Architecture)结构：
-Programmable  Parser—&gt;Programmable Match-Action Pipeline—&gt; Programmable Deparser；
+Programmable  Parser—-&gt;Programmable Match-Action Pipeline—-&gt; Programmable Deparser；
 Parser作用:程序员声明应该被识别的头和它们在包中的顺序
-Match-Action作用...
+Match-Action...
     
 
         <a href="/2021/02/18/p4%E5%AD%A6%E4%B9%A0-1/" class="post-more waves-effect waves-button">
@@ -831,6 +831,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 <script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 

@@ -21,12 +21,12 @@
     
     
     <meta name="keywords" content="动态规划,区间DP">
-    <meta name="description" content="多校联合训练的常见问题回答（FAQ）   Cake slicing\Time Limit: 2000&#x2F;1000 MS (Java&#x2F;Others)  Memory Limit: 32768&#x2F;32768 K (Java&#x2F;Others) Total Submission(s): 583  Accepted Submission(s): 305 **  Problem Descriptio">
+    <meta name="description" content="多校联合训练的常见问题回答（FAQ）   Cake slicing\Time Limit: 2000&#x2F;1000 MS (Java&#x2F;Others)  Memory Limit: 32768&#x2F;32768 K (Java&#x2F;Others) Total Submission(s): 583  Accepted Submission(s): 305 **  Problem Descripti">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HDU2513 切蛋糕">
 <meta property="og:url" content="http://tyler-ytr.github.io/2020/08/31/HDU2513/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
-<meta property="og:description" content="多校联合训练的常见问题回答（FAQ）   Cake slicing\Time Limit: 2000&#x2F;1000 MS (Java&#x2F;Others)  Memory Limit: 32768&#x2F;32768 K (Java&#x2F;Others) Total Submission(s): 583  Accepted Submission(s): 305 **  Problem Descriptio">
+<meta property="og:description" content="多校联合训练的常见问题回答（FAQ）   Cake slicing\Time Limit: 2000&#x2F;1000 MS (Java&#x2F;Others)  Memory Limit: 32768&#x2F;32768 K (Java&#x2F;Others) Total Submission(s): 583  Accepted Submission(s): 305 **  Problem Descripti">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/C150-1009-1.jpg">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/C150-1009-2.jpg">
@@ -199,7 +199,8 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <table>
+            <div class="table-container">
+<table>
 <thead>
 <tr>
 <th></th>
@@ -214,6 +215,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>【题意】</p>
 <p>有一个n*m大小的蛋糕，上面有k个樱桃，现在我们需要把这个蛋糕切成k份，使每份蛋糕上有一个樱桃，问最小切割长度和。(切割一刀必须切到底)</p>
 <p>我参考了网上的博客,思路如下:</p>
@@ -470,6 +472,27 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 <script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 
 
 
