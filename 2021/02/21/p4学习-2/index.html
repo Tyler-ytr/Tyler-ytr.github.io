@@ -30,9 +30,9 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/pod-topo.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210222224801495.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210222224659076-1614011557453.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210222224659076.png">
 <meta property="article:published_time" content="2021-02-21T09:12:26.000Z">
-<meta property="article:modified_time" content="2021-02-22T16:32:40.966Z">
+<meta property="article:modified_time" content="2021-02-23T09:23:56.690Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="p4">
 <meta name="twitter:card" content="summary">
@@ -248,7 +248,7 @@
 <p> 其中V1model的结构如下图所示:</p>
 <p> <img src="/picture/image-20210222224801495.png" alt="image-20210222224801495"></p>
 <p> 总的来说这是一个模板，大致由下图组成:</p>
-<p> <img src="/picture/image-20210222224659076-1614011557453.png" alt="image-20210222224659076"></p>
+<p> <img src="/picture/image-20210222224659076.png" alt="image-20210222224659076"></p>
 <p> 主要由HEADERS,PARSER,CHECKSUMVERFICATION,INGRESSPROCESSING,EGRESSPROCESSING,CHECKSUM UPDATE,DEPARSER,SWITCH组成;大概实例化的解释如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">V1Switch(</span><br><span class="line">MyParser(),    &#x2F;&#x2F; 解析数据包，提取包头 </span><br><span class="line">MyVerifyChecksum(),  &#x2F;&#x2F; 校验和验证</span><br><span class="line">MyIngress(),   &#x2F;&#x2F; 输入处理</span><br><span class="line">MyEgress(),    &#x2F;&#x2F; 输出处理</span><br><span class="line">MyComputeChecksum(),  &#x2F;&#x2F; 计算新的校验和</span><br><span class="line">MyDeparser()   &#x2F;&#x2F; 逆解析器</span><br><span class="line">) main;</span><br></pre></td></tr></table></figure>
 <h5 id="Parser部分"><a href="#Parser部分" class="headerlink" title="Parser部分"></a>Parser部分</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*************************************************************************</span><br><span class="line">*********************** P A R S E R  ***********************************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">parser MyParser(packet_in packet,</span><br><span class="line">                out headers hdr,</span><br><span class="line">                inout metadata meta,</span><br><span class="line">                inout standard_metadata_t standard_metadata) &#123;</span><br><span class="line"></span><br><span class="line">    state start &#123;</span><br><span class="line">        &#x2F;* TODO: add parser logic *&#x2F;</span><br><span class="line">        transition accept;#表示接受，也就是程序终止</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -272,7 +272,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-02-22T16:32:40.966Z" itemprop="dateUpdated">2021-02-23 00:32:40</time>
+    Last updated: <time datetime="2021-02-23T09:23:56.690Z" itemprop="dateUpdated">2021-02-23 17:23:56</time>
 </span><br>
 
 
