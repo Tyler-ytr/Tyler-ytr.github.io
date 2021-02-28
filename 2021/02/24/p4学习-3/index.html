@@ -29,12 +29,12 @@
 <meta property="og:description" content="P4学习-3：P4 basic tunnel实验实验目标 在本练习中，我们将向IP添加对基本隧道协议的支持 你在上一个作业中完成的路由器。基本交换机根据目的IP地址进行转发。您的工作是定义一个新的头类型来封装IP包并修改交换代码，这样它就可以使用一个新的隧道头来决定目的端口。 新的头类型将包含协议ID，它指示被封装的包的类型，以及用于路由的目的地ID。  P4程序定义了一个包处理管道，但是每个表中">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/topo_basic_tunnel.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210228215634236-1614523842688.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210228215634236.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210228215915163.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210228220230000.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210228221250171.png">
 <meta property="article:published_time" content="2021-02-24T08:52:17.000Z">
-<meta property="article:modified_time" content="2021-02-28T14:50:58.169Z">
+<meta property="article:modified_time" content="2021-02-28T14:58:11.746Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="p4">
 <meta name="twitter:card" content="summary">
@@ -274,7 +274,7 @@
 <p>这是不经过my_tunnel的测试；</p>
 <p>如果您检查接收到的数据包，您应该会看到它由一个以太网报头、一个IP报头、一个TCP报头和消息组成。如果您更改了目的IP地址(例如试图发送到’ 10.0.3.3 ‘)，则该消息不应该被’ h2 ‘接收，而将被’ h3 ‘接收。</p>
 <p>结果如下图:</p>
-<p><img src="/picture/image-20210228215634236-1614523842688.png" alt="image-20210228215634236"></p>
+<p><img src="/picture/image-20210228215634236.png" alt="image-20210228215634236"></p>
 <p>发给10.0.3.3之后:</p>
 <p>h1有相似的显示，h2没有变化</p>
 </li>
@@ -339,7 +339,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-02-28T14:50:58.169Z" itemprop="dateUpdated">2021-02-28 22:50:58</time>
+    Last updated: <time datetime="2021-02-28T14:58:11.746Z" itemprop="dateUpdated">2021-02-28 22:58:11</time>
 </span><br>
 
 
