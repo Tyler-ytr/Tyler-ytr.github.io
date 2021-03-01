@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Tyler-ytr.github.io/"/>
-  <updated>2021-02-26T09:14:39.610Z</updated>
+  <updated>2021-03-01T12:36:04.639Z</updated>
   <id>http://Tyler-ytr.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>leetcode303-s</title>
+    <link href="http://Tyler-ytr.github.io/2021/03/01/leetcode303-s/"/>
+    <id>http://Tyler-ytr.github.io/2021/03/01/leetcode303-s/</id>
+    <published>2021-03-01T12:18:36.000Z</published>
+    <updated>2021-03-01T12:36:04.639Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="303-区域和检索-数组不可变"><a href="#303-区域和检索-数组不可变" class="headerlink" title="303. 区域和检索 - 数组不可变"></a><a href="https://leetcode-cn.com/problems/range-sum-query-immutable/" target="_blank" rel="noopener">303. 区域和检索 - 数组不可变</a></h4><p>难度简单283收藏分享切换为英文接收动态反馈</p><p>给定一个整数数组  <code>nums</code>，求出数组从索引 <code>i</code> 到 <code>j</code><em>（</em><code>i ≤ j</code>）范围内元素的总和，包含 <code>i</code>、<code>j</code>两点。</p><p>实现 <code>NumArray</code> 类：</p><ul><li><code>NumArray(int[] nums)</code> 使用数组 <code>nums</code> 初始化对象</li><li><code>int sumRange(int i, int j)</code> 返回数组 <code>nums</code> 从索引 <code>i</code> 到 <code>j</code><em>（</em><code>i ≤ j</code>）范围内元素的总和，包含 <code>i</code>、<code>j</code>两点（也就是 <code>sum(nums[i], nums[i + 1], ... , nums[j])</code>）</li></ul><p><strong>示例：</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">[&quot;NumArray&quot;, &quot;sumRange&quot;, &quot;sumRange&quot;, &quot;sumRange&quot;]</span><br><span class="line">[[[-2, 0, 3, -5, 2, -1]], [0, 2], [2, 5], [0, 5]]</span><br><span class="line">输出：</span><br><span class="line">[null, 1, -1, -3]</span><br><span class="line"></span><br><span class="line">解释：</span><br><span class="line">NumArray numArray &#x3D; new NumArray([-2, 0, 3, -5, 2, -1]);</span><br><span class="line">numArray.sumRange(0, 2); &#x2F;&#x2F; return 1 ((-2) + 0 + 3)</span><br><span class="line">numArray.sumRange(2, 5); &#x2F;&#x2F; return -1 (3 + (-5) + 2 + (-1)) </span><br><span class="line">numArray.sumRange(0, 5); &#x2F;&#x2F; return -3 ((-2) + 0 + 3 + (-5) + 2 + (-1))</span><br></pre></td></tr></table></figure><p><strong>提示：</strong></p><ul><li><code>0 &lt;= nums.length &lt;= 104</code></li><li><code>-105 &lt;= nums[i] &lt;= 105</code></li><li><code>0 &lt;= i &lt;= j &lt; nums.length</code></li><li>最多调用 <code>104</code> 次 <code>sumRange</code> 方法</li></ul><p><strong>解答：</strong></p><p>使用前缀和方法，前缀和表示的是[0,i)之间的和，比如对于数组 [1,2,3,4,5],presum[0]=0,presum[1]=0+1=1……</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(nums)+<span class="number">1</span>):</span><br><span class="line">presum[i+<span class="number">1</span>]=presum[i]+nums[i]</span><br></pre></td></tr></table></figure><p>因此本题解法如下:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NumArray</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, nums: List[int])</span>:</span></span><br><span class="line">        _length=len(nums)</span><br><span class="line">        self.presum=[<span class="number">0</span>]*(_length+<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,_length):</span><br><span class="line">            self.presum[i+<span class="number">1</span>]=self.presum[i]+nums[i]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sumRange</span><span class="params">(self, i: int, j: int)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">return</span> self.presum[j+<span class="number">1</span>]-self.presum[i]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Your NumArray object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"># obj = NumArray(nums)</span></span><br><span class="line"><span class="comment"># param_1 = obj.sumRange(i,j)</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;303-区域和检索-数组不可变&quot;&gt;&lt;a href=&quot;#303-区域和检索-数组不可变&quot; class=&quot;headerlink&quot; title=&quot;303. 区域和检索 - 数组不可变&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://leetcode-cn.com/probl
+      
+    
+    </summary>
+    
+      <category term="leetcode刷题" scheme="http://Tyler-ytr.github.io/categories/leetcode%E5%88%B7%E9%A2%98/"/>
+    
+    
+      <category term="前缀和" scheme="http://Tyler-ytr.github.io/tags/%E5%89%8D%E7%BC%80%E5%92%8C/"/>
+    
+  </entry>
   
   <entry>
     <title>leetcode1176-h</title>
@@ -1046,31 +1071,6 @@
   </entry>
   
   <entry>
-    <title>DNS刷新</title>
-    <link href="http://Tyler-ytr.github.io/2020/09/04/DNS%E5%88%B7%E6%96%B0/"/>
-    <id>http://Tyler-ytr.github.io/2020/09/04/DNS刷新/</id>
-    <published>2020-09-04T06:56:33.000Z</published>
-    <updated>2020-09-10T02:36:02.524Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="DNS刷新"><a href="#DNS刷新" class="headerlink" title="DNS刷新"></a>DNS刷新</h2><p>垃圾windows连接校园网的时候一直出现dns probe finished no Internet报错，和信息中心的工程师打完电话之后发现是自己电脑DNS的问题，因此bing搜索，发现了如下的方法进行DNS的刷新:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">netsh int ip reset </span><br><span class="line">netsh winsock reset</span><br><span class="line">ipconfig&#x2F;flushdns </span><br><span class="line">重启</span><br></pre></td></tr></table></figure><p>然后报错从dns probe finished no Internet变成了<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/picture/image-20200904150200196.png" alt="image-20200904150200196" title="">                </div>                <div class="image-caption">image-20200904150200196</div>            </figure></p><p>佛了</p><p>面对不知道咋整的东西，那就选择重装系列：</p><p>右击<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/picture/image-20200904184552395.png" alt="image-20200904184552395" title="">                </div>                <div class="image-caption">image-20200904184552395</div>            </figure>然后点击网络重置 好像就行了？！</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;DNS刷新&quot;&gt;&lt;a href=&quot;#DNS刷新&quot; class=&quot;headerlink&quot; title=&quot;DNS刷新&quot;&gt;&lt;/a&gt;DNS刷新&lt;/h2&gt;&lt;p&gt;垃圾windows连接校园网的时候一直出现dns probe finished no Internet报错，和信息中
-      
-    
-    </summary>
-    
-      <category term="电脑配置" scheme="http://Tyler-ytr.github.io/categories/%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE/"/>
-    
-    
-      <category term="windows配置" scheme="http://Tyler-ytr.github.io/tags/windows%E9%85%8D%E7%BD%AE/"/>
-    
-  </entry>
-  
-  <entry>
     <title>关于windows密钥登录服务器</title>
     <link href="http://Tyler-ytr.github.io/2020/09/04/cmd_vs_rsa/"/>
     <id>http://Tyler-ytr.github.io/2020/09/04/cmd_vs_rsa/</id>
@@ -1084,6 +1084,31 @@
       
       
         &lt;h2 id=&quot;关于windows密钥登录服务器&quot;&gt;&lt;a href=&quot;#关于windows密钥登录服务器&quot; class=&quot;headerlink&quot; title=&quot;关于windows密钥登录服务器&quot;&gt;&lt;/a&gt;关于windows密钥登录服务器&lt;/h2&gt;&lt;p&gt;前言:windows的权限管
+      
+    
+    </summary>
+    
+      <category term="电脑配置" scheme="http://Tyler-ytr.github.io/categories/%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE/"/>
+    
+    
+      <category term="windows配置" scheme="http://Tyler-ytr.github.io/tags/windows%E9%85%8D%E7%BD%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DNS刷新</title>
+    <link href="http://Tyler-ytr.github.io/2020/09/04/DNS%E5%88%B7%E6%96%B0/"/>
+    <id>http://Tyler-ytr.github.io/2020/09/04/DNS刷新/</id>
+    <published>2020-09-04T06:56:33.000Z</published>
+    <updated>2020-09-10T02:36:02.524Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="DNS刷新"><a href="#DNS刷新" class="headerlink" title="DNS刷新"></a>DNS刷新</h2><p>垃圾windows连接校园网的时候一直出现dns probe finished no Internet报错，和信息中心的工程师打完电话之后发现是自己电脑DNS的问题，因此bing搜索，发现了如下的方法进行DNS的刷新:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">netsh int ip reset </span><br><span class="line">netsh winsock reset</span><br><span class="line">ipconfig&#x2F;flushdns </span><br><span class="line">重启</span><br></pre></td></tr></table></figure><p>然后报错从dns probe finished no Internet变成了<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/picture/image-20200904150200196.png" alt="image-20200904150200196" title="">                </div>                <div class="image-caption">image-20200904150200196</div>            </figure></p><p>佛了</p><p>面对不知道咋整的东西，那就选择重装系列：</p><p>右击<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/picture/image-20200904184552395.png" alt="image-20200904184552395" title="">                </div>                <div class="image-caption">image-20200904184552395</div>            </figure>然后点击网络重置 好像就行了？！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;DNS刷新&quot;&gt;&lt;a href=&quot;#DNS刷新&quot; class=&quot;headerlink&quot; title=&quot;DNS刷新&quot;&gt;&lt;/a&gt;DNS刷新&lt;/h2&gt;&lt;p&gt;垃圾windows连接校园网的时候一直出现dns probe finished no Internet报错，和信息中
       
     
     </summary>
