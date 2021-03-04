@@ -21,15 +21,15 @@
     
     
     <meta name="keywords" content="p4">
-    <meta name="description" content="P4环境配置0.准备 基础环境ubuntu 18.04 LTS  使用trojan终端代理，不然一些下载太慢了  ubuntu换源到阿里云  在~目录新建P4目录并且加入环境变量 1234mkdir P4cd P4echo&quot;P4_HOME&#x3D;$(pwd)&quot;&gt;&gt; ~&#x2F;.bashrcsource ~&#x2F;.bashrc  安装依赖包 12sudo">
+    <meta name="description" content="P4环境配置 因为之后使用的时候PI那块还是有问题，建议谨做参考，安装还是最好用一用官方的tuorials里面的虚拟机脚本  0.准备 基础环境ubuntu 18.04 LTS  使用trojan终端代理，不然一些下载太慢了  ubuntu换源到阿里云  在~目录新建P4目录并且加入环境变量 1234mkdir P4cd P4echo&quot;P4_HOME&#x3D;$(pwd)&quot;&amp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="p4安装">
 <meta property="og:url" content="http://tyler-ytr.github.io/2021/02/07/p4%E5%AE%89%E8%A3%85/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
-<meta property="og:description" content="P4环境配置0.准备 基础环境ubuntu 18.04 LTS  使用trojan终端代理，不然一些下载太慢了  ubuntu换源到阿里云  在~目录新建P4目录并且加入环境变量 1234mkdir P4cd P4echo&quot;P4_HOME&#x3D;$(pwd)&quot;&gt;&gt; ~&#x2F;.bashrcsource ~&#x2F;.bashrc  安装依赖包 12sudo">
+<meta property="og:description" content="P4环境配置 因为之后使用的时候PI那块还是有问题，建议谨做参考，安装还是最好用一用官方的tuorials里面的虚拟机脚本  0.准备 基础环境ubuntu 18.04 LTS  使用trojan终端代理，不然一些下载太慢了  ubuntu换源到阿里云  在~目录新建P4目录并且加入环境变量 1234mkdir P4cd P4echo&quot;P4_HOME&#x3D;$(pwd)&quot;&amp;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-02-07T08:25:10.000Z">
-<meta property="article:modified_time" content="2021-02-21T17:15:25.805Z">
+<meta property="article:modified_time" content="2021-03-04T01:28:45.006Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="p4">
 <meta name="twitter:card" content="summary">
@@ -200,7 +200,10 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h4 id="P4环境配置"><a href="#P4环境配置" class="headerlink" title="P4环境配置"></a>P4环境配置</h4><h5 id="0-准备"><a href="#0-准备" class="headerlink" title="0.准备"></a>0.准备</h5><ul>
+            <h4 id="P4环境配置"><a href="#P4环境配置" class="headerlink" title="P4环境配置"></a>P4环境配置</h4><blockquote>
+<p>因为之后使用的时候PI那块还是有问题，建议谨做参考，安装还是最好用一用官方的tuorials里面的虚拟机脚本</p>
+</blockquote>
+<h5 id="0-准备"><a href="#0-准备" class="headerlink" title="0.准备"></a>0.准备</h5><ul>
 <li><p>基础环境ubuntu 18.04 LTS</p>
 </li>
 <li><p>使用trojan终端代理，不然一些下载太慢了</p>
@@ -278,6 +281,8 @@
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ldconfig</span><br></pre></td></tr></table></figure>
 <p> 至此可以编译basic实验</p>
 </li>
+<li><p>安装之后进行P4runtime的时候出现报错 ：No module named rpc 尚未解决 因此建议还是使用官方的vagrant</p>
+</li>
 </ol>
 <blockquote>
 <p> PS: 最后发现其实最标准的安装操作是根据tutorials（<a href="https://github.com/p4lang/tutorials）里面的vm里面的两个脚本安装（为啥要手动还不是因为网速太慢" target="_blank" rel="noopener">https://github.com/p4lang/tutorials）里面的vm里面的两个脚本安装（为啥要手动还不是因为网速太慢</a></p>
@@ -295,7 +300,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-02-21T17:15:25.805Z" itemprop="dateUpdated">2021-02-22 01:15:25</time>
+    Last updated: <time datetime="2021-03-04T01:28:45.006Z" itemprop="dateUpdated">2021-03-04 09:28:45</time>
 </span><br>
 
 

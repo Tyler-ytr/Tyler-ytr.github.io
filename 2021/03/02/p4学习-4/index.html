@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>p4学习-4:P4runtime实验 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="p4">
+    <meta name="description" content="p4学习-4:P4runtime实验实验目标使用P4Runtime而不是来交换机的CLI发送flow entries;P4程序是在basic tunnel里面的程序的基础上写的，改名叫了 advanced_tunnel.p4，并且增加了两个counters(ingressTunnelCounter, egressTunnelCounter)和两个actions(myTunnel_ingress,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="p4学习-4:P4runtime实验">
+<meta property="og:url" content="http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="p4学习-4:P4runtime实验实验目标使用P4Runtime而不是来交换机的CLI发送flow entries;P4程序是在basic tunnel里面的程序的基础上写的，改名叫了 advanced_tunnel.p4，并且增加了两个counters(ingressTunnelCounter, egressTunnelCounter)和两个actions(myTunnel_ingress,">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/picture/image-20210303234909688.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/picture/image-20210304163414071.png">
+<meta property="article:published_time" content="2021-03-02T14:06:07.000Z">
+<meta property="article:modified_time" content="2021-03-04T10:25:48.380Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="p4">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/picture/image-20210303234909688.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">p4学习-4:P4runtime实验</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">p4学习-4:P4runtime实验</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2021-03-02T14:06:07.000Z" itemprop="datePublished" class="page-time">
+  2021-03-02
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#p4学习-4-P4runtime实验"><span class="post-toc-number">1.</span> <span class="post-toc-text">p4学习-4:P4runtime实验</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实验目标"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">实验目标</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#代码部分"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">代码部分</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实验结果"><span class="post-toc-number">1.0.3.</span> <span class="post-toc-text">实验结果</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-跑未完成的代码"><span class="post-toc-number">1.0.3.1.</span> <span class="post-toc-text">1 跑未完成的代码</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-完善隧道转发"><span class="post-toc-number">1.0.3.2.</span> <span class="post-toc-text">2 完善隧道转发</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#额外参考——rpc-grpc学习"><span class="post-toc-number">1.0.4.</span> <span class="post-toc-text">额外参考——rpc,grpc学习</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考博客"><span class="post-toc-number">1.0.5.</span> <span class="post-toc-text">参考博客</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-p4学习-4"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">p4学习-4:P4runtime实验</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2021-03-02 22:06:07" datetime="2021-03-02T14:06:07.000Z"  itemprop="datePublished">2021-03-02</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="p4学习-4-P4runtime实验"><a href="#p4学习-4-P4runtime实验" class="headerlink" title="p4学习-4:P4runtime实验"></a>p4学习-4:P4runtime实验</h2><h4 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h4><p>使用P4Runtime而不是来交换机的CLI发送flow entries;P4程序是在basic tunnel里面的程序的基础上写的，改名叫了 <code>advanced_tunnel.p4</code>，并且增加了两个counters(<code>ingressTunnelCounter</code>, <code>egressTunnelCounter</code>)和两个actions(<code>myTunnel_ingress</code>, <code>myTunnel_egress</code>)</p>
+<p>使用启动程序<code>mycontroller.py</code>以及一些 <code>p4runtime_lib</code> 库里面的函数来创建主机1和主机2之间隧道通信所需的表项。</p>
+<h4 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h4><h4 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h4><h5 id="1-跑未完成的代码"><a href="#1-跑未完成的代码" class="headerlink" title="1 跑未完成的代码"></a>1 跑未完成的代码</h5><ol>
+<li><p><code>mycontroller.py</code>里面包含了一些隧道通信需要的规则，在没有完成的情况下先跑p4看看啥样:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这步编译了 <code>advanced_tunnel.p4</code>,</li>
+<li>启动一个Mininet实例，其中三个交换机(<code>s1</code>, <code>s2</code>, <code>s3</code>)配置在一个三角形中，每个交换机连接到一个主机(<code>h1</code>, <code>h2</code>, <code>h3</code>)，并且把<code>10.0.1.1</code>, <code>10.0.2.2</code>, <code>10.0.3.3</code>这些IP配置到对应的主机上</li>
+</ul>
+</li>
+<li><p>现在会看到mininet命令窗口，ping h1 和 h2:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mininet&gt; h1 ping h2</span><br></pre></td></tr></table></figure>
+<p>因为交换机上面没有规则，现在还没法接受回应，然后如果ctrl+C就如下图各种丢包；</p>
+<p><img src="picture/image-20210303234909688.png" alt="image-20210303234909688"></p>
+<p>现在把这个ping留着继续跑然后开另一个shell</p>
+</li>
+<li><p>在另一个shell里面跑:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/tutorials/exercises/p4runtime</span><br><span class="line">./mycontroller.py</span><br></pre></td></tr></table></figure>
+<p>这会安装<code>advanced_tunnel.p4</code>程序到switch上面并且把tunnel ingress规则推进去；这个程序每两秒打印ingress和egress的counters</p>
+<p><img src="picture/image-20210304163414071.png" alt="image-20210304163414071"></p>
+<p>因为目前没有完成还有一些TODO的部分，所以下面可以看到这些包经过s1的ingress并且让计数器增加；</p>
+</li>
+<li><p>Ctrl-c退出</p>
+<p>目前的交换机是根据目的IP地址将流量映射到隧道(ID)上面，要做的工作是写规则，从而让交换机能够基于隧道(tunnel) ID来转发流量 </p>
+</li>
+</ol>
+<blockquote>
+<p>和前面的对比：之前的都是依靠一些json文件静态的设置表项，这里是动态的；要注意到p4 程序仅仅定义了一个包处理的管道，但是是不包含具体的规则的；</p>
+<p>P4程序定义了包处理管道（规则由控制平面插入），同时定义了交互机的pipeline和控制平面的接口（这部分在advanced_tunnel.p4info）里面；在mycontroller. py里面构建的表项(table entries)会根据名称引用特定的表、键和actions；使用p4info会将名字转换程P4runtime所需要的ID。在P4程序中添加或者重命名的表、键、actions都要反映在 py程序的表项(table entries)里面</p>
+</blockquote>
+<h5 id="2-完善隧道转发"><a href="#2-完善隧道转发" class="headerlink" title="2 完善隧道转发"></a>2 完善隧道转发</h5><ol>
+<li>p4runtime_lib库里面的总结,这部分代码在tutorials/utils/p4runtime_lib里面:<ul>
+<li><code>p4runtime_lib.helper</code><ul>
+<li>包含了<code>P4InfoHelper</code> 类能够解析<code>P4Info</code>文件，包括了name,id,alias,match_field(本身/id/name/pb/value)，action_param(本身/id/name/pb)</li>
+<li>提供了实体的名字到ID数字转换的方法(buildTableEnrty函数)</li>
+<li>构建P4Runtime表项的P4依赖于程序的部分。</li>
+</ul>
+</li>
+<li><code>p4runtime_lib.switch.py</code></li>
+</ul>
+</li>
+</ol>
+<h4 id="额外参考——rpc-grpc学习"><a href="#额外参考——rpc-grpc学习" class="headerlink" title="额外参考——rpc,grpc学习"></a>额外参考——rpc,grpc学习</h4><p>左转参考博客</p>
+<h4 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h4><ul>
+<li><a href="https://www.cnblogs.com/duanxz/p/3769872.html" target="_blank" rel="noopener">rpc介绍</a></li>
+<li><a href="https://www.shuzhiduo.com/A/n2d9O7yQJD/" target="_blank" rel="noopener">P4 runtime 和 p4 info</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2021-03-04T10:25:48.380Z" itemprop="dateUpdated">2021-03-04 18:25:48</time>
+</span><br>
+
+
+        
+        Link：<a href="/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/" target="_blank" rel="external">http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/p4/" rel="tag">p4</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/&title=《p4学习-4:P4runtime实验》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/&title=《p4学习-4:P4runtime实验》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《p4学习-4:P4runtime实验》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2021/03/04/STL/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">C++标准库与泛型编程学习笔记</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2021/03/01/leetcode303-s/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">leetcode303-s</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/&title=《p4学习-4:P4runtime实验》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/&title=《p4学习-4:P4runtime实验》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《p4学习-4:P4runtime实验》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/03/02/p4%E5%AD%A6%E4%B9%A0-4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMUlEQVR42u3aSW7DQAwFUd//0gqQraN2fbIdQOzqleBRTwuC0+uFz/V70s+/H/6t1zeODBkyHsu4luedcXd992t3jyP9zIeHIkOGjAMY6yC7DoXkVng4Xn/39nUZMmTIKFHJjfb/V4YMGTJIGseTvH6wliFDxskMkq6RBJGE17RI3lyLy5Ah44GMdDDwn9dfnG/IkCHjIYwrPGn5yoNy665kyJAxmkHKyF3t/nRImT4gGTJkTGXsWoaoBdY060N5qwwZMsYxai2wWgCtteFimAwZMkYzauUoH2SSBHRbY06GDBmDGLVFrtqyV/o7wXqHDBkyRjPSZC5trvEkL12/+OP3ZciQMZSRDinTkUD6LZ6efpjEypAhYxyjlrT1V8o67TkZMmScw+gXljxBrA01SWIqQ4aMExj9VTASjnn4bo05ZciQMY7BS8ddTbcOMshwZciQMYiRBkqSFJJhAA/xwSKIDBkyDmCQa5KopaE5Xqq4+xcZMmQcxkib9bxi7r+CGm0yZMgYxKildKSVv2uRgoRyGTJknMDotO+LixE4DUXjUhkyZIxm7FqY4OPPWpMOhX4ZMmQMZVzh4TdaC6nFd2XIkDGawU86EkgfQZoypqW1DBkyns7gAwBS6PIymDfs0AhBhgwZBzDSEpSveaUDy+JKmQwZMmQsP8MBPFjHRbUMGTJkbA2UpJUWD1ZlyJBxAKNfiKbjhLhMXd+JDBkyRjNamxphKpmONtPQLEOGjHGMH+m3YL4Sox6pAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@^3.1.3/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"superSample":2,"width":125,"height":125,"position":"left","hOffset":30,"vOffset":-20},"mobile":{"show":false,"scale":0.05},"react":{"opacityDefault":1,"opacityOnHover":0.2},"log":false});</script></body>
+</html>

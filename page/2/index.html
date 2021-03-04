@@ -164,6 +164,106 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-数学期望"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2021-02-23 17:24:41" datetime="2021-02-23T09:24:41.000Z"  itemprop="datePublished">2021-02-23</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2021/02/23/%E6%95%B0%E5%AD%A6%E6%9C%9F%E6%9C%9B/">数学期望</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        
+离散型:$\sum _{k=1}^{\infty}x_kp_k$,需要它绝对收敛;
+连续型:$\int_{-\infty}^{\infty}xp(x)dx$,同样需要它绝对收敛,如果$\int_{-\infty}^{\infty}|x|p(x)dx$发散,则X的数学期望不存在
+Gamma函数:\Gamma(x)=\int_{0}^{+\infty}t^{x-1}e^{-t}
+$\Gamma...
+    
+
+        <a href="/2021/02/23/%E6%95%B0%E5%AD%A6%E6%9C%9F%E6%9C%9B/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" rel="tag">概率论</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-p4学习-2"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2021-02-21 17:12:26" datetime="2021-02-21T09:12:26.000Z"  itemprop="datePublished">2021-02-21</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2021/02/21/p4%E5%AD%A6%E4%B9%A0-2/">p4学习-2:P4 basic实验</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        P4学习-2：P4 basic实验实验目标
+写一个P4程序完成基本的IPV4转发，也就是交换机需要:1.更新源和目的MAC地址 2. 在IP报头中减少 time-to-live(TTL)  3.将数据包转发到适当的端口
+交换机有一个简单的table,控制平面将根据基本的规则更新它。每个规则将一个IP地址映射到下一跳的MAC地址和输出端口。我们已经定义了控制平面规则，所以你只需要实现你的P4程...
+    
+
+        <a href="/2021/02/21/p4%E5%AD%A6%E4%B9%A0-2/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/p4/" rel="tag">p4</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-p4学习-1"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -300,7 +400,10 @@ Match...
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        P4环境配置0.准备
+        P4环境配置
+因为之后使用的时候PI那块还是有问题，建议谨做参考，安装还是最好用一用官方的tuorials里面的虚拟机脚本
+
+0.准备
 基础环境ubuntu 18.04 LTS
 
 使用trojan终端代理，不然一些下载太慢了
@@ -308,10 +411,7 @@ Match...
 ubuntu换源到阿里云
 
 在~目录新建P4目录并且加入环境变量
-1234mkdir P4cd P4echo&quot;P4_HOME&#x3D;$(pwd)&quot;&gt;&gt; ~&#x2F;.bashrcsource ~&#x2F;.bashrc
-
-安装依赖包
-12s...
+1234mkdir P4cd P4echo&quot;P4_HOME&#x3D;$(pwd)&quo...
     
 
         <a href="/2021/02/07/p4%E5%AE%89%E8%A3%85/" class="post-more waves-effect waves-button">
@@ -575,114 +675,6 @@ randPoint 返回一个包含随机点的x坐标和y坐标的大小为2的数组�
     <div class="post-footer">
         
 	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="tag">动态规划</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E4%BD%8Ddp/" rel="tag">数位dp</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-深度探索C-对象模型1"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2020-09-10 10:08:08" datetime="2020-09-10T02:08:08.000Z"  itemprop="datePublished">2020-09-10</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/">深度探索C++对象模型1</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        深度探索c++对象模型1
-C++的主要额外负担：
-virtual function 机制
-virtual base class 用以实现“多次出现在继承体系中的base class，又一个单一而被共享的实例”
-多重继承下的额外负担
-
-
-
-1.1 C++对象模式
-C++对象模型
-
-非静态成员变量存放在每一个class object里面，静态成员变量存放在个别的class object 之外；静...
-    
-
-        <a href="/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B/" rel="tag">深度探索C++对象模型</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-leetcode22-m"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2020-09-07 09:28:58" datetime="2020-09-07T01:28:58.000Z"  itemprop="datePublished">2020-09-07</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/leetcode%E5%88%B7%E9%A2%98/">leetcode刷题</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2020/09/07/leetcode22-m/">leetcode22_m</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        22. 括号生成难度中等1252收藏分享切换为英文关注反馈
-数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
-示例：
-12345678输入：n &#x3D; 3输出：[       &quot;((()))&quot;,       &quot;(()())&quot;,       &quot;(())()&quot;,       &quot...
-    
-
-        <a href="/2020/09/07/leetcode22-m/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%88/" rel="tag">栈</a></li></ul>
 
     </div>
     
