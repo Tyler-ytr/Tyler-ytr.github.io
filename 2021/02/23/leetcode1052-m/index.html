@@ -20,7 +20,7 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="滑动窗口,贪心">
+    <meta name="keywords" content="贪心,滑动窗口">
     <meta name="description" content="1052. 爱生气的书店老板难度中等106 今天，书店老板有一家店打算试营业 customers.length 分钟。每分钟都有一些顾客（customers[i]）会进入书店，所有这些顾客都会在那一分钟结束后离开。 在某些时候，书店老板会生气。 如果书店老板在第 i 分钟生气，那么 grumpy[i] &#x3D; 1，否则 grumpy[i] &#x3D; 0。 当书店老板生气时，那一分钟的顾客就会不满意，不生气则">
 <meta property="og:type" content="article">
 <meta property="og:title" content="leetcode1052-m">
@@ -31,14 +31,14 @@
 <meta property="article:published_time" content="2021-02-23T09:54:13.000Z">
 <meta property="article:modified_time" content="2021-02-23T09:57:28.305Z">
 <meta property="article:author" content="Tyler-yin">
-<meta property="article:tag" content="滑动窗口">
 <meta property="article:tag" content="贪心">
+<meta property="article:tag" content="滑动窗口">
 <meta name="twitter:card" content="summary">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
     <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
     <script>window.lazyScripts=[]</script>
 
     <!-- custom head -->
@@ -336,6 +336,30 @@
 
 
 
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz# your leancloud appId",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
 
 
 
@@ -439,7 +463,7 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 
 </script>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+<script src="/js/main.min.js?v=1.7.2"></script>
 
 
 <div class="search-panel" id="search-panel">
@@ -459,7 +483,7 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 </li>
 </template>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+<script src="/js/search.min.js?v=1.7.2" async></script>
 
 
 

@@ -20,7 +20,7 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="深度探索C++对象模型,C++">
+    <meta name="keywords" content="C++,深度探索C++对象模型">
     <meta name="description" content="深度探索c++对象模型2这一章主要是编译器对于“对象构造过程”的干涉以及对于“程序形式”和“程序效率”的冲击 Default Constructor的构造操作 带有默认构造函数的Member Class Object 总结而言就是，如果对象a中依次有对象b，c，d，如果程序员仅仅初始化了c（10），那么编译器会调用b，d的默认构造函数，顺序是b，c（10），d；另外，对于对象g，假设里面只有int">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度探索C++对象模型2">
@@ -37,15 +37,15 @@
 <meta property="article:published_time" content="2020-10-09T03:13:38.000Z">
 <meta property="article:modified_time" content="2020-10-09T03:15:26.224Z">
 <meta property="article:author" content="Tyler-yin">
-<meta property="article:tag" content="深度探索C++对象模型">
 <meta property="article:tag" content="C++">
+<meta property="article:tag" content="深度探索C++对象模型">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://tyler-ytr.github.io/picture/Pwv3q8xTrLdlOkE.jpg">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
     <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
     <script>window.lazyScripts=[]</script>
 
     <!-- custom head -->
@@ -461,6 +461,30 @@
 
 
 
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz# your leancloud appId",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
 
 
 
@@ -564,7 +588,7 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 
 </script>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+<script src="/js/main.min.js?v=1.7.2"></script>
 
 
 <div class="search-panel" id="search-panel">
@@ -584,7 +608,7 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 </li>
 </template>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+<script src="/js/search.min.js?v=1.7.2" async></script>
 
 
 

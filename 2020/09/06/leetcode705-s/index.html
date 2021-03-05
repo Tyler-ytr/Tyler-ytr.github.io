@@ -38,7 +38,7 @@
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
     <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
     <script>window.lazyScripts=[]</script>
 
     <!-- custom head -->
@@ -339,6 +339,30 @@
 
 
 
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz# your leancloud appId",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
 
 
 
@@ -442,7 +466,7 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 
 </script>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+<script src="/js/main.min.js?v=1.7.2"></script>
 
 
 <div class="search-panel" id="search-panel">
@@ -462,7 +486,7 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 </li>
 </template>
 
-<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+<script src="/js/search.min.js?v=1.7.2" async></script>
 
 
 
