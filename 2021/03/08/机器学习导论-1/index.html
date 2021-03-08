@@ -28,13 +28,13 @@
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
 <meta property="og:description" content="机器学习导论-1 绪论与数学参考 二刷机器学习导论 参考书: 统计机器学习 PRML(贝叶斯) ESL(统计学派) MLAPP UML   绪论 学习过程  训练数据，经过 学习算法训练，得到 模型(决策树，射精网络，支持向量机，Boosting，贝叶斯网……)，可以判断 新数据样本，得到结论   机器学习的局限性，失效条件:  特征信息不充分 样本信息不充分   机器学习的理论基础(计算学习理论">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://tyler-ytr.github.io/2021/03/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-1/picture/image-20210308113014539.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210308113014539.png">
 <meta property="article:published_time" content="2021-03-08T02:18:18.000Z">
-<meta property="article:modified_time" content="2021-03-08T13:10:53.488Z">
+<meta property="article:modified_time" content="2021-03-08T13:23:36.693Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://tyler-ytr.github.io/2021/03/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-1/picture/image-20210308113014539.png">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/image-20210308113014539.png">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
@@ -258,14 +258,14 @@
 ||x||_2 = (|x_1|^2 + |x_2|^2+\dots+ |x_n|^2)^{\frac{1}{2}} =\sqrt{ \sum_i^n x_i^2}</script><p>Euclid范数(欧几里得范数，常用计算向量长度)</p>
 <p>Lp范数:</p>
 <script type="math/tex; mode=display">
-||x||_p = (|x_1|^p + |x_2|^p+\dots+ |x_n|^p)^{\frac{1}{p}} =\sqrt[p]{ \sum_i^n x_i^p}</script><p><img src="picture/image-20210308113014539.png" alt="image-20210308113014539"></p>
+||x||_p = (|x_1|^p + |x_2|^p+\dots+ |x_n|^p)^{\frac{1}{p}} =\sqrt[p]{ \sum_i^n x_i^p}</script><p><img src="/picture/image-20210308113014539.png" alt="image-20210308113014539"></p>
 <p>Lp的形状随p的变化的图</p>
-<p>L$\infin $范数:</p>
+<p>L$\infty $范数:</p>
 <script type="math/tex; mode=display">
 ||x||_{\infty} = \max\limits_{1\le i\le n} |x_i|</script></li>
 </ul>
 <p>  所有向量元素绝对值中的最大值</p>
-<p>  L$-\infin$范数:</p>
+<p>  L$-\infty$范数:</p>
 <script type="math/tex; mode=display">
   ||x||_{\infty} = \min\limits_{1\le i\le n} |x_i|</script><p>  所有向量元素绝对值中的最小值</p>
 <p>  L0范数:</p>
@@ -276,7 +276,7 @@
 <p>$||x||_0=3$</p>
 <p>$||x||_1=|1|+|4|+|3|+|0|=8$</p>
 <p>$||x||_2=\sqrt{|1|^2+|4|^2+|3|^2+|0|^2}=\sqrt{26}$</p>
-<p>$||x||_{\infin}=|4|=4$</p>
+<p>$||x||_{\infty}=|4|=4$</p>
 </li>
 </ul>
 <h5 id="矩阵的范数"><a href="#矩阵的范数" class="headerlink" title="矩阵的范数"></a>矩阵的范数</h5><ul>
@@ -312,6 +312,10 @@
 <script type="math/tex; mode=display">
 \begin{bmatrix} \frac{\partial y_1}{\partial x_1} & \cdots & \frac{\partial y_1}{\partial x_n} \\ \vdots & \ddots & \vdots \\ \frac{\partial y_m}{\partial x_1} & \cdots & \frac{\partial y_m}{\partial x_n} \end{bmatrix}</script></li>
 </ul>
+<p>  此矩阵表示为: ${J_F}({x_1}, \ldots ,{x_n})$,或者$\frac{ {\partial {({y_1}, … ,{y_m})} }  } { {\partial {({x_1}, … ,{x_n})} } }$.</p>
+<blockquote>
+<p>hexo 两个{之间要加空格不然会报错: expected variable end</p>
+</blockquote>
 <p>  如果$p$是$R_n$中的一点，$F$在$p$点可微分，那么这一点的导数由$J_F(p)$给出.在此情况下, 由$F(p)$描述的线性算子即接近点$p$的$F$的最优线性逼近, $x$逼近于$p$:</p>
 <script type="math/tex; mode=display">
   F({\bf{x}}) \approx F({\bf{p}}) + {J_F}({\bf{p}}) \cdot ({\bf{x}} – {\bf{p}})</script><ul>
@@ -384,7 +388,7 @@ A=Q\Sigma Q^{-1}=Q\Sigma Q^T</script><p>其中，Q是这个矩阵A的特征向�
 </li>
 </ul>
 <ul>
-<li>奇异值与奇异值分解</li>
+<li>奇异值与奇异值分解:</li>
 </ul>
 <h4 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h4><ul>
 <li><a href="https://ryannng.github.io/2016/12/23/%E5%90%91%E9%87%8F%E8%8C%83%E6%95%B0%E4%B8%8E%E7%9F%A9%E9%98%B5%E8%8C%83%E6%95%B0/" target="_blank" rel="noopener">向量范数与矩阵范数</a></li>
@@ -403,7 +407,7 @@ A=Q\Sigma Q^{-1}=Q\Sigma Q^T</script><p>其中，Q是这个矩阵A的特征向�
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-03-08T13:10:53.488Z" itemprop="dateUpdated">2021-03-08 21:10:53</time>
+    Last updated: <time datetime="2021-03-08T13:23:36.693Z" itemprop="dateUpdated">2021-03-08 21:23:36</time>
 </span><br>
 
 
