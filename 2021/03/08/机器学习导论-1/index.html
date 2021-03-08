@@ -30,7 +30,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210308113014539.png">
 <meta property="article:published_time" content="2021-03-08T02:18:18.000Z">
-<meta property="article:modified_time" content="2021-03-08T13:23:36.693Z">
+<meta property="article:modified_time" content="2021-03-08T14:41:48.237Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="ML">
 <meta name="twitter:card" content="summary">
@@ -176,7 +176,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#机器学习导论-1-绪论与数学参考"><span class="post-toc-number">1.</span> <span class="post-toc-text">机器学习导论-1 绪论与数学参考</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#绪论"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">绪论</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数学参考"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">数学参考</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#范数"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">范数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#向量的范数"><span class="post-toc-number">1.2.1.1.</span> <span class="post-toc-text">向量的范数</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#矩阵的范数"><span class="post-toc-number">1.2.1.2.</span> <span class="post-toc-text">矩阵的范数</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#求导"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">求导</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#奇异值"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">奇异值</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考博客"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">参考博客</span></a></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#机器学习导论-1-绪论与数学参考"><span class="post-toc-number">1.</span> <span class="post-toc-text">机器学习导论-1 绪论与数学参考</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#绪论"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">绪论</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#数学参考"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">数学参考</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#范数"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">范数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#向量的范数"><span class="post-toc-number">1.2.1.1.</span> <span class="post-toc-text">向量的范数</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#矩阵的范数"><span class="post-toc-number">1.2.1.2.</span> <span class="post-toc-text">矩阵的范数</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#求导"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">求导</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#奇异值"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">奇异值</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#奇异值与奇异值分解"><span class="post-toc-number">1.2.3.1.</span> <span class="post-toc-text">奇异值与奇异值分解</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考博客"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">参考博客</span></a></li></ol></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -248,17 +248,17 @@
 <li><p>范数表达式:</p>
 <script type="math/tex; mode=display">
 \begin{align}
-\left| \left| x \right| \right|_{p}\; :=\; \left( \sum_{i=1}^{n}{\left| x_{i} \right|^{p}} \right)^{\frac{1}{p}}\tag{1}
+\left| \left| x \right| \right|_{p}\; :=\; \left( \sum_{i=1}^{n}{\left| x_{i} \right|^{p} } \right)^{\frac{1}{p} }\tag{1}
 \end{align}</script></li>
 <li><p>L1范数:</p>
 <script type="math/tex; mode=display">
 ||x||_1 = |x_1| + |x_2| + \dots + |x_n| = \sum_i^n |x_i|</script><p>向量元素绝对值之和</p>
 <p>L2范数:</p>
 <script type="math/tex; mode=display">
-||x||_2 = (|x_1|^2 + |x_2|^2+\dots+ |x_n|^2)^{\frac{1}{2}} =\sqrt{ \sum_i^n x_i^2}</script><p>Euclid范数(欧几里得范数，常用计算向量长度)</p>
+||x||_2 = (|x_1|^2 + |x_2|^2+\dots+ |x_n|^2)^{\frac{1}{2} } =\sqrt{ \sum_i^n x_i^2}</script><p>Euclid范数(欧几里得范数，常用计算向量长度)</p>
 <p>Lp范数:</p>
 <script type="math/tex; mode=display">
-||x||_p = (|x_1|^p + |x_2|^p+\dots+ |x_n|^p)^{\frac{1}{p}} =\sqrt[p]{ \sum_i^n x_i^p}</script><p><img src="/picture/image-20210308113014539.png" alt="image-20210308113014539"></p>
+||x||_p = (|x_1|^p + |x_2|^p+\dots+ |x_n|^p)^{\frac{1}{p} } =\sqrt[p]{ \sum_i^n x_i^p}</script><p><img src="/picture/image-20210308113014539.png" alt="image-20210308113014539"></p>
 <p>Lp的形状随p的变化的图</p>
 <p>L$\infty $范数:</p>
 <script type="math/tex; mode=display">
@@ -303,7 +303,7 @@
 </li>
 <li><p><strong>F-范数(Frobenius):</strong></p>
 <script type="math/tex; mode=display">
-||A||_F = (\sum_i^n \sum_j^n a_{ij}^2)^{\frac{1}{2}}=(tr(A^TA))^{1/2}</script><p>它相当于矩阵$A$各项元素的绝对值平方的总和,也就是矩阵张成向量之后的L2范数</p>
+||A||_F = (\sum_i^n \sum_j^n a_{ij}^2)^{\frac{1}{2} }=(tr(A^TA))^{1/2}</script><p>它相当于矩阵$A$各项元素的绝对值平方的总和,也就是矩阵张成向量之后的L2范数</p>
 </li>
 </ul>
 <h4 id="求导"><a href="#求导" class="headerlink" title="求导"></a>求导</h4><ul>
@@ -318,13 +318,13 @@
 </blockquote>
 <p>  如果$p$是$R_n$中的一点，$F$在$p$点可微分，那么这一点的导数由$J_F(p)$给出.在此情况下, 由$F(p)$描述的线性算子即接近点$p$的$F$的最优线性逼近, $x$逼近于$p$:</p>
 <script type="math/tex; mode=display">
-  F({\bf{x}}) \approx F({\bf{p}}) + {J_F}({\bf{p}}) \cdot ({\bf{x}} – {\bf{p}})</script><ul>
+  F({\bf{x} }) \approx F({\bf{p} }) + {J_F}({\bf{p} }) \cdot ({\bf{x} } – {\bf{p} })</script><ul>
 <li><p>二阶导数：海森矩阵</p>
 <p>海森矩阵(Hessian matrix或Hessian)是一个自变量为向量的实值函数的二阶偏导数组成的方块矩阵, 此函数如下：</p>
 <script type="math/tex; mode=display">
 f({x_1},{x_2} \ldots ,{x_n})</script><p>如果$f$所有的二阶导都存在，那么有：</p>
 <script type="math/tex; mode=display">
-H{(f)_{ij}}(x) = {D_i}{D_j}f(x)</script><p>也就是:</p>
+H{(f)_{ij} }(x) = {D_i}{D_j}f(x)</script><p>也就是:</p>
 <script type="math/tex; mode=display">
 \begin{bmatrix} 
 \frac{\partial^2 f}{\partial x_1^2} & \frac{\partial^2 f}{\partial x_1\,\partial x_2} & \cdots & \frac{\partial^2 f}{\partial x_1\,\partial x_n} \\  \\ 
@@ -377,7 +377,7 @@ H{(f)_{ij}}(x) = {D_i}{D_j}f(x)</script><p>也就是:</p>
 </ul>
 </li>
 <li><p>特征值与特征分解:</p>
-<p>特征值特征向量定义：$\lambda$是特征值,x是特征向量</p>
+<p>特征值特征向量定义：$\lambda$是特征值,$x$是特征向量,A是方阵</p>
 <script type="math/tex; mode=display">
 Ax=\lambda x</script><p>求解走:</p>
 <p>$Ax=\lambda x\rightarrow Ax=\lambda E x\rightarrow (\lambda E-A)x=0\rightarrow|\lambda E-A|=0$解出特征值带入得到特征向量</p>
@@ -387,9 +387,65 @@ A=Q\Sigma Q^{-1}=Q\Sigma Q^T</script><p>其中，Q是这个矩阵A的特征向�
 <p>特征值分解也有很多的局限，比如说变换的矩阵必须是方阵。</p>
 </li>
 </ul>
-<ul>
-<li>奇异值与奇异值分解:</li>
-</ul>
+<h5 id="奇异值与奇异值分解"><a href="#奇异值与奇异值分解" class="headerlink" title="奇异值与奇异值分解"></a>奇异值与奇异值分解</h5><ol>
+<li><p>运用到的理论:</p>
+<ol>
+<li>对于n阶方阵，$Ax=\lambda x$;</li>
+<li>如果$\vec{a}$与$\vec{b}$正交,那么有$\vec{a} \cdot \vec{b} = 0$</li>
+<li>一个内积空间的正交基（orthogonal basis）是元素两两正交的基,基中的元素称为基向量。如果一个正交基的基向量的模长都是单位长度1，则称这正交基为标准正交基或”规范正交基”（Orthonormal basis）；</li>
+<li>A与A的转置矩阵是有相同的特征值,但是他们各自的特征向量没有关系；</li>
+</ol>
+</li>
+<li><p><strong>SVD推导之矩阵分解:</strong></p>
+<p>对于矩阵$A$,有$A^TA = \lambda_{i} v_{i}$(因为$A^TA$肯定是方阵);$\lambda_i$是特征值,$v_i$是特征向量;假设$(v_{i}, v_{j})$是一组正交基，那么有$v_{i}^{T} \cdot v_{j} = 0$，那么:</p>
+<script type="math/tex; mode=display">
+\begin{align} (Av_{i}, Av_{j}) &= (Av_{i})^{T} \cdot Av_{j} \\ &= v_{i}^{T} A^T Av_{j} \\ &= v_{i}^{T} \lambda_{j} v_{j} \\ &= \lambda_{j} \color{red}{v_{i}^{T} v_{j} } \\ &= 0 \end{align} \tag{1}</script><p>可以得到$Av_{i}, Av_{j}$;根据公式$(1)$可以推导得到$(Av_{i}, Av_{i}) = \lambda_{i} v_{i}^{T} v_{i}=\lambda_{i}$;又因为行列式的性质$|AB|=|A||B|\rightarrow|(Av_{i})^{T} \cdot Av_{i}|=|Av_{i}^{T} ||Av_{i}|=|Av_{i}|^2$,所以有:</p>
+<script type="math/tex; mode=display">
+\begin{align} & |Av_{i}|^2 = \lambda_{i} \\ & |Av_{i}| = \sqrt{\lambda_{i} } \end{align} \tag{2}</script><p>根据公式(2),有$\frac{Av_{i} }{|Av_{i}|} = \frac{1}{\sqrt{\lambda_{i} } } Av_{i}$，令$\frac{1}{\sqrt{\lambda_{i} } } Av_{i}= u_{i}$,可以得到:</p>
+<script type="math/tex; mode=display">
+Av_{i}= \sqrt{\lambda_{i} }u_{i}=\delta_{i}u_{i} \tag{3}</script><p>其中$\delta_{i} = \sqrt{\lambda_{i} }$（这个称作奇异值）,进一步推导成矩阵形式:</p>
+<script type="math/tex; mode=display">
+\begin{align} AV &= A(v_{1}, v_{2}, \dots, v_{n} ) \\ &= (Av_{1}, Av_{2}, \dots, Av_{n} ) \\ &= (\delta_{1}u_{1}, \delta_{2}u_{2}, \dots, \delta_{n}u_{n} ) \\ &= U\Sigma \end{align} \tag{4}</script><p>从而得到:</p>
+<script type="math/tex; mode=display">
+A = U\Sigma V^T \tag{5}</script></li>
+<li><p><strong>SVD推导之矩阵计算:</strong></p>
+<p>已知$A$怎么算$U$和$V$呢？</p>
+<p>首先计算$A$的转置$A^T$,而$A^T$相当于:</p>
+<script type="math/tex; mode=display">
+\begin{align} A^T =  V\Sigma^TU^T \end{align} \tag{6}</script><p>然后计算$A^TA$:</p>
+<script type="math/tex; mode=display">
+\begin{align} A^TA &= V\Sigma^TU^T U\Sigma V^T \\ &= V\Sigma^2V^T \end{align} \tag{7}</script><p>通过公式(7),会发现这不就是特征值分解嘛！！！可以得到$A^TA v_{i} = \lambda_{i}v_{i}$,只需要求出$A^TA$的特征向量就可以得到$V$了</p>
+<p>同理计算$AA^T:$</p>
+<script type="math/tex; mode=display">
+\begin{align} A A^T &= U\Sigma V^T V\Sigma^TU^T \\ &= U\Sigma^2U^T \end{align} \tag{8}</script><p>通过公式(8),可以得到$AA^T u_{i} = \lambda_{i}u_{i}$,只需要求出$AA^T$的特征向量就可以得到$U$了</p>
+<p>$\Sigma$是上面公式(7)或者公式(8)中求到的非零特征值从大到小排列后开根号的值</p>
+</li>
+<li><p>SVD计算例子:</p>
+<p>假设有一个矩阵$A$:</p>
+<script type="math/tex; mode=display">
+A=\begin{bmatrix} 1&1\\1&1\\0&0\end{bmatrix}</script><p>要计算:</p>
+<script type="math/tex; mode=display">
+A_{3\times 2}=U_{3\times 3}\Sigma_{3\times2}V^T_{2\times 2}</script><p>中的$U,V,\Sigma$</p>
+<ol>
+<li><p>计算$U$  </p>
+<p>$AA^T=\begin{bmatrix} 2&amp;2&amp;0\\2&amp;2&amp;0\\0&amp;0&amp;0\end{bmatrix}$,进行特征分解，得到特征值[4,0,0]以及对应的特征向量$[\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}},0]^T,[-\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}},0]^T,[0,0,1]^T$,可以得到：</p>
+<script type="math/tex; mode=display">
+U=\begin{bmatrix} \frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{2}}&0 \\ \frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}&0 \\ 0&0&1 \end{bmatrix}</script></li>
+</ol>
+</li>
+</ol>
+<ol>
+<li><p>计算$V$  </p>
+<p>$A^TA=\begin{bmatrix} 2&amp;2 \\ 2&amp;2 \end{bmatrix}$,进行特征分解,得到特征值[4,0]以及对应的特征向量$[\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}]^T,[-\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}]^T$,可以得到:</p>
+<script type="math/tex; mode=display">
+V=\begin{bmatrix} \frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}\end{bmatrix}</script></li>
+<li><p>计算$\Sigma$ </p>
+<p>因为特征值是[4,0]，因此:</p>
+<script type="math/tex; mode=display">
+\Sigma=\begin{bmatrix} 2&0 \\ 0&0 \\ 0&0 \end{bmatrix}</script><p>所以$A$的SVD分解是:</p>
+<script type="math/tex; mode=display">
+A=U \Sigma V^T= \begin{bmatrix} \frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{2}}&0 \\ \frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}&0 \\ 0&0&1 \end{bmatrix} \begin{bmatrix} 2&0 \\ 0&0 \\ 0&0 \end{bmatrix} {\begin{bmatrix} \frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}\end{bmatrix}}^T=\begin{bmatrix} 1&1\\1&1\\0&0\end{bmatrix}</script></li>
+</ol>
 <h4 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h4><ul>
 <li><a href="https://ryannng.github.io/2016/12/23/%E5%90%91%E9%87%8F%E8%8C%83%E6%95%B0%E4%B8%8E%E7%9F%A9%E9%98%B5%E8%8C%83%E6%95%B0/" target="_blank" rel="noopener">向量范数与矩阵范数</a></li>
 <li><a href="http://jacoxu.com/jacobian%E7%9F%A9%E9%98%B5%E5%92%8Chessian%E7%9F%A9%E9%98%B5/" target="_blank" rel="noopener">雅可比矩阵和海森矩阵</a></li>
@@ -397,7 +453,7 @@ A=Q\Sigma Q^{-1}=Q\Sigma Q^T</script><p>其中，Q是这个矩阵A的特征向�
 <li><a href="https://zhuanlan.zhihu.com/p/120333258" target="_blank" rel="noopener">Hermite矩阵性质</a></li>
 <li><a href="https://blog.csdn.net/Junerror/article/details/80222540" target="_blank" rel="noopener">矩阵特征值求解</a></li>
 <li><a href="https://blog.csdn.net/qq_30232405/article/details/104588293" target="_blank" rel="noopener">矩阵的基本知识</a></li>
-<li><a href="https://blog.csdn.net/zhongkejingwang/article/details/43053513" target="_blank" rel="noopener">矩阵的特征值奇异值分解</a></li>
+<li><a href="http://www.csuldw.com/2017/03/09/2017-03-09-svd/#mjx-eqn-1" target="_blank" rel="noopener">矩阵的奇异值推导</a></li>
 </ul>
 
         </div>
@@ -407,7 +463,7 @@ A=Q\Sigma Q^{-1}=Q\Sigma Q^T</script><p>其中，Q是这个矩阵A的特征向�
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-03-08T13:23:36.693Z" itemprop="dateUpdated">2021-03-08 21:23:36</time>
+    Last updated: <time datetime="2021-03-08T14:41:48.237Z" itemprop="dateUpdated">2021-03-08 22:41:48</time>
 </span><br>
 
 
