@@ -28,13 +28,17 @@
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
 <meta property="og:description" content="p4学习-5:完善MRI实验目标这次实验的目的是在基本的L3转发上面拓展一个带内遥测(INT)的阉割版本，这里称作多跳路由检查(Multi-Hop Route Inspection)(MRI)。   根据维基百科，多跳路由(Multi-hop routing)是无线电网络中的一种通信，其中网络覆盖区域大域单个节点的无线电范围，因此要到达某一个目的地的时候一个节点可以使用其他节点做中继。  MRI允">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://tyler-ytr.github.io/2021/03/06/p4%E5%AD%A6%E4%B9%A0-5/picture/setup.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/setup.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210309103128712.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210309103437274.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210309103534773.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210309103620003.png">
 <meta property="article:published_time" content="2021-03-06T08:44:38.000Z">
-<meta property="article:modified_time" content="2021-03-08T15:31:18.047Z">
+<meta property="article:modified_time" content="2021-03-09T05:56:07.774Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="p4">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://tyler-ytr.github.io/2021/03/06/p4%E5%AD%A6%E4%B9%A0-5/picture/setup.png">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/setup.png">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
@@ -176,7 +180,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#p4学习-5-完善MRI"><span class="post-toc-number">1.</span> <span class="post-toc-text">p4学习-5:完善MRI</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实验目标"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">实验目标</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#代码实现"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">代码实现</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实验过程"><span class="post-toc-number">1.0.3.</span> <span class="post-toc-text">实验过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-先跑不完整的初始版本代码"><span class="post-toc-number">1.0.3.1.</span> <span class="post-toc-text">1 先跑不完整的初始版本代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考博客"><span class="post-toc-number">1.0.4.</span> <span class="post-toc-text">参考博客</span></a></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#p4学习-5-完善MRI"><span class="post-toc-number">1.</span> <span class="post-toc-text">p4学习-5:完善MRI</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实验目标"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">实验目标</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#代码实现"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">代码实现</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实验过程"><span class="post-toc-number">1.0.3.</span> <span class="post-toc-text">实验过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-先跑不完整的初始版本代码"><span class="post-toc-number">1.0.3.1.</span> <span class="post-toc-text">1 先跑不完整的初始版本代码</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-控制平面相关"><span class="post-toc-number">1.0.3.2.</span> <span class="post-toc-text">2 控制平面相关</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-完善MRI"><span class="post-toc-number">1.0.3.3.</span> <span class="post-toc-text">3 完善MRI</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4-运行解决方案"><span class="post-toc-number">1.0.3.4.</span> <span class="post-toc-text">4 运行解决方案</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考博客"><span class="post-toc-number">1.0.4.</span> <span class="post-toc-text">参考博客</span></a></li></ol></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -210,7 +214,35 @@
 <blockquote>
 <p>控制平面已经事先设置好了</p>
 </blockquote>
-<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><h4 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h4><h5 id="1-先跑不完整的初始版本代码"><a href="#1-先跑不完整的初始版本代码" class="headerlink" title="1 先跑不完整的初始版本代码"></a>1 先跑不完整的初始版本代码</h5><p>先跑一下初始代码看看啥样，以便和之后的做对比</p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p>mri里面包括了两个自定义的头:<code>mri_t</code>包含了<code>count</code>，用来指示交换机ID的数量;<code>switch_t</code>包含了数据包经过的每个交换机跳的交换机ID和队列深度字段；</p>
+<p>主要挑战是处理用于解析两个headers的递归逻辑；这里使用<code>parser_metada</code>字段的<code>remaining</code>来追踪有多少<code>switch_t</code>头需要来解析;在<code>parse_mri</code>状态,这个字段设置为<code>hdr.mri.count</code>。在<code>parse_swtrace</code>状态将转换到其自身，直到剩余为0。</p>
+<p>MRI自定义报头会携带在IP Options 头里面,其中IP Options头里面的<code>option</code>用于指示选项的类型。 我们将使用特殊的类型31来表示MRI标头的存在。</p>
+<p>除了解析器逻辑外，您还将在sgress中添加一个表，在<code>swtrace</code>中存储交换机ID和队列深度，并执行增加<code>count</code>字段的操作，并附加一个<code>switch_t</code>标头。</p>
+<p>一个完整的<code>mri.p4</code>包含如下组件:</p>
+<ol>
+<li>以太网（<code>ethernet_t</code>），IPv4（<code>ipv4_t</code>），IP选项（<code>ipv4_option_t</code>），MRI（<code>mri_t</code>）和交换机（<code>switch_t</code>）的<strong>header头部类型定义</strong>。</li>
+<li>以太网，IPv4，IP选项，MRI和交换机的<strong>解析器Parsers</strong>，将填充<code>ethernet_t</code>，<code>ipv4_t</code>，<code>ipv4_option_t</code>，<code>mri_t</code>和<code>switch_t</code>。</li>
+<li>使用<code>mark_to_drop()</code>丢弃数据包的<strong>动作action</strong>。</li>
+<li>一个<strong>action动作</strong>（称为<code>ipv4_forward</code>），它将：<ol>
+<li>设置下一跳的出口端口。</li>
+<li>用下一跳的地址更新以太网目标地址。</li>
+<li>用交换机的地址更新以太网源地址。</li>
+<li>减少TTL</li>
+</ol>
+</li>
+<li>一个ingress control:<ol>
+<li>定义一个表，该表将读取IPv4目标地址，并调用<code>drop</code>或<code>ipv4_forward</code>。</li>
+<li>一个应用表的<code>apply</code>模块</li>
+</ol>
+</li>
+<li>在egress部分，将添加交换机ID和队列深度的action动作（<code>add_swtrace</code>）。</li>
+<li>一个egress control,它应用表（<code>swtrace</code>）来存储交换机ID和队列深度并调用<code>add_swtrace</code></li>
+<li>用于选择将字段插入传出数据包的顺序的<strong>deparser。</strong></li>
+<li>实例化</li>
+</ol>
+<p><strong>headers部分</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* -*- P4_16 -*- *&#x2F;</span><br><span class="line">#include &lt;core.p4&gt;</span><br><span class="line">#include &lt;v1model.p4&gt;</span><br><span class="line"></span><br><span class="line">const bit&lt;8&gt;  UDP_PROTOCOL &#x3D; 0x11;</span><br><span class="line">const bit&lt;16&gt; TYPE_IPV4 &#x3D; 0x800;</span><br><span class="line">const bit&lt;5&gt;  IPV4_OPTION_MRI &#x3D; 31;</span><br><span class="line"></span><br><span class="line">#define MAX_HOPS 9</span><br><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">*********************** H E A D E R S  ***********************************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">typedef bit&lt;9&gt;  egressSpec_t;</span><br><span class="line">typedef bit&lt;48&gt; macAddr_t;</span><br><span class="line">typedef bit&lt;32&gt; ip4Addr_t;</span><br><span class="line">typedef bit&lt;32&gt; switchID_t;</span><br><span class="line">typedef bit&lt;32&gt; qdepth_t;</span><br><span class="line"></span><br><span class="line">header ethernet_t &#123;</span><br><span class="line">    macAddr_t dstAddr;</span><br><span class="line">    macAddr_t srcAddr;</span><br><span class="line">    bit&lt;16&gt;   etherType;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">header ipv4_t &#123;</span><br><span class="line">    bit&lt;4&gt;    version;</span><br><span class="line">    bit&lt;4&gt;    ihl;</span><br><span class="line">    bit&lt;8&gt;    diffserv;</span><br><span class="line">    bit&lt;16&gt;   totalLen;</span><br><span class="line">    bit&lt;16&gt;   identification;</span><br><span class="line">    bit&lt;3&gt;    flags;</span><br><span class="line">    bit&lt;13&gt;   fragOffset;</span><br><span class="line">    bit&lt;8&gt;    ttl;</span><br><span class="line">    bit&lt;8&gt;    protocol;</span><br><span class="line">    bit&lt;16&gt;   hdrChecksum;</span><br><span class="line">    ip4Addr_t srcAddr;</span><br><span class="line">    ip4Addr_t dstAddr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">header ipv4_option_t &#123;</span><br><span class="line">    bit&lt;1&gt; copyFlag;</span><br><span class="line">    bit&lt;2&gt; optClass;</span><br><span class="line">    bit&lt;5&gt; option;</span><br><span class="line">    bit&lt;8&gt; optionLength;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">header mri_t &#123;</span><br><span class="line">    bit&lt;16&gt;  count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">header switch_t &#123;</span><br><span class="line">    switchID_t  swid;</span><br><span class="line">    qdepth_t    qdepth;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct ingress_metadata_t &#123;</span><br><span class="line">    bit&lt;16&gt;  count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct parser_metadata_t &#123;</span><br><span class="line">    bit&lt;16&gt;  remaining;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct metadata &#123;</span><br><span class="line">    ingress_metadata_t   ingress_metadata;</span><br><span class="line">    parser_metadata_t   parser_metadata;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct headers &#123;</span><br><span class="line">    ethernet_t         ethernet;</span><br><span class="line">    ipv4_t             ipv4;</span><br><span class="line">    ipv4_option_t      ipv4_option;</span><br><span class="line">    mri_t              mri;</span><br><span class="line">    switch_t[MAX_HOPS] swtraces;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">error &#123; IPHeaderTooShort &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h4><h5 id="1-先跑不完整的初始版本代码"><a href="#1-先跑不完整的初始版本代码" class="headerlink" title="1 先跑不完整的初始版本代码"></a>1 先跑不完整的初始版本代码</h5><p>先跑一下初始代码看看啥样，以便和之后的做对比</p>
 <ol>
 <li><p>在shell上面跑:</p>
 <blockquote>
@@ -226,7 +258,7 @@
 </li>
 <li><p>准备做的事情是在<code>h1</code>和<code>h2</code>之间发送低速率的流, 在<code>h11</code>和<code>h22</code>之间发送搞俗的测试流。<code>s1</code>和<code>s2</code>之间会形成一个拥塞因为在<code>topology.json</code>里面把带宽削减到了512kbps。因此如果我们在<code>h2</code>收包胡发现连接里面有很长的队列等待长度。</p>
 <p>拓扑如下:</p>
-<p><img src="picture/setup.png" alt="Setup"></p>
+<p><img src="/picture/setup.png" alt="Setup"></p>
 </li>
 <li><p>在make打开的Mininet命令行界面开四个窗口:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mininet&gt; xterm h1 h11 h2 h22</span><br></pre></td></tr></table></figure>
@@ -247,12 +279,29 @@
 <li><p>在h2端,MRI header没有hop信息(count=0)</p>
 </li>
 <li><p>退出来</p>
+<p> 这里h2虽然接到了信息，但是没有关于这条消息经过的路径的信息。完善的内容就是在<code>mri.p4</code>里面完善MRI逻辑来记录路径信息。</p>
+<ol>
+<li><p>到目前的实验结果如下:</p>
+<p><img src="/picture/image-20210309103128712.png" alt="h2"></p>
+<p>会发现h2收到的MRI信息里面的count=0;</p>
+<p>h22中因为线路的带宽有限，几次实验发现15秒发不完:</p>
+<p><img src="/picture/image-20210309103437274.png" alt="h22"></p>
+<p>h1和h11里面是发包的提示信息:</p>
+<p>h1如下:</p>
+<p><img src="/picture/image-20210309103534773.png" alt="h1"></p>
+<p>h11如下:</p>
+<p><img src="/picture/image-20210309103620003.png" alt="h11"></p>
 </li>
 </ol>
-<p>这里h2虽然接到了信息，但是没有关于这条消息经过的路径的信息。完善的内容就是在<code>mri.p4</code>里面完善MRI逻辑来记录路径信息。</p>
-<blockquote>
+</li>
+</ol>
+<h5 id="2-控制平面相关"><a href="#2-控制平面相关" class="headerlink" title="2 控制平面相关"></a>2 控制平面相关</h5><blockquote>
+<p>控制平面相关:P4程序定义了一个数据包处理管道，但是控制数据包的规则是由控制平面插入到管道中的。 当规则与数据包匹配时，将使用控制平面提供的参数作为规则的一部分来调用其动作。在本练习中，控制平面逻辑已经实现。 作为启动Mininet实例的一部分，make脚本将在每个交换机的表中安装数据包处理规则。 这些定义在sX-runtime.json文件中，其中X对应于交换机号。</p>
 </blockquote>
-<h4 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h4>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//s1-runtime.json部分代码</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"target"</span>: <span class="string">"bmv2"</span>,</span><br><span class="line">  <span class="attr">"p4info"</span>: <span class="string">"build/mri.p4.p4info.txt"</span>,</span><br><span class="line">  <span class="attr">"bmv2_json"</span>: <span class="string">"build/mri.json"</span>,</span><br><span class="line">  <span class="attr">"table_entries"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"table"</span>: <span class="string">"MyEgress.swtrace"</span>,</span><br><span class="line">      <span class="attr">"default_action"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"action_name"</span>: <span class="string">"MyEgress.add_swtrace"</span>,</span><br><span class="line">      <span class="attr">"action_params"</span>: &#123;</span><br><span class="line">         <span class="attr">"swid"</span>: <span class="number">1</span></span><br><span class="line">       &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"table"</span>: <span class="string">"MyIngress.ipv4_lpm"</span>,</span><br><span class="line">      <span class="attr">"match"</span>: &#123;</span><br><span class="line">        <span class="attr">"hdr.ipv4.dstAddr"</span>: [<span class="string">"10.0.1.1"</span>, <span class="number">32</span>]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"action_name"</span>: <span class="string">"MyIngress.ipv4_forward"</span>,</span><br><span class="line">      <span class="attr">"action_params"</span>: &#123;</span><br><span class="line">        <span class="attr">"dstAddr"</span>: <span class="string">"08:00:00:00:01:01"</span>,</span><br><span class="line">        <span class="attr">"port"</span>: <span class="number">2</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">//..............还有一部分已经省略</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不难发现这里的表项和拓扑图以及P4代码里面的table息息相关，写法也和之前的P4runtime里面的相似</p>
+<h5 id="3-完善MRI"><a href="#3-完善MRI" class="headerlink" title="3 完善MRI"></a>3 完善MRI</h5><p>见前面的代码实现部分</p>
+<h5 id="4-运行解决方案"><a href="#4-运行解决方案" class="headerlink" title="4 运行解决方案"></a>4 运行解决方案</h5><h4 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h4>
         </div>
 
         <blockquote class="post-copyright">
@@ -260,7 +309,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-03-08T15:31:18.047Z" itemprop="dateUpdated">2021-03-08 23:31:18</time>
+    Last updated: <time datetime="2021-03-09T05:56:07.774Z" itemprop="dateUpdated">2021-03-09 13:56:07</time>
 </span><br>
 
 
