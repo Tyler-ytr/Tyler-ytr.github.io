@@ -28,13 +28,13 @@
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
 <meta property="og:description" content="P4学习-1：介绍与参考资料实验前 P4的PISA(Protocol-Independent Switch Architecture)结构： Programmable  Parser—-&gt;Programmable Match-Action Pipeline—-&gt; Programmable Deparser； Parser作用:程序员声明应该被识别的头和它们在包中的顺序 Match-Ac">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://tyler-ytr.github.io/2021/02/18/p4%E5%AD%A6%E4%B9%A0-1/picture/image-20210220162023603.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210220162023603.png">
 <meta property="article:published_time" content="2021-02-18T03:08:37.000Z">
-<meta property="article:modified_time" content="2021-02-28T15:02:02.015Z">
+<meta property="article:modified_time" content="2021-03-13T03:37:30.534Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="p4">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://tyler-ytr.github.io/2021/02/18/p4%E5%AD%A6%E4%B9%A0-1/picture/image-20210220162023603.png">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/image-20210220162023603.png">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
@@ -208,7 +208,7 @@
 <p>Parser作用:程序员声明应该被识别的头和它们在包中的顺序</p>
 <p>Match-Action作用:程序员定义表和精确的处理算法</p>
 <p>Deparser作用:程序员声明输出的包怎样输出到总线上</p>
-<p><img src="picture/image-20210220162023603.png" alt="image-20210220162023603"></p>
+<p><img src="/picture/image-20210220162023603.png" alt="image-20210220162023603"></p>
 <p>整个结构都是流水线架构，一个来自外部的网络数据包经过层层流程首先被Parser解析出headers,然后进入Match-Action Table进行匹配和操作，这些headsers可以被添加/修改/删除；然后进入Deparser组装好流入外部网络，因为是流水线，所以Match-Action部分是不可以回头的 ；</p>
 </li>
 <li><p>实验部分——文件结构:(主要参考博客)</p>
@@ -246,7 +246,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-02-28T15:02:02.015Z" itemprop="dateUpdated">2021-02-28 23:02:02</time>
+    Last updated: <time datetime="2021-03-13T03:37:30.534Z" itemprop="dateUpdated">2021-03-13 11:37:30</time>
 </span><br>
 
 
