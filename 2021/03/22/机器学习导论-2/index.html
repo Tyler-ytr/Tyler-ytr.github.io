@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>机器学习导论-2 模型评估与选择 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="ML">
+    <meta name="description" content="机器学习导论-2 模型评估与选择空间 假设空间  假设满足XX条件的是好瓜   版本空间  有限训练集，已知XX是好瓜   归纳偏好  假设空间和训练集一致的假设 学习过程中对某种类型假设的偏好称为归纳偏好   No Free Lunch 奥卡姆剃刀：两个模型效果同样好，选择较为简单的    模型评估与选择 经验误差与过拟合  错误率率&amp;误差 错误率：错份样本的占$E&#x3D;a&#x2F;m$ 误差：样本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习导论-2 模型评估与选择">
+<meta property="og:url" content="http://tyler-ytr.github.io/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="机器学习导论-2 模型评估与选择空间 假设空间  假设满足XX条件的是好瓜   版本空间  有限训练集，已知XX是好瓜   归纳偏好  假设空间和训练集一致的假设 学习过程中对某种类型假设的偏好称为归纳偏好   No Free Lunch 奥卡姆剃刀：两个模型效果同样好，选择较为简单的    模型评估与选择 经验误差与过拟合  错误率率&amp;误差 错误率：错份样本的占$E&#x3D;a&#x2F;m$ 误差：样本">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210322111149303.png">
+<meta property="article:published_time" content="2021-03-22T02:18:18.000Z">
+<meta property="article:modified_time" content="2021-03-22T03:14:38.990Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="ML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/image-20210322111149303.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">机器学习导论-2 模型评估与选择</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">机器学习导论-2 模型评估与选择</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2021-03-22T02:18:18.000Z" itemprop="datePublished" class="page-time">
+  2021-03-22
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#机器学习导论-2-模型评估与选择"><span class="post-toc-number">1.</span> <span class="post-toc-text">机器学习导论-2 模型评估与选择</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#空间"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">空间</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#模型评估与选择"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">模型评估与选择</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-机器学习导论-2"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">机器学习导论-2 模型评估与选择</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2021-03-22 10:18:18" datetime="2021-03-22T02:18:18.000Z"  itemprop="datePublished">2021-03-22</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="机器学习导论-2-模型评估与选择"><a href="#机器学习导论-2-模型评估与选择" class="headerlink" title="机器学习导论-2 模型评估与选择"></a>机器学习导论-2 模型评估与选择</h2><h3 id="空间"><a href="#空间" class="headerlink" title="空间"></a>空间</h3><ul>
+<li><p>假设空间</p>
+<ul>
+<li>假设满足XX条件的是好瓜</li>
+</ul>
+</li>
+<li><p>版本空间</p>
+<ul>
+<li>有限训练集，已知XX是好瓜</li>
+</ul>
+</li>
+<li><p>归纳偏好</p>
+<ul>
+<li>假设空间和训练集一致的假设</li>
+<li>学习过程中对某种类型假设的偏好称为归纳偏好</li>
+</ul>
+</li>
+<li>No Free Lunch<ul>
+<li>奥卡姆剃刀：两个模型效果同样好，选择较为简单的</li>
+</ul>
+</li>
+</ul>
+<h3 id="模型评估与选择"><a href="#模型评估与选择" class="headerlink" title="模型评估与选择"></a>模型评估与选择</h3><ul>
+<li><p>经验误差与过拟合</p>
+<ul>
+<li>错误率率&amp;误差<ul>
+<li>错误率：错份样本的占$E=a/m$</li>
+<li>误差：样本真实输出与预测输出之间的差异<ul>
+<li>训练（经验）误差：训练集上</li>
+<li>测试误差：测试集</li>
+<li>泛化误差：初训练集外所有样本</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>过拟合</p>
+<ul>
+<li>学习器把训练样本学习的“太好”，将训练样本本身的特点当作所有样本的一般性质，导致泛化性能下降</li>
+<li>优化目标加正则项</li>
+<li>Early stop</li>
+</ul>
+</li>
+<li><p>欠拟合</p>
+<ul>
+<li>对训练样本的一般性质尚未学好</li>
+<li>决策树：扩展分支</li>
+<li>神经网络：增加训练层数</li>
+</ul>
+</li>
+<li><p>评估方法</p>
+<ul>
+<li>留出法<ul>
+<li>直接将数据集划分为两个互斥集合</li>
+<li>训练/测试集划分要尽可能保持数据分布的一致性</li>
+<li>一般若干次随机划分，重复实验取平均值</li>
+<li>训练/测试样本比例通常为2:1～4:1</li>
+</ul>
+</li>
+<li>交叉验证法<ul>
+<li>将数据集分层采样划分为$k$个大小相似的互斥子集</li>
+</ul>
+</li>
+<li>自助法<ul>
+<li>以自助采样法为基础，对数据集$D$有放回采样$m$次得到训练集$D^{\prime}$，$D\backslash D^{\prime}$用作测试集</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>性能度量</p>
+<ul>
+<li><p>性能度量是衡量模型泛化能力的评价标准，反映任务的需求</p>
+<ul>
+<li>回归任务最常用的是“均方误差”： <ul>
+<li>$E(f:D)=\frac{1}{m}\sum_{i=1}^{m}(f(x_i)-y_i)^{2}$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>查准率 $P=\frac{TP}{TP+FP}$</p>
+</li>
+<li><p>查全率 $R=\frac{TP}{TP+FN}$</p>
+</li>
+<li><p>$P-R$曲线：根据学习器的预测结果对样例排序，“最可能”的正例的在前面，排在最后的是“最不可能”是正例的样本，按此顺序把样本作为整理进行预测，每一次计算出当前的P,R然后以P为纵轴，R为横轴作图</p>
+</li>
+<li><p>如何利用多次训练得到了多个混淆矩阵？</p>
+<ul>
+<li><p>macro-F1:</p>
+<script type="math/tex; mode=display">
+macro-P=\frac{1}{n}\sum^{n}_{i=1}P_i\\
+macro-R=\frac{1}{n}\sum^{n}_{i=1}R_i\\
+macro-F_1=\frac{2\times macro-P\times macro-R}{macro-P+macro-R}</script><p>也就是平均P,R之后再算</p>
+</li>
+<li><p>micro-F1:</p>
+<script type="math/tex; mode=display">
+micro-P=\frac{\overline{TP}}{\overline{TP}+\overline{FP}}\\
+micro-R=\frac{\overline{TP}}{\overline{TP}+\overline{FN}}\\
+micro-F1=\frac{2\times micro-P\times micro-R}{micro-P+micro-R}</script></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>$F1$ measure：$\frac{2\times TP}{N+TP-TN}$</p>
+</li>
+<li><p>AUC预测了排序质量,越高越好；</p>
+<script type="math/tex; mode=display">
+AUC=\frac{1}{2}\sum_{i=1}^{m-1}(x_{i+1}-x_{i})\cdot(y_{i}+y_{i+1})</script><p>AUC与排序的密切关系:考虑每一个正反例，若正例的预测值小于反例，那么就计算一个“罚分”：</p>
+<script type="math/tex; mode=display">
+\mathcal{l}_{tank}=\frac{1}{m^+m^-}\sum_{x^+\in D^+}\sum_{x^-\in D^-}(\mathbb{I}(f(x^+)<f(x^-))+\frac{1}{2}\mathbb{I}(f(x^+)=f(x^-)))</script><script type="math/tex; mode=display">
+AUC=1-\mathcal{l}_{tank}</script></li>
+</ul>
+<ul>
+<li><p>代价敏感错误率:</p>
+<p>损失是不一样大的一些任务里面，比如漏掉一个病人，放进去一个小偷等等，要考虑“非均等代价”</p>
+<p>建立一个二分类代价矩阵里面有预测类别的cost,然后就就可以得到加权的代价敏感的错误率</p>
+<blockquote>
+<p>这部分的重点是用户到底想要什么？标准型是什么？优化目标是什么？</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>性能评估</p>
+<ul>
+<li><p>关于性能比较:某种度量取得评估结果之后能不能直接评价优劣？</p>
+<ul>
+<li>测试性能并不等于泛化性能</li>
+<li>测试性能随着测试集的变化而变化</li>
+<li>很多机器学习算法本身有一定的随机性</li>
+<li>直接选取相应评估方式在相应条件下评估并不可靠</li>
+</ul>
+</li>
+<li><p>二项检验</p>
+<ul>
+<li>泛化错误率为$\epsilon$，测试错误率为$\hat{\epsilon}$，嘉定测试样本从样本总体分布中独立采样而来，我们可以使用“二项检验”，对于$\epsilon&lt;epsilon_{0}$进行假设检验。</li>
+<li>假设$\epsilon\leq\epsilon_{0}$，若测试错误率小于</li>
+</ul>
+</li>
+<li><p>$t$检验</p>
+<blockquote>
+<p>统计学的原来的方法：t检验中训练的数据可能不是那么独立，也许是一个“过高”的估计</p>
+</blockquote>
+</li>
+<li><p>交叉验证$t$检验</p>
+<blockquote>
+<p>5*2交叉验证的含义：</p>
+<p>两折：把数据分成两部分，一部分训练一部分测验；</p>
+<p>五次：把数据洗五次，每次做两折；</p>
+<p>目的：减小某一个数据集的误导</p>
+</blockquote>
+</li>
+<li><p>McNemar检验:</p>
+<blockquote>
+<p>关注正确-正确，错误-错误</p>
+</blockquote>
+</li>
+<li><p>多学习器比较:</p>
+<p>使用Friedman+Nemenyi</p>
+<blockquote>
+<p>算法的好坏不具有传递性：算法A比算法B好；算法B比算法C好；不等于A比C好</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>偏差和方差</p>
+<ul>
+<li><p>对于测试样本$x$，令$y_{D}$为$x$在数据集中的标记，$y$为$x$的真实标记，$f(x;D)$为训练集$D$上学的模型$f$在$x$上的预测输出。</p>
+</li>
+<li><p>以回归任务为例：</p>
+<ul>
+<li><p>期望预期为：$\bar{f}(x)=\mathbb{E}_{D}[f(x;D)]$；</p>
+</li>
+<li><p>使用样本数目相同的不同训练集产生的方差为$var(x)=\mathbb{E}_{D}[(f(x:D)-\bar{f}(x))^{2}]$；(每次做的浮动范围)</p>
+</li>
+<li><p>噪声为$\varepsilon^{2}=\mathbb{E}_{D}[(y_{D}-y)^{2}]$: 本真误差</p>
+</li>
+<li><p>偏差$bias^2(x)=(\overline{f}(x)-y)^2$ 期望输出和真实输出的差别</p>
+<p>比较清晰的图示(周老师真nb):</p>
+<p><img src="/picture/image-20210322111149303.png" alt="image-20210322111149303"></p>
+</li>
+</ul>
+</li>
+<li><p>$E(f;D)=bias^{2}(x)+var(x)+\varepsilon^2$</p>
+<blockquote>
+<p>一开始偏差(bias)起到主要的作用，后来是数据造成的扰动(方差)起到主要的作用，然后overfitting一般情况下是在后者气主要作用的时候产生的，因为其实学习的是数据本身的特征</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2021-03-22T03:14:38.990Z" itemprop="dateUpdated">2021-03-22 11:14:38</time>
+</span><br>
+
+
+        
+        Link：<a href="/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/" target="_blank" rel="external">http://tyler-ytr.github.io/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ML/" rel="tag">ML</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/&title=《机器学习导论-2 模型评估与选择》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/&title=《机器学习导论-2 模型评估与选择》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《机器学习导论-2 模型评估与选择》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-3/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">机器学习导论-3</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2021/03/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-1/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">机器学习导论-1 绪论与数学参考</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/&title=《机器学习导论-2 模型评估与选择》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/&title=《机器学习导论-2 模型评估与选择》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《机器学习导论-2 模型评估与选择》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/03/22/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADOElEQVR42u3awW7bQAwE0Pz/T6dATy0aKzOkg1rrp5MRx9I+Ggizw/34iK/P39efrx/95N8rv1ty53/v8+gpT7iwsbGxb8JOFv3o9fXj8wIl5b4uXP0FYGNjYx/H3reZ65ZzXZTk3bYE3xixsbGx35K9/w//uqUlq0oaGDY2NjZ2HiRd3yffcrSl/A99GxsbG/vl2W2buX5AGxjlW5GE/eQsDRsbG/vl2bNB72u+/vH5NjY2NvaLsT/La7ZFmcX9eQusFdjY2NgHsfN4aDPE3Y+Q8yAp/xqwsbGxz2PnS5mNB9qyzqL/YoCBjY2NfQT7uSlUOxKYleC6lNFXhY2NjX0oexYnJZh86bNBbx1LYWNjYx/Hzv/0zxaat6s2lpq1N2xsbOzz2PsgfhY8/URclRQFGxsb+yR2wst/p908tLzZUCFKwrCxsbFvzt4coGmP7+SA1QAg+X1sbGzsQ9n53/x8oZswqN3S5FspbGxs7JPYScQzO46TN8VkMzNrbNjY2NjvwM7D99khnvx1O0jeHB7CxsbGPoOdjwHyW+8LN9ucFAeMsLGxsd+MnV85tS3BsyKqooFhY2Nj35y9D+Lz4z55mdpG9fBdbGxs7OPYbWNotw2zbUZLSsYJfzUwbGxs7CPYeVvKo/xNMLQf+uaDBGxsbOx3YLeHY5K75c/KxxWzgAkbGxv7PHbyyE3o05ZgdtCnCLywsbGxj2DnW4X9ViTfeOTbldnAGBsbG/sk9mZD0h7iaUcI+ajgelXfrBYbGxv7CHbbnPJwpw2hZoVr2yQ2Njb2Sew23GlbXf7zWXtrIypsbGzs89j5v/uz4zKbozltyFWPk7GxsbGPYLch/mZ8u7nDZgPzhQUbGxv7OPYmcG8P0OTFfdZw4ovnYmNjYx/Hzq/98LUFb9ZTHNPBxsbGvi07v9rNQH4Ep42Hkk/Nxg/Y2NjY92W3t54VKyncLK7KQzFsbGzss9ntkZr86Ey+6PbOm6JjY2Njvyc7H7Lmw902imoHzw/vjI2Njf3G7GclWLM4qd2cFDkZNjY29s3Zm8ckwdP1p9poqR1FrLI0bGxs7Jdnz4L+fPS7+ey+4WFjY2Mfzf4FBsdkF7pgCJIAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
