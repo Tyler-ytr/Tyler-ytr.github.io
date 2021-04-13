@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>匈牙利算法 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="图论">
+    <meta name="description" content="匈牙利算法匈牙利算法适用于二分图匹配有关的问题 二分图（Bipartite graph）是一类特殊的图，它可以被划分为两个部分，每个部分内的点互不相连。下图是典型的二分图。                                                                                              img              可以看">
+<meta property="og:type" content="article">
+<meta property="og:title" content="匈牙利算法">
+<meta property="og:url" content="http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="匈牙利算法匈牙利算法适用于二分图匹配有关的问题 二分图（Bipartite graph）是一类特殊的图，它可以被划分为两个部分，每个部分内的点互不相连。下图是典型的二分图。                                                                                              img              可以看">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/picture/v2-81f21981c992bc0b5b1acf04b37ff6c2_720w.jpg">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/picture/2019072120555471.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/picture/20190721205858715.png">
+<meta property="article:published_time" content="2021-04-13T07:12:02.000Z">
+<meta property="article:modified_time" content="2021-04-13T07:47:36.157Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="图论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/picture/v2-81f21981c992bc0b5b1acf04b37ff6c2_720w.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">匈牙利算法</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">匈牙利算法</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2021-04-13T07:12:02.000Z" itemprop="datePublished" class="page-time">
+  2021-04-13
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/">算法模板</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#匈牙利算法"><span class="post-toc-number">1.</span> <span class="post-toc-text">匈牙利算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#邻接矩阵算法"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">邻接矩阵算法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#邻接链表算法"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">邻接链表算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#邻接链表数据结构"><span class="post-toc-number">1.0.2.1.</span> <span class="post-toc-text">邻接链表数据结构</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#邻接链表匈牙利"><span class="post-toc-number">1.0.2.2.</span> <span class="post-toc-text">邻接链表匈牙利</span></a></li></ol></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-匈牙利算法"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">匈牙利算法</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2021-04-13 15:12:02" datetime="2021-04-13T07:12:02.000Z"  itemprop="datePublished">2021-04-13</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/">算法模板</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="匈牙利算法"><a href="#匈牙利算法" class="headerlink" title="匈牙利算法"></a>匈牙利算法</h2><p>匈牙利算法适用于二分图匹配有关的问题</p>
+<p><strong>二分图</strong>（<strong>Bipartite graph</strong>）是一类特殊的<strong>图</strong>，它可以被划分为两个部分，每个部分内的点互不相连。下图是典型的二分图。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="picture/v2-81f21981c992bc0b5b1acf04b37ff6c2_720w.jpg" alt="img" title="">
+                </div>
+                <div class="image-caption">img</div>
+            </figure>
+<p>可以看到，在上面的二分图中，每条边的端点都分别处于点集X和Y中。匈牙利算法主要用来解决两个问题：求二分图的<strong>最大匹配数</strong>和<strong>最小点覆盖数</strong>。</p>
+<p>在图论中，一个“匹配”（matching）是一个边的集合，其中任意两条边都没有公共顶点。</p>
+<p>最大匹配：一个图所有匹配中，所含匹配边数最多的匹配，称为这个图的最大匹配。<br>完美匹配：如果一个图的某个匹配中，所有的顶点都是匹配点，那么它就是一个完美匹配。</p>
+<p>交替路：从一个未匹配点出发，依次经过非匹配边、匹配边、非匹配边…形成的路径叫交替路。</p>
+<p>增广路：从一个未匹配点出发，走交替路，如果途径另一个未匹配点（出发的点不算），则这条交替路称为增广路。</p>
+<hr>
+<h4 id="邻接矩阵算法"><a href="#邻接矩阵算法" class="headerlink" title="邻接矩阵算法"></a>邻接矩阵算法</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n,m;<span class="comment">//m代表右侧集合的元素数量,n代表左侧集合的元素数量</span></span><br><span class="line"><span class="keyword">int</span> <span class="built_in">map</span>[MAXN][MAXN];<span class="comment">//邻接矩阵存图</span></span><br><span class="line"><span class="keyword">int</span> match[MAXN];<span class="comment">//记录当前右侧元素所对一个的左侧元素</span></span><br><span class="line"><span class="keyword">bool</span> vis[MAXN];<span class="comment">//记录右侧元素是否被访问过</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; ++i)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">map</span>[x][i] &amp;&amp; !vis[i]) &#123;<span class="comment">//右边并且i没有被访问</span></span><br><span class="line">            vis[i] = <span class="literal">true</span>;<span class="comment">//记录状态为访问过</span></span><br><span class="line">            <span class="keyword">if</span>(match[i] == <span class="number">0</span> || <span class="built_in">find</span>(match[i]))&#123;<span class="comment">//如果暂无匹配，或者原来匹配的左侧元素可以找到新的匹配</span></span><br><span class="line">                match[i] = x;<span class="comment">//当前左侧元素成为当前右侧元素的新匹配</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;<span class="comment">//返回匹配成功</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">//循环结束，仍未找到匹配，返回匹配失败</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Hungarian</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="built_in">memset</span>(vis, <span class="number">0</span> , <span class="keyword">sizeof</span>(vis));</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">find</span>(i)) ans ++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="邻接链表算法"><a href="#邻接链表算法" class="headerlink" title="邻接链表算法"></a>邻接链表算法</h4><h5 id="邻接链表数据结构"><a href="#邻接链表数据结构" class="headerlink" title="邻接链表数据结构"></a>邻接链表数据结构</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> to,next;</span><br><span class="line">&#125;edge[maxn];</span><br><span class="line"><span class="comment">//to 是该边指向的点 next表示源点为x的下一条边，这是遍历以x为源点的关键</span></span><br><span class="line"><span class="keyword">int</span> head[maxn],tot;<span class="comment">//tot当前的边的数量;head[x]表示以x为源点的第一条边，初始值为-1</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    tot=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">memset</span>(head,<span class="number">-1</span>,<span class="keyword">sizeof</span>(head));</span><br><span class="line">&#125;<span class="comment">//初始化函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addedge</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    edge[tot].to=v;<span class="comment">//对边进行编号</span></span><br><span class="line">    edge[tot].next=head[u];<span class="comment">//将U这个点上一次连接的点记录如果没有即为-1</span></span><br><span class="line">    head[u]=tot++;<span class="comment">//等于边的编号，之后edge[head[u]]即可调用这个边</span></span><br><span class="line">&#125;<span class="comment">//加边函数</span></span><br></pre></td></tr></table></figure>
+<p>理解一下邻接链表：</p>
+<p>邻接矩阵如下，但是它不适合稀疏图</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="picture/2019072120555471.png" alt="在这里插入图片描述" title="">
+                </div>
+                <div class="image-caption">在这里插入图片描述</div>
+            </figure>
+<p>邻接链表适合稀疏图：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="picture/20190721205858715.png" alt="在这里插入图片描述" title="">
+                </div>
+                <div class="image-caption">在这里插入图片描述</div>
+            </figure>
+<p>因此结合上面的代码，head数组相当于邻接链表的一个个头，head[a]可以得到a的第一个边，通过edge[head[a]]获得，然后edge[head[a]].next可以得到下一条边的编号……</p>
+<h5 id="邻接链表匈牙利"><a href="#邻接链表匈牙利" class="headerlink" title="邻接链表匈牙利"></a>邻接链表匈牙利</h5> <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn=<span class="number">50010</span>;<span class="comment">//边数的最大值</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> to,next;</span><br><span class="line">&#125;edge[maxn];</span><br><span class="line"><span class="comment">//to 是该边指向的点 next是这个点上次用的边的编号，用来找到这个点上次和其他点维持的边关系 edge的下标代表边的编号</span></span><br><span class="line"><span class="keyword">int</span> head[maxn],tot;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    tot=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">memset</span>(head,<span class="number">-1</span>,<span class="keyword">sizeof</span>(head));</span><br><span class="line">&#125;<span class="comment">//初始化函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addedge</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    edge[tot].to=v;<span class="comment">//对边进行编号</span></span><br><span class="line">    edge[tot].next=head[u];<span class="comment">//将U这个点上一次连接的点记录如果没有即为-1</span></span><br><span class="line">    head[u]=tot++;<span class="comment">//等于边的编号，之后edge[head[u]]即可调用这个边</span></span><br><span class="line">&#125;<span class="comment">//加边函数</span></span><br><span class="line"><span class="keyword">int</span> linker[maxn];</span><br><span class="line"><span class="keyword">bool</span> used[maxn];<span class="comment">//记录右侧元素是否被访问过</span></span><br><span class="line"><span class="keyword">int</span> uN;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[u];i!=<span class="number">-1</span>;i = edge[i].next)<span class="comment">//顺着边过去，一直遍历和这个点连接过的点和边</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v=edge[i].to;</span><br><span class="line">        <span class="keyword">if</span>(!used[v])</span><br><span class="line">        &#123;</span><br><span class="line">            used[v]=<span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">if</span>(linker[v]==<span class="number">-1</span> || dfs(linker[v]))</span><br><span class="line">            &#123;</span><br><span class="line">                linker[v]=u;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Hungarian</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">memset</span>(linker,<span class="number">-1</span>,<span class="keyword">sizeof</span>(linker));</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> u=<span class="number">0</span>;u&lt;uN;u++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">memset</span>(used,<span class="literal">false</span>,<span class="keyword">sizeof</span>(used));</span><br><span class="line">        <span class="keyword">if</span>(dfs(u)) res++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2021-04-13T07:47:36.157Z" itemprop="dateUpdated">2021-04-13 15:47:36</time>
+</span><br>
+
+
+        
+        Link：<a href="/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/" target="_blank" rel="external">http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag">图论</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/&title=《匈牙利算法》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/&title=《匈牙利算法》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《匈牙利算法》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2021/04/13/C-%E9%A2%84%E5%A4%84%E7%90%86%E6%8C%87%E4%BB%A4/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">C++预处理指令</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/&title=《匈牙利算法》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/&title=《匈牙利算法》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《匈牙利算法》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvElEQVR42u3aQW7jQAwEwPz/015gr4btbnIm8aF0CgxZmhoDEtPkz098PP4fz588f56f/3g6kvN/bhx4eHh4o6W/Ot6fk9z41ZkbXrJmPDw8vNu8fFn5y2MGfv9sz9eMh4eH9w2892X0+1I7KcFf3bHdCDw8PLzv5OUlb36v95uCh4eH9228WdywOT+/Th6O4OHh4f0O71R88Jt/X+zv4eHh4S266psCur3arGH24cp4eHh4F3izdv77saq8MXaqDfbhu3h4eHgXeLNYYXbjvDE2a5gV5TUeHh7eiJe3qfKH+CyEzbe4GCnAw8PDu8bbNPvb53D+d361D1kLHh4e3lHe/vnZNsw25fJqMgIPDw/vKC9ZXH6JNoCYvRLye+Hh4eHd4+XRbbK4/ShVe/7qTYWHh4cX89qGff6gbwFt6RytHw8PD+8ab1M0byKGttmWv6Lw8PDw7vH2tWgbZOStr/wVUv8PgYeHh7fgbcanWsYmxs1fYB+GBvDw8PDWvLwUbovmWVA7CyOioSs8PDy8Q7z8Idtuwalvbdh4eHh493h5MNGemTTM2qsVMTQeHh7eZd6mDbaPZffFd5S14OHh4a157cBT3oKalcgzQPTD4OHh4V3gtSVyGxnMwot8c5PgGA8PD2/Pa1v4SaXahhHtqEFxBTw8PLwLvNk41IyRf57z6tAZDw8Pb81L/o2fRb2zMalkW4uYAw8PD+8CLwkI2shgH9HWgWwyjoCHh4d3iPcoj3Ycqg1nZ0MD0bgAHh4e3iFefrRL2YyltqNdB5B4eHh4Ja8NBdqWWMLerKHu8uHh4eEd4uXlbBLXtg2wfYkcBbh4eHh4f8rLv9U20jZbduzFgIeHh3eIN4sP9lszhOHh4eFd5rXDT7NbzsKF/MeoBwjw8PDwRry2AdY2tNrGWL5lx7p8eHh4eOk5/wAbbdpP5GG4xgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
