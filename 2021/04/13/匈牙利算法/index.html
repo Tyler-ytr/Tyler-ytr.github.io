@@ -28,15 +28,15 @@
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
 <meta property="og:description" content="匈牙利算法匈牙利算法适用于二分图匹配有关的问题 二分图（Bipartite graph）是一类特殊的图，它可以被划分为两个部分，每个部分内的点互不相连。下图是典型的二分图。                                                                                              img              可以看">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/picture/v2-81f21981c992bc0b5b1acf04b37ff6c2_720w.jpg">
-<meta property="og:image" content="http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/picture/2019072120555471.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/picture/20190721205858715.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/v2-81f21981c992bc0b5b1acf04b37ff6c2_720w.jpg">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/2019072120555471.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/20190721205858715.png">
 <meta property="article:published_time" content="2021-04-13T07:12:02.000Z">
-<meta property="article:modified_time" content="2021-04-13T07:47:36.157Z">
+<meta property="article:modified_time" content="2021-04-13T07:55:50.662Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="图论">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://tyler-ytr.github.io/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/picture/v2-81f21981c992bc0b5b1acf04b37ff6c2_720w.jpg">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/v2-81f21981c992bc0b5b1acf04b37ff6c2_720w.jpg">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
@@ -209,7 +209,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/v2-81f21981c992bc0b5b1acf04b37ff6c2_720w.jpg" alt="img" title="">
+                    <img src="/picture/v2-81f21981c992bc0b5b1acf04b37ff6c2_720w.jpg" alt="img" title="">
                 </div>
                 <div class="image-caption">img</div>
             </figure>
@@ -226,17 +226,17 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/2019072120555471.png" alt="在这里插入图片描述" title="">
+                    <img src="/picture/2019072120555471.png" alt="邻接矩阵" title="">
                 </div>
-                <div class="image-caption">在这里插入图片描述</div>
+                <div class="image-caption">邻接矩阵</div>
             </figure>
 <p>邻接链表适合稀疏图：</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/20190721205858715.png" alt="在这里插入图片描述" title="">
+                    <img src="/picture/20190721205858715.png" alt="邻接链表" title="">
                 </div>
-                <div class="image-caption">在这里插入图片描述</div>
+                <div class="image-caption">邻接链表</div>
             </figure>
 <p>因此结合上面的代码，head数组相当于邻接链表的一个个头，head[a]可以得到a的第一个边，通过edge[head[a]]获得，然后edge[head[a]].next可以得到下一条边的编号……</p>
 <h5 id="邻接链表匈牙利"><a href="#邻接链表匈牙利" class="headerlink" title="邻接链表匈牙利"></a>邻接链表匈牙利</h5> <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn=<span class="number">50010</span>;<span class="comment">//边数的最大值</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> to,next;</span><br><span class="line">&#125;edge[maxn];</span><br><span class="line"><span class="comment">//to 是该边指向的点 next是这个点上次用的边的编号，用来找到这个点上次和其他点维持的边关系 edge的下标代表边的编号</span></span><br><span class="line"><span class="keyword">int</span> head[maxn],tot;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    tot=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">memset</span>(head,<span class="number">-1</span>,<span class="keyword">sizeof</span>(head));</span><br><span class="line">&#125;<span class="comment">//初始化函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addedge</span><span class="params">(<span class="keyword">int</span> u,<span class="keyword">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    edge[tot].to=v;<span class="comment">//对边进行编号</span></span><br><span class="line">    edge[tot].next=head[u];<span class="comment">//将U这个点上一次连接的点记录如果没有即为-1</span></span><br><span class="line">    head[u]=tot++;<span class="comment">//等于边的编号，之后edge[head[u]]即可调用这个边</span></span><br><span class="line">&#125;<span class="comment">//加边函数</span></span><br><span class="line"><span class="keyword">int</span> linker[maxn];</span><br><span class="line"><span class="keyword">bool</span> used[maxn];<span class="comment">//记录右侧元素是否被访问过</span></span><br><span class="line"><span class="keyword">int</span> uN;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=head[u];i!=<span class="number">-1</span>;i = edge[i].next)<span class="comment">//顺着边过去，一直遍历和这个点连接过的点和边</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v=edge[i].to;</span><br><span class="line">        <span class="keyword">if</span>(!used[v])</span><br><span class="line">        &#123;</span><br><span class="line">            used[v]=<span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">if</span>(linker[v]==<span class="number">-1</span> || dfs(linker[v]))</span><br><span class="line">            &#123;</span><br><span class="line">                linker[v]=u;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Hungarian</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">memset</span>(linker,<span class="number">-1</span>,<span class="keyword">sizeof</span>(linker));</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> u=<span class="number">0</span>;u&lt;uN;u++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">memset</span>(used,<span class="literal">false</span>,<span class="keyword">sizeof</span>(used));</span><br><span class="line">        <span class="keyword">if</span>(dfs(u)) res++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -248,7 +248,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-04-13T07:47:36.157Z" itemprop="dateUpdated">2021-04-13 15:47:36</time>
+    Last updated: <time datetime="2021-04-13T07:55:50.662Z" itemprop="dateUpdated">2021-04-13 15:55:50</time>
 </span><br>
 
 
