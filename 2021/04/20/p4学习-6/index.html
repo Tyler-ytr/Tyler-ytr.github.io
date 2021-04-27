@@ -28,16 +28,16 @@
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
 <meta property="og:description" content="p4学习-6:实现网络测量实验目标这个练习的目标是写一个P4程序允许一个主机区检测网络中所有链路的利用情况。这个练习是在基础的IPV4 forwarding练习上搭建的。具体来说，我们将修改基本的P4程序，以处理源路由探测包，使其能够在每一跳提取出口链路利用率，并将其交付给主机进行监控。 探测包由下面三种header types组成: 1234567891011121314151617181920">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/picture/link-monitor-topo.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/picture/image-20210420125915925.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/picture/eY8DUtD.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/picture/Q8efPRm.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/link-monitor-topo.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210420125915925.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/eY8DUtD.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/Q8efPRm.png">
 <meta property="article:published_time" content="2021-04-20T04:16:42.000Z">
-<meta property="article:modified_time" content="2021-04-21T13:30:11.671Z">
+<meta property="article:modified_time" content="2021-04-27T08:04:18.813Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="p4">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/picture/link-monitor-topo.png">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/link-monitor-topo.png">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
@@ -211,7 +211,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/link-monitor-topo.png" alt="topology" title="">
+                    <img src="/picture/link-monitor-topo.png" alt="topology" title="">
                 </div>
                 <div class="image-caption">topology</div>
             </figure>
@@ -226,7 +226,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/image-20210420125915925.png" alt="image-20210420125915925" title="">
+                    <img src="/picture/image-20210420125915925.png" alt="image-20210420125915925" title="">
                 </div>
                 <div class="image-caption">image-20210420125915925</div>
             </figure>
@@ -250,7 +250,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/eY8DUtD.png" alt="二叉FatTree" title="">
+                    <img src="/picture/eY8DUtD.png" alt="二叉FatTree" title="">
                 </div>
                 <div class="image-caption">二叉FatTree</div>
             </figure>
@@ -258,7 +258,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/Q8efPRm.png" alt="四叉FatTree" title="">
+                    <img src="/picture/Q8efPRm.png" alt="四叉FatTree" title="">
                 </div>
                 <div class="image-caption">四叉FatTree</div>
             </figure>
@@ -326,7 +326,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-04-21T13:30:11.671Z" itemprop="dateUpdated">2021-04-21 21:30:11</time>
+    Last updated: <time datetime="2021-04-27T08:04:18.813Z" itemprop="dateUpdated">2021-04-27 16:04:18</time>
 </span><br>
 
 
