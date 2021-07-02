@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Tyler-ytr.github.io/"/>
-  <updated>2021-04-27T16:17:31.093Z</updated>
+  <updated>2021-07-02T07:38:25.146Z</updated>
   <id>http://Tyler-ytr.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>学校服务器访问外网的配置</title>
+    <link href="http://Tyler-ytr.github.io/2021/07/02/%E5%AD%A6%E6%A0%A1%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91%E7%9A%84%E9%85%8D%E7%BD%AE/"/>
+    <id>http://Tyler-ytr.github.io/2021/07/02/学校服务器访问外网的配置/</id>
+    <published>2021-07-02T07:37:05.000Z</published>
+    <updated>2021-07-02T07:38:25.146Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="访问外网的配置"><a href="#访问外网的配置" class="headerlink" title="访问外网的配置"></a>访问外网的配置</h1><p>服务器1命令行中使用:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setproxy</span><br></pre></td></tr></table></figure><p>就可以通过代理服务器1的服务器1的端口访问外网。</p><h3 id="NAT的方法-目前不用，仅作参考"><a href="#NAT的方法-目前不用，仅作参考" class="headerlink" title="NAT的方法(目前不用，仅作参考)"></a>NAT的方法(目前不用，仅作参考)</h3><p>服务器1可以上外网；服务器2不能上外网，但是在内网与服务器1互通；下面的操作是用iptables在服务器1上对服务器2搭建一个NAT; 并且修改服务器2的默认路由，达到服务器2访问外网的目的；</p><h4 id="服务器1"><a href="#服务器1" class="headerlink" title="服务器1"></a>服务器1</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A POSTROUTING -s 服务器2 -j MASQUERADE</span><br></pre></td></tr></table></figure><p>查看iptables：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -t nat -L</span><br></pre></td></tr></table></figure><p>带检索的查看iptables:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -t nat -L POSTROUTING --line-numbers</span><br></pre></td></tr></table></figure><p>删除刚刚操作之后的表项:(请根据查询的编号决定是不是1)</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -t nat -D POSTROUTING 1</span><br></pre></td></tr></table></figure><h4 id="服务器2"><a href="#服务器2" class="headerlink" title="服务器2"></a>服务器2</h4><p>查看路由</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route -n</span><br></pre></td></tr></table></figure><p>增加默认路由:(这个操作可能会让ssh连接断掉)</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo route add default gw 服务器1</span><br></pre></td></tr></table></figure><p>删除路由:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo route del default gw 服务器1</span><br></pre></td></tr></table></figure><h4 id="具体实现流程"><a href="#具体实现流程" class="headerlink" title="具体实现流程:"></a>具体实现流程:</h4><p>A表示服务器1；B表示服务器2</p><p>首先用在A上iptables -t nat -A POSTROUTING -s B的地址 -j MASQUERADE；然后SSH连接B；B上用sudo route add default gw A的地址；此时SSH 会连接B失败；然后从A上用SSH连接B；此时连接的B可以通过A的NAT访问外网然后安装v2ray;然后删除路由;退出之后在A上删除刚刚的iptables表项</p><p>iptables那步的作用是搭建了A对于B开启了nat服务;B通过修改路由把数据包转发到A上，进而访问外网;</p><p>上面的方法也是一种上网方法；只不过不是很方便</p><p>配置完之后通过v2ray访问外网;</p><h4 id="实现流程的反思"><a href="#实现流程的反思" class="headerlink" title="实现流程的反思"></a>实现流程的反思</h4><p>实际上可能不需要那么复杂。在能出外网的服务器1上面安装v2ray，更改配置文件保证http,socks5的代理就行了；不能连接外网的服务器通过export ALL_PROXY=socks5://服务器1的地址:端口;就可以出去了</p><h3 id="v2ray（目前使用）"><a href="#v2ray（目前使用）" class="headerlink" title="v2ray（目前使用）"></a>v2ray（目前使用）</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>通过来自<a href="https://github.com/v2fly/fhs-install-v2ray的脚本安装" target="_blank" rel="noopener">https://github.com/v2fly/fhs-install-v2ray的脚本安装</a>;</p><p><strong>v2ray启用:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable v2ray</span><br></pre></td></tr></table></figure><p><strong>v2ray打开:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start v2ray</span><br></pre></td></tr></table></figure><p><strong>v2ray关闭:</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop v2ray</span><br></pre></td></tr></table></figure><p>每次修改完配置文件之后需要重启</p><h4 id="服务器1-1"><a href="#服务器1-1" class="headerlink" title="服务器1"></a>服务器1</h4><p>配置文件</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;log&quot;: &#123;</span><br><span class="line">&quot;access&quot;: &quot;&#x2F;var&#x2F;log&#x2F;v2ray&#x2F;access.log&quot;,</span><br><span class="line">&quot;error&quot;: &quot;&#x2F;var&#x2F;log&#x2F;v2ray&#x2F;error.log&quot;,</span><br><span class="line">&quot;loglevel&quot;: &quot;warning&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">&quot;inbounds&quot;: [</span><br><span class="line">&#123;</span><br><span class="line">      &quot;port&quot;: 端口号,</span><br><span class="line">      &quot;protocol&quot;: &quot;http&quot;,</span><br><span class="line">      &quot;settings&quot;: &#123;&#125;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">      &quot;port&quot;: 端口号,</span><br><span class="line">      &quot;protocol&quot;: &quot;socks&quot;,</span><br><span class="line">      &quot;settings&quot;: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">],</span><br><span class="line">&quot;outbounds&quot;: [</span><br><span class="line">&#123;</span><br><span class="line">&quot;protocol&quot;: &quot;freedom&quot;,</span><br><span class="line">&quot;settings&quot;: &#123;&#125;,</span><br><span class="line">&quot;tag&quot;: &quot;direct&quot;</span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line">&quot;routing&quot;: &#123;</span><br><span class="line">    &quot;domainStrategy&quot;: &quot;IPOnDemand&quot;,</span><br><span class="line">    &quot;rules&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;type&quot;: &quot;field&quot;,</span><br><span class="line">        &quot;outboundTag&quot;: &quot;direct&quot;,</span><br><span class="line">        &quot;domain&quot;: [&quot;geosite:cn&quot;] </span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;type&quot;: &quot;field&quot;,</span><br><span class="line">        &quot;outboundTag&quot;: &quot;direct&quot;,</span><br><span class="line">        &quot;ip&quot;: [</span><br><span class="line">          &quot;geoip:cn&quot;, </span><br><span class="line">          &quot;geoip:private&quot; </span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>上述配置文件实现了socks5和http的代理;</p><h4 id="服务器2-1"><a href="#服务器2-1" class="headerlink" title="服务器2"></a>服务器2</h4><p>我在.bashrc里面最后添加了:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias setproxy&#x3D;&quot;export ALL_PROXY&#x3D;socks5:&#x2F;&#x2F;服务器1:端口号;echo &#39;You can use &#39;unset ALL_PROXY&#39; to unset it &#39;&quot;</span><br></pre></td></tr></table></figure><p>使用setproxy即可通过服务器1访问外网;通过unset ALL_PROXY来修改回默认设置;</p><p>于此同时该服务器也安装了v2ray；有需求的同学可以自行配置;</p><p>使用</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget www.baidu.com</span><br></pre></td></tr></table></figure><p>来进行连通性的测试;（不知道什么原因ping不通baidu）</p><h4 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h4><p><a href="https://www.v2ray.com/" target="_blank" rel="noopener">https://www.v2ray.com/</a></p><p><a href="https://segmentfault.com/a/1190000039686752" target="_blank" rel="noopener">https://segmentfault.com/a/1190000039686752</a></p><p><a href="https://blog.csdn.net/yelllowcong/article/details/75949296" target="_blank" rel="noopener">https://blog.csdn.net/yelllowcong/article/details/75949296</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;访问外网的配置&quot;&gt;&lt;a href=&quot;#访问外网的配置&quot; class=&quot;headerlink&quot; title=&quot;访问外网的配置&quot;&gt;&lt;/a&gt;访问外网的配置&lt;/h1&gt;&lt;p&gt;服务器1命令行中使用:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;t
+      
+    
+    </summary>
+    
+      <category term="个人总结" scheme="http://Tyler-ytr.github.io/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/"/>
+    
+    
+      <category term="教程" scheme="http://Tyler-ytr.github.io/tags/%E6%95%99%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title>p4学习-6:实现网络测量</title>
@@ -1327,31 +1353,6 @@
   </entry>
   
   <entry>
-    <title>DNS刷新</title>
-    <link href="http://Tyler-ytr.github.io/2020/09/04/DNS%E5%88%B7%E6%96%B0/"/>
-    <id>http://Tyler-ytr.github.io/2020/09/04/DNS刷新/</id>
-    <published>2020-09-04T06:56:33.000Z</published>
-    <updated>2020-09-10T02:36:02.524Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="DNS刷新"><a href="#DNS刷新" class="headerlink" title="DNS刷新"></a>DNS刷新</h2><p>垃圾windows连接校园网的时候一直出现dns probe finished no Internet报错，和信息中心的工程师打完电话之后发现是自己电脑DNS的问题，因此bing搜索，发现了如下的方法进行DNS的刷新:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">netsh int ip reset </span><br><span class="line">netsh winsock reset</span><br><span class="line">ipconfig&#x2F;flushdns </span><br><span class="line">重启</span><br></pre></td></tr></table></figure><p>然后报错从dns probe finished no Internet变成了<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/picture/image-20200904150200196.png" alt="image-20200904150200196" title="">                </div>                <div class="image-caption">image-20200904150200196</div>            </figure></p><p>佛了</p><p>面对不知道咋整的东西，那就选择重装系列：</p><p>右击<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/picture/image-20200904184552395.png" alt="image-20200904184552395" title="">                </div>                <div class="image-caption">image-20200904184552395</div>            </figure>然后点击网络重置 好像就行了？！</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;DNS刷新&quot;&gt;&lt;a href=&quot;#DNS刷新&quot; class=&quot;headerlink&quot; title=&quot;DNS刷新&quot;&gt;&lt;/a&gt;DNS刷新&lt;/h2&gt;&lt;p&gt;垃圾windows连接校园网的时候一直出现dns probe finished no Internet报错，和信息中
-      
-    
-    </summary>
-    
-      <category term="电脑配置" scheme="http://Tyler-ytr.github.io/categories/%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE/"/>
-    
-    
-      <category term="windows配置" scheme="http://Tyler-ytr.github.io/tags/windows%E9%85%8D%E7%BD%AE/"/>
-    
-  </entry>
-  
-  <entry>
     <title>关于windows密钥登录服务器</title>
     <link href="http://Tyler-ytr.github.io/2020/09/04/cmd_vs_rsa/"/>
     <id>http://Tyler-ytr.github.io/2020/09/04/cmd_vs_rsa/</id>
@@ -1365,6 +1366,31 @@
       
       
         &lt;h2 id=&quot;关于windows密钥登录服务器&quot;&gt;&lt;a href=&quot;#关于windows密钥登录服务器&quot; class=&quot;headerlink&quot; title=&quot;关于windows密钥登录服务器&quot;&gt;&lt;/a&gt;关于windows密钥登录服务器&lt;/h2&gt;&lt;p&gt;前言:windows的权限管
+      
+    
+    </summary>
+    
+      <category term="电脑配置" scheme="http://Tyler-ytr.github.io/categories/%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE/"/>
+    
+    
+      <category term="windows配置" scheme="http://Tyler-ytr.github.io/tags/windows%E9%85%8D%E7%BD%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DNS刷新</title>
+    <link href="http://Tyler-ytr.github.io/2020/09/04/DNS%E5%88%B7%E6%96%B0/"/>
+    <id>http://Tyler-ytr.github.io/2020/09/04/DNS刷新/</id>
+    <published>2020-09-04T06:56:33.000Z</published>
+    <updated>2020-09-10T02:36:02.524Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="DNS刷新"><a href="#DNS刷新" class="headerlink" title="DNS刷新"></a>DNS刷新</h2><p>垃圾windows连接校园网的时候一直出现dns probe finished no Internet报错，和信息中心的工程师打完电话之后发现是自己电脑DNS的问题，因此bing搜索，发现了如下的方法进行DNS的刷新:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">netsh int ip reset </span><br><span class="line">netsh winsock reset</span><br><span class="line">ipconfig&#x2F;flushdns </span><br><span class="line">重启</span><br></pre></td></tr></table></figure><p>然后报错从dns probe finished no Internet变成了<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/picture/image-20200904150200196.png" alt="image-20200904150200196" title="">                </div>                <div class="image-caption">image-20200904150200196</div>            </figure></p><p>佛了</p><p>面对不知道咋整的东西，那就选择重装系列：</p><p>右击<figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="/picture/image-20200904184552395.png" alt="image-20200904184552395" title="">                </div>                <div class="image-caption">image-20200904184552395</div>            </figure>然后点击网络重置 好像就行了？！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;DNS刷新&quot;&gt;&lt;a href=&quot;#DNS刷新&quot; class=&quot;headerlink&quot; title=&quot;DNS刷新&quot;&gt;&lt;/a&gt;DNS刷新&lt;/h2&gt;&lt;p&gt;垃圾windows连接校园网的时候一直出现dns probe finished no Internet报错，和信息中
       
     
     </summary>
