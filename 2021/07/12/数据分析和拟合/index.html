@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>数据分析和拟合 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="python心得">
+    <meta name="description" content="python数据拟合和分析以下内容是我在进行webRTC拥塞控制部分进行训练集traces分析和生成的总结；举办方提供了一部分真实环境的数据，但我认为对于训练来说可能不够，因此需要自己生成一部分; 数据拟合使用fitter库进行数据的拟合；大概的效果如下图所示：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据分析和拟合">
+<meta property="og:url" content="http://tyler-ytr.github.io/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="python数据拟合和分析以下内容是我在进行webRTC拥塞控制部分进行训练集traces分析和生成的总结；举办方提供了一部分真实环境的数据，但我认为对于训练来说可能不够，因此需要自己生成一部分; 数据拟合使用fitter库进行数据的拟合；大概的效果如下图所示：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210712190334719.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210712190221706.png">
+<meta property="article:published_time" content="2021-07-12T11:01:42.000Z">
+<meta property="article:modified_time" content="2021-07-12T11:05:02.932Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="python心得">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/image-20210712190334719.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">数据分析和拟合</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">数据分析和拟合</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2021-07-12T11:01:42.000Z" itemprop="datePublished" class="page-time">
+  2021-07-12
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#python数据拟合和分析"><span class="post-toc-number">1.</span> <span class="post-toc-text">python数据拟合和分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数据拟合"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">数据拟合</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fitter-库"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">fitter 库</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fitter库使用案例"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">fitter库使用案例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fitter库参数"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">fitter库参数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实际使用的脚本"><span class="post-toc-number">1.1.4.</span> <span class="post-toc-text">实际使用的脚本</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数据折线图"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">数据折线图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数据生成"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">数据生成</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#数据筛选"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">数据筛选</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-数据分析和拟合"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">数据分析和拟合</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2021-07-12 19:01:42" datetime="2021-07-12T11:01:42.000Z"  itemprop="datePublished">2021-07-12</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="python数据拟合和分析"><a href="#python数据拟合和分析" class="headerlink" title="python数据拟合和分析"></a>python数据拟合和分析</h1><p>以下内容是我在进行webRTC拥塞控制部分进行训练集traces分析和生成的总结；举办方提供了一部分真实环境的数据，但我认为对于训练来说可能不够，因此需要自己生成一部分;</p>
+<h2 id="数据拟合"><a href="#数据拟合" class="headerlink" title="数据拟合"></a>数据拟合</h2><p>使用fitter库进行数据的拟合；大概的效果如下图所示：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/image-20210712190334719.png" alt="image-20210712190334719" title="">
+                </div>
+                <div class="image-caption">image-20210712190334719</div>
+            </figure>
+<h3 id="fitter-库"><a href="#fitter-库" class="headerlink" title="fitter 库"></a>fitter 库</h3><p>fitter库的源码位置:<a href="https://github.com/cokelaer/fitter" target="_blank" rel="noopener">https://github.com/cokelaer/fitter</a></p>
+<p>安装fitter库: <code>pip install fitter</code></p>
+<p>fitter库的文档:<a href="https://fitter.readthedocs.io/en/latest/" target="_blank" rel="noopener">https://fitter.readthedocs.io/en/latest/</a></p>
+<h3 id="fitter库使用案例"><a href="#fitter库使用案例" class="headerlink" title="fitter库使用案例"></a>fitter库使用案例</h3><p>生成模拟数据:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; # First, we create a data sample following a Gamma distribution</span><br><span class="line">&gt;&gt;&gt; from scipy import stats</span><br><span class="line">&gt;&gt;&gt; data &#x3D; stats.gamma.rvs(2, loc&#x3D;1.5, scale&#x3D;2, size&#x3D;20000)</span><br></pre></td></tr></table></figure>
+<p>使用 fitter库进行拟合:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; # We then create the Fitter object</span><br><span class="line">&gt;&gt;&gt; import fitter</span><br><span class="line">&gt;&gt;&gt; f &#x3D; fitter.Fitter(data)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; # just a trick to use only 10 distributions instead of 80 to speed up the fitting</span><br><span class="line">&gt;&gt;&gt; f.distributions &#x3D; f.distributions[0:10] + [&#39;gamma&#39;]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; # fit and plot</span><br><span class="line">&gt;&gt;&gt; f.fit()</span><br><span class="line">&gt;&gt;&gt; f.summary()</span><br><span class="line">        sumsquare_error</span><br><span class="line">gamma          0.000095</span><br><span class="line">beta           0.000179</span><br><span class="line">chi            0.012247</span><br><span class="line">cauchy         0.044443</span><br><span class="line">anglit         0.051672</span><br><span class="line">[5 rows x 1 columns]</span><br></pre></td></tr></table></figure>
+<p>它在使用fit函数的时候如果没有额外的参数会用scipy的80多个分布进行逐个拟合，默认的拟合时间是30秒；</p>
+<h3 id="fitter库参数"><a href="#fitter库参数" class="headerlink" title="fitter库参数"></a>fitter库参数</h3><ol>
+<li><p>fitter    </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">fitter</span>.<span class="title">fitter</span>.<span class="title">Fitter</span><span class="params">(data, xmin=None, xmax=None, bins=<span class="number">100</span>, distributions=None, timeout=<span class="number">30</span>, density=True)</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>data (list) –输入的样本数据；</li>
+<li>xmin (float) – 如果为None，则使用数据最小值，否则将忽略小于xmin的数据；</li>
+<li>xmax (float) – 如果为None，则使用数据最大值，否则将忽略大于xmin的数据；</li>
+<li>bins (int) – 累积直方图的组数，默认=100；</li>
+<li>distributions (list) – 给出要查看的分布列表。 如果没有，则尝试所有的scipy分布(80种),常用的分布distributions=[‘norm’,‘t’,‘laplace’,‘cauchy’, ‘chi2’,’ expon’, ‘exponpow’, ‘gamma’,’ lognorm’, ‘uniform’]；</li>
+<li>verbose (bool) –</li>
+<li>timeout – 给定拟合分布的最长时间，（默认=10s） 如果达到超时，则跳过该分布。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from fitter import Fitter</span><br><span class="line"># may take some time since by default, all distributions are tried</span><br><span class="line"># but you call manually provide a smaller set of distributions</span><br><span class="line">f &#x3D; Fitter(data, distributions&#x3D;[&#39;gamma&#39;, &#39;rayleigh&#39;, &#39;uniform&#39;])</span><br><span class="line">f.fit()</span><br><span class="line">f.summary()</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>进行fitter了之后可以调用一下函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">f.fit() #fit(amp&#x3D;1, progress&#x3D;False, n_jobs&#x3D;-1)</span><br><span class="line">f.df_errors #返回这些分布的拟合质量（均方根误差的和）</span><br><span class="line">f.fitted_param #返回拟合分布的参数</span><br><span class="line">f.fitted_pdf #使用最适合数据分布的分布参数生成的概率密度</span><br><span class="line">f.summary() #返回排序好的分布拟合质量（拟合效果从好到坏）,并绘制数据分布和Nbest分布 summary(Nbest&#x3D;5, lw&#x3D;2, plot&#x3D;True, method&#x3D;&#39;sumsquare_error&#39;)</span><br><span class="line">f.get_best(method&#x3D;&#39;sumsquare_error&#39;) #返回最佳拟合分布及其参数</span><br><span class="line">f.hist() #绘制组数&#x3D;bins的标准化直方图</span><br><span class="line">f.plot_pdf(names&#x3D;None, Nbest&#x3D;3, lw&#x3D;2) #绘制分布的概率密度函数 plot_pdf(names&#x3D;None, Nbest&#x3D;5, lw&#x3D;2, method&#x3D;&#39;sumsquare_error&#39;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用注意点</p>
+<p>我在使用上述函数的时候f.hist()之后并没有出现图片，通过研究了它源码的issue发现比较保险的方法是import matplotlib,在 <strong>f.hist()之后加上plt.show()或者savefig()等操作</strong>，这样就能够显示图片了;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">.....</span><br><span class="line">f.hist()</span><br><span class="line">plt.show()</span><br><span class="line">plt.close()</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="实际使用的脚本"><a href="#实际使用的脚本" class="headerlink" title="实际使用的脚本"></a>实际使用的脚本</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 批处理版</span></span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> division</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> matplotlib <span class="keyword">as</span> mpl</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> glob</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> fitter <span class="keyword">import</span> Fitter</span><br><span class="line">f = glob.iglob(<span class="string">r'*.json'</span>)  <span class="comment"># 当前目录所有py文件，与glob区别，iglob每次只获取一个匹配路径</span></span><br><span class="line">old_picture = glob.iglob(<span class="string">r'*.jpg'</span>)</span><br><span class="line"></span><br><span class="line">result=<span class="string">"最佳拟合分布"</span></span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> f:</span><br><span class="line">    <span class="keyword">with</span> open(file, <span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        information=file+<span class="string">"\n"</span></span><br><span class="line">        trace_pattern = []</span><br><span class="line">        data = json.load(f)</span><br><span class="line">        data_intervals = data[<span class="string">"uplink"</span>][<span class="string">"trace_pattern"</span>]</span><br><span class="line">        capacity = []</span><br><span class="line">        <span class="keyword">for</span> ele <span class="keyword">in</span> data_intervals:</span><br><span class="line">            capacity.append(ele[<span class="string">"capacity"</span>])</span><br><span class="line">        print(<span class="string">"capacity_mean"</span>, np.mean(capacity))</span><br><span class="line">        capacity.sort()</span><br><span class="line">        length = len(capacity)</span><br><span class="line">        capacity = capacity[<span class="number">0</span>:length<span class="number">-5</span>]</span><br><span class="line">        filter1 = Fitter(capacity,distributions=[<span class="string">"lomax"</span>,<span class="string">"pareto"</span>,<span class="string">"johnsonsu"</span>,<span class="string">"exponweib"</span>,<span class="string">"powerlognorm"</span>])</span><br><span class="line">        filter1.fit()</span><br><span class="line">        print(type(filter1.summary()))</span><br><span class="line">        print(filter1.get_best(method=<span class="string">'sumsquare_error'</span>))</span><br><span class="line">        summary=str(filter1.summary())</span><br><span class="line">        information=information+<span class="string">"summary\n"</span>+summary+<span class="string">"\n"</span></span><br><span class="line">        best_method=str(filter1.get_best(method=<span class="string">'sumsquare_error'</span>))</span><br><span class="line">        information=information+best_method</span><br><span class="line">        filter1.plot_pdf(names=<span class="literal">None</span>, Nbest=<span class="number">3</span>, lw=<span class="number">2</span>)</span><br><span class="line">        filter1.plot_pdf(names=<span class="literal">None</span>, Nbest=<span class="number">3</span>, lw=<span class="number">2</span>)</span><br><span class="line">        <span class="comment">#plt.show()</span></span><br><span class="line">        plt.savefig(<span class="string">"fit_&#123;&#125;.jpg"</span>.format(file))</span><br><span class="line">        plt.close()</span><br><span class="line">        result=result+<span class="string">"\n"</span>+information</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"fit_result.txt"</span>,<span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(result)</span><br></pre></td></tr></table></figure>
+<p>效果是批处理如下json格式的数据，会统计一个文件夹中的数据，给每一个数据绘图，并且把summary写道<code>fit_result.txt</code>中</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"> <span class="attr">"type"</span>: <span class="string">"video"</span>,</span><br><span class="line"> <span class="attr">"downlink"</span>: &#123;&#125;,</span><br><span class="line"> <span class="attr">"uplink"</span>: &#123;</span><br><span class="line">  <span class="attr">"trace_pattern"</span>: [</span><br><span class="line">   &#123;</span><br><span class="line">    <span class="attr">"duration"</span>: <span class="number">200</span>,</span><br><span class="line">    <span class="attr">"capacity"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"loss"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"jitter"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"time"</span>: <span class="number">0.0</span></span><br><span class="line">   &#125;,</span><br><span class="line">   &#123;</span><br><span class="line">    <span class="attr">"duration"</span>: <span class="number">200</span>,</span><br><span class="line">    <span class="attr">"capacity"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"loss"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"jitter"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"time"</span>: <span class="number">0.0</span></span><br><span class="line">   &#125;</span><br><span class="line">   ]</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="数据折线图"><a href="#数据折线图" class="headerlink" title="数据折线图"></a>数据折线图</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">.....</span><br><span class="line">plt.plot(time_x,time_capacity)</span><br><span class="line">xlabels = [<span class="string">"&#123;&#125;"</span>.format(i) <span class="keyword">for</span> i <span class="keyword">in</span> time_x] <span class="comment">#修改x轴的刻度</span></span><br><span class="line">plt.xticks(time_x, xlabels) </span><br><span class="line"></span><br><span class="line">plt.xlabel(<span class="string">'row'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'column'</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.savefig(<span class="string">"time_&#123;&#125;.jpg"</span>.format(</span><br><span class="line">file))</span><br><span class="line">plt.close()</span><br></pre></td></tr></table></figure>
+<h2 id="数据生成"><a href="#数据生成" class="headerlink" title="数据生成"></a>数据生成</h2><p>经过查阅scipy的文档以及简单了看了fitter项目的源码，上面get_best()得到的形如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;johnsonsu&#39;: (-0.43618926054816165, 1.8086581271068694, 26026.47774558232, 26854.12469365103)</span><br></pre></td></tr></table></figure>
+<p>表示的参数为a, b, loc, scale;</p>
+<p>具体含义见下图:</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/image-20210712190221706.png" alt="image-20210712190221706" title="">
+                </div>
+                <div class="image-caption">image-20210712190221706</div>
+            </figure>
+<p>通过上面fitter得到的参数，可以使用如下的代码进行数据的生成，生成的格式是narray:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import scipy.stats as st</span><br><span class="line">size_t&#x3D;1500</span><br><span class="line">params&#x3D;(-0.43618926054816165, 1.8086581271068694, 26026.47774558232, 26854.12469365103)</span><br><span class="line">data&#x3D;list(st.johnsonsu.rvs(*params,size&#x3D;int(size_t))) # 格式是numpy</span><br></pre></td></tr></table></figure>
+<h2 id="数据筛选"><a href="#数据筛选" class="headerlink" title="数据筛选"></a>数据筛选</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 数据筛选</span><br><span class="line">data1&#x3D;data[:]</span><br><span class="line">for ele in data1:</span><br><span class="line">    if ele &lt; 0.0:</span><br><span class="line">        data.remove(ele)</span><br><span class="line">    if ele &gt; 400.0:</span><br><span class="line">        data.remove(ele)</span><br></pre></td></tr></table></figure>
+<p>如果没有data1=data[:]的操作会出现无法删除的问题</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2021-07-12T11:05:02.932Z" itemprop="dateUpdated">2021-07-12 19:05:02</time>
+</span><br>
+
+
+        
+        Link：<a href="/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/" target="_blank" rel="external">http://tyler-ytr.github.io/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python%E5%BF%83%E5%BE%97/" rel="tag">python心得</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/&title=《数据分析和拟合》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/&title=《数据分析和拟合》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数据分析和拟合》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2021/07/02/git%E4%BB%A5%E5%8F%8Assh%E4%BB%A3%E7%90%86%E7%9A%84%E9%85%8D%E7%BD%AE/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">git以及ssh代理的配置</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/&title=《数据分析和拟合》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/&title=《数据分析和拟合》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数据分析和拟合》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/07/12/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%92%8C%E6%8B%9F%E5%90%88/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADJ0lEQVR42u3aQW7jQAwEwPz/095rgIW13eQKsMalU2Ao0tQECM3m/PzE1+vX9e6T35/n97x7199PePec66etLmxsbOyHsF+XV8t+t/Rr8DUvvz+xYGNjY5/K3iz9+s6ElN+TsK9/FxsbGxs7aSTajWjblWSd2NjY2NizotXik/gpKXvY2NjY2EmoNIt4/lcMlBTUW7I0bGxs7I9nb77uf9rPt8y3sbGxsT+Y/SqvvKloj9S0I4SVAhsbG/sgdl4AZoPVfOg7GwbM1o+NjY19Ejt5fbLcWcmZDYn3bRI2Njb2Sew2xM9HBbMmYf/kYgyMjY2N/TXs/NF5kWuHwfmouIirsLGxsQ9iz2ajs0dvNrQNrZKmCBsbG/sk9ubRefGYjRZmbVL0RmxsbOyD2G2V2zcn+2M9sxAKGxsb+3vY+TAgj6U2S8wbmNk2YWNjYz+RnS9uNkxtA6bZ1if3Y2NjY5/N3kQ8sy24Y4uLsTE2Njb20exNxJPfP4uK2rjq7dZjY2NjH8TeB/H5K5Oydx87OqOEjY2N/UD2LAxKWpf8yM4mVEoO6GBjY2Ofzd4sOg968i3LI6f2zp98QdjY2NgPZF//629bjk0paluRVVyFjY2NfQS7/brf1oK85ciL5abgDbscbGxs7A9mb77it/OHNtZv15aEStFfHhsbG/tR7M0xmlm5ujHizwMsbGxs7EPZbazTFrbryGlz9KceXWBjY2MfxM4bhrxc7UcLtxcwbGxs7IPY+eKGJ4CCrUnWMGtp3t6DjY2NfRC7DXryEGo2Ep4NKma/i42NjX0Se/aazZh2NorIS100TsbGxsb+AnY7NthUh7YhabcAGxsb+9vYbTTTBvrtViaj3zzYwsbGxj6J/SqvWXNy3RgkzUPbzESDXmxsbOwj2Jth7ebzfag0K3X1FmBjY2M/hD07TJMfo7kv+p99jo2NjX0qez+gzUet+ebm29euHxsbGxu7jYGSO9thQ1vqsLGxsbGToKdtCWbxU5uN/WO+jY2NjX0Eu20h9qHP/yp4yXNW4wFsbGzsj2fnBSApeLPYKCo5o4LXjjSwsbGxH8X+A5be2YUFR5qWAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
