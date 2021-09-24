@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>p4学习-6:实现网络测量 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="p4">
+    <meta name="description" content="p4学习-6:实现网络测量实验目标这个练习的目标是写一个P4程序允许一个主机区检测网络中所有链路的利用情况。这个练习是在基础的IPV4 forwarding练习上搭建的。具体来说，我们将修改基本的P4程序，以处理源路由探测包，使其能够在每一跳提取出口链路利用率，并将其交付给主机进行监控。 探测包由下面三种header types组成: 1234567891011121314151617181920">
+<meta property="og:type" content="article">
+<meta property="og:title" content="p4学习-6:实现网络测量">
+<meta property="og:url" content="http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="p4学习-6:实现网络测量实验目标这个练习的目标是写一个P4程序允许一个主机区检测网络中所有链路的利用情况。这个练习是在基础的IPV4 forwarding练习上搭建的。具体来说，我们将修改基本的P4程序，以处理源路由探测包，使其能够在每一跳提取出口链路利用率，并将其交付给主机进行监控。 探测包由下面三种header types组成: 1234567891011121314151617181920">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/link-monitor-topo.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210420125915925.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/eY8DUtD.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/Q8efPRm.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/link-monitor-topo.png">
+<meta property="article:published_time" content="2021-04-20T04:16:42.000Z">
+<meta property="article:modified_time" content="2021-04-27T16:17:31.093Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="p4">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/link-monitor-topo.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">p4学习-6:实现网络测量</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">p4学习-6:实现网络测量</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2021-04-20T04:16:42.000Z" itemprop="datePublished" class="page-time">
+  2021-04-20
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#p4学习-6-实现网络测量"><span class="post-toc-number">1.</span> <span class="post-toc-text">p4学习-6:实现网络测量</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实验目标"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">实验目标</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#补充：-FatTree胖树拓扑结构"><span class="post-toc-number">1.0.1.1.</span> <span class="post-toc-text">补充： FatTree胖树拓扑结构</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#代码实现"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">代码实现</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#probe-hdrs-py分析"><span class="post-toc-number">1.0.3.</span> <span class="post-toc-text">probe_hdrs.py分析:</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#send-py分析"><span class="post-toc-number">1.0.4.</span> <span class="post-toc-text">send.py分析</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#receive-py分析"><span class="post-toc-number">1.0.5.</span> <span class="post-toc-text">receive.py分析</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实验过程"><span class="post-toc-number">1.0.6.</span> <span class="post-toc-text">实验过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#控制平面的一些说明"><span class="post-toc-number">1.0.6.0.1.</span> <span class="post-toc-text">控制平面的一些说明</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-p4学习-6"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">p4学习-6:实现网络测量</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2021-04-20 12:16:42" datetime="2021-04-20T04:16:42.000Z"  itemprop="datePublished">2021-04-20</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="p4学习-6-实现网络测量"><a href="#p4学习-6-实现网络测量" class="headerlink" title="p4学习-6:实现网络测量"></a>p4学习-6:实现网络测量</h2><h4 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h4><p>这个练习的目标是写一个P4程序允许一个主机区检测网络中所有链路的利用情况。这个练习是在基础的<a href="https://tyler-ytr.github.io/2021/02/21/p4%E5%AD%A6%E4%B9%A0-2/">IPV4 forwarding</a>练习上搭建的。具体来说，我们将修改基本的P4程序，以处理源路由探测包，使其能够在每一跳提取出口链路利用率，并将其交付给主机进行监控。</p>
+<p>探测包由下面三种header types组成:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Top-level probe header, indicates how many hops this probe</span><br><span class="line">&#x2F;&#x2F; packet has traversed so far.</span><br><span class="line">&#x2F;&#x2F;顶层的探测header,指出这个探测包经过了多少跳</span><br><span class="line">header probe_t &#123;</span><br><span class="line">    bit&lt;8&gt; hop_cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; The data added to the probe by each switch at each hop.</span><br><span class="line">&#x2F;&#x2F;每一个交换机加到探测包上面的数据</span><br><span class="line">header probe_data_t &#123;</span><br><span class="line">    bit&lt;1&gt;    bos;&#x2F;&#x2F;bottom of stack</span><br><span class="line">    bit&lt;7&gt;    swid;&#x2F;&#x2F;switch ID</span><br><span class="line">    bit&lt;8&gt;    port;</span><br><span class="line">    bit&lt;32&gt;   byte_cnt;&#x2F;&#x2F;和下面的寄存器应该对应</span><br><span class="line">    time_t    last_time;&#x2F;&#x2F;和下面的寄存器应该对应</span><br><span class="line">    time_t    cur_time;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Indicates the egress port the switch should send this probe</span><br><span class="line">&#x2F;&#x2F; packet out of. There is one of these headers for each hop.</span><br><span class="line">&#x2F;&#x2F;指示交换机应该发送该探测报文的出口端口。每个跳跃都有一个这样的 header</span><br><span class="line">header probe_fwd_t &#123;</span><br><span class="line">    bit&lt;8&gt;   egress_spec;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/link-monitor-topo.png" alt="topology" title="">
+                </div>
+                <div class="image-caption">topology</div>
+            </figure>
+<p>拓扑如上，包含了四个主机连接到四个交换机上面，连接方式好像他们在fat tree 的pod上一样。</p>
+<p>为了监控链路利用率，交换机将维持两个寄存器数组：</p>
+<ul>
+<li><code>byte_cnt_reg</code> 自最后一个探测包从端口传输出去以来，每个端口传输出去的字节数。</li>
+<li><code>last_time_reg</code>保存探测包最后一次从每个端口发送出去的时间。</li>
+</ul>
+<p>P4程序将被写成V1Model形式（bmv2交换机），V1model可以参考它的<a href="https://github.com/p4lang/p4c/blob/master/p4include/v1model.p4" target="_blank" rel="noopener">官方源码</a></p>
+<h5 id="补充：-FatTree胖树拓扑结构"><a href="#补充：-FatTree胖树拓扑结构" class="headerlink" title="补充： FatTree胖树拓扑结构"></a>补充： FatTree胖树拓扑结构</h5><p>传统结构：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/image-20210420125915925.png" alt="image-20210420125915925" title="">
+                </div>
+                <div class="image-caption">image-20210420125915925</div>
+            </figure>
+<p>传统数据中心采用多层级的树形结构，这种结构针对客户端/服务器（C/S）模式能有较好的效果。树形结构包括单根树和多根树。多根数的根节点往往作为备份节点存在（我们以方格代表交换机）</p>
+<blockquote>
+<p>缺点：传统单根/多根拓扑结构有以下缺点：成本高，根部交换机必须要有足够大的带宽来满足下层服务器之间的通信；性能瓶颈，无法满足数据中心内部大规模的MapReduce和数据拷贝。</p>
+</blockquote>
+<p>FatTree 拓扑结构：</p>
+<p>Fat-Tree是以交换机为中心的拓扑。支持在横向拓展的同时拓展路径数目；且所有交换机均为相同端口数量的普通设备，降低了网络建设成本。</p>
+<p>整个拓扑网络分为三个层次：自上而下分别为边缘层（edge）、汇聚层（aggregate）和核心层（core），其中汇聚层交换机与边缘层交换机构成一个pod，交换设备均采用商用交换设备。</p>
+<p>一个k元的Fat-Tree可以归纳为5个特征：</p>
+<ul>
+<li>每台交换机都有k个端口；</li>
+<li>核心层为顶层，一共有(k/2)^2个交换机；</li>
+<li>一共有k个pod，每个pod有k台交换机组成。其中汇聚层和接入层各占k/2台交换机；</li>
+<li>接入层每个交换机可以容纳k/2台服务器，因此，k元Fat-Tree一共有k个pod，每个pod容纳$k<em>k/4$个服务器，所有pod共能容纳$k</em>k*k/4$台服务器；任意</li>
+<li>两个pod之间存在k条路径。</li>
+</ul>
+<p>例子：</p>
+<p>二叉FatTree</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/eY8DUtD.png" alt="二叉FatTree" title="">
+                </div>
+                <div class="image-caption">二叉FatTree</div>
+            </figure>
+<p>四叉FatTree</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/Q8efPRm.png" alt="四叉FatTree" title="">
+                </div>
+                <div class="image-caption">四叉FatTree</div>
+            </figure>
+<p>因此上面练习的拓扑就像四叉FatTree的一个pod</p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p><strong>headers部分</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* -*- P4_16 -*- *&#x2F;</span><br><span class="line">#include &lt;core.p4&gt;</span><br><span class="line">#include &lt;v1model.p4&gt;</span><br><span class="line"></span><br><span class="line">const bit&lt;16&gt; TYPE_IPV4  &#x3D; 0x800;</span><br><span class="line">const bit&lt;16&gt; TYPE_PROBE &#x3D; 0x812;</span><br><span class="line"></span><br><span class="line">#define MAX_HOPS 10</span><br><span class="line">#define MAX_PORTS 8</span><br><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">*********************** H E A D E R S  ***********************************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">typedef bit&lt;9&gt;  egressSpec_t;</span><br><span class="line">typedef bit&lt;48&gt; macAddr_t;</span><br><span class="line">typedef bit&lt;32&gt; ip4Addr_t;</span><br><span class="line"></span><br><span class="line">typedef bit&lt;48&gt; time_t;</span><br><span class="line"></span><br><span class="line">header ethernet_t &#123;</span><br><span class="line">    macAddr_t dstAddr;</span><br><span class="line">    macAddr_t srcAddr;</span><br><span class="line">    bit&lt;16&gt;   etherType;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">header ipv4_t &#123;</span><br><span class="line">    bit&lt;4&gt;    version;</span><br><span class="line">    bit&lt;4&gt;    ihl;</span><br><span class="line">    bit&lt;8&gt;    diffserv;</span><br><span class="line">    bit&lt;16&gt;   totalLen;</span><br><span class="line">    bit&lt;16&gt;   identification;</span><br><span class="line">    bit&lt;3&gt;    flags;</span><br><span class="line">    bit&lt;13&gt;   fragOffset;</span><br><span class="line">    bit&lt;8&gt;    ttl;</span><br><span class="line">    bit&lt;8&gt;    protocol;</span><br><span class="line">    bit&lt;16&gt;   hdrChecksum;</span><br><span class="line">    ip4Addr_t srcAddr;</span><br><span class="line">    ip4Addr_t dstAddr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Top-level probe header, indicates how many hops this probe</span><br><span class="line">&#x2F;&#x2F; packet has traversed so far.</span><br><span class="line">header probe_t &#123;</span><br><span class="line">    bit&lt;8&gt; hop_cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; The data added to the probe by each switch at each hop.</span><br><span class="line">header probe_data_t &#123;</span><br><span class="line">    bit&lt;1&gt;    bos;</span><br><span class="line">    bit&lt;7&gt;    swid;</span><br><span class="line">    bit&lt;8&gt;    port;</span><br><span class="line">    bit&lt;32&gt;   byte_cnt;</span><br><span class="line">    time_t    last_time;</span><br><span class="line">    time_t    cur_time;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Indicates the egress port the switch should send this probe</span><br><span class="line">&#x2F;&#x2F; packet out of. There is one of these headers for each hop.</span><br><span class="line">header probe_fwd_t &#123;</span><br><span class="line">    bit&lt;8&gt;   egress_spec;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct parser_metadata_t &#123;</span><br><span class="line">    bit&lt;8&gt;  remaining;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct metadata &#123;</span><br><span class="line">    bit&lt;8&gt; egress_spec;</span><br><span class="line">    parser_metadata_t parser_metadata;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct headers &#123;</span><br><span class="line">    ethernet_t              ethernet;</span><br><span class="line">    ipv4_t                  ipv4;</span><br><span class="line">    probe_t                 probe;</span><br><span class="line">    probe_data_t[MAX_HOPS]  probe_data;</span><br><span class="line">    probe_fwd_t[MAX_HOPS]   probe_fwd;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>比之前的<a href="https://tyler-ytr.github.io/2021/02/21/p4%E5%AD%A6%E4%B9%A0-2/">IPV4 forwarding</a>多了三个探测包的header</p>
+<p><strong>Parser部分</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">*********************** P A R S E R  ***********************************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">parser MyParser(packet_in packet,</span><br><span class="line">                out headers hdr,</span><br><span class="line">                inout metadata meta,</span><br><span class="line">                inout standard_metadata_t standard_metadata) &#123;</span><br><span class="line"></span><br><span class="line">    state start &#123;</span><br><span class="line">        transition parse_ethernet;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    state parse_ethernet &#123;</span><br><span class="line">        packet.extract(hdr.ethernet);</span><br><span class="line">        transition select(hdr.ethernet.etherType) &#123;</span><br><span class="line">            TYPE_IPV4: parse_ipv4;</span><br><span class="line">            TYPE_PROBE: parse_probe;</span><br><span class="line">            default: accept;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    state parse_ipv4 &#123;</span><br><span class="line">        packet.extract(hdr.ipv4);</span><br><span class="line">        transition accept;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    state parse_probe &#123;</span><br><span class="line">        packet.extract(hdr.probe);</span><br><span class="line">        meta.parser_metadata.remaining &#x3D; hdr.probe.hop_cnt + 1;</span><br><span class="line">        transition select(hdr.probe.hop_cnt) &#123;</span><br><span class="line">            0: parse_probe_fwd;</span><br><span class="line">            default: parse_probe_data;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    state parse_probe_data &#123;</span><br><span class="line">        packet.extract(hdr.probe_data.next);</span><br><span class="line">        transition select(hdr.probe_data.last.bos) &#123;</span><br><span class="line">            1: parse_probe_fwd;</span><br><span class="line">            default: parse_probe_data;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    state parse_probe_fwd &#123;</span><br><span class="line">        packet.extract(hdr.probe_fwd.next);</span><br><span class="line">        meta.parser_metadata.remaining &#x3D; meta.parser_metadata.remaining - 1;</span><br><span class="line">        &#x2F;&#x2F; extract the forwarding data</span><br><span class="line">        meta.egress_spec &#x3D; hdr.probe_fwd.last.egress_spec;</span><br><span class="line">        transition select(meta.parser_metadata.remaining) &#123;</span><br><span class="line">            0: accept;</span><br><span class="line">            default: parse_probe_fwd;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>流程是：先进入start状态，通过ethernet的etherType确定是    ipv4包还是探测包，如果是ipv4包，略；如果是探测包，那么看看是不是第一个跳，探测包经过第一跳的时候不会有其他信息，因此可以直接进入向前转发的状态；否则就更新matada里面的remaing，进入parse_probe_data状态解析probe_data.next的信息，知道解析到last.bos也就是栈底的时候再进入向前转发状态；向前转发状态(<code>parse_probe_fwd</code>)里面,使用<code>hdr.probe.hop_cnt</code>指出了哪一个<code>egress_spec</code>来处理向前转发，并且把这个端口号存在一个metadata的域里面；</p>
+</blockquote>
+<p><strong>Ingress Control 部分</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">************   C H E C K S U M    V E R I F I C A T I O N   *************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyVerifyChecksum(inout headers hdr, inout metadata meta) &#123;   </span><br><span class="line">    apply &#123;  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">**************  I N G R E S S   P R O C E S S I N G   *******************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyIngress(inout headers hdr,</span><br><span class="line">                  inout metadata meta,</span><br><span class="line">                  inout standard_metadata_t standard_metadata) &#123;</span><br><span class="line"></span><br><span class="line">    action drop() &#123;</span><br><span class="line">        mark_to_drop(standard_metadata);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    action ipv4_forward(macAddr_t dstAddr, egressSpec_t port) &#123;</span><br><span class="line">        standard_metadata.egress_spec &#x3D; port;</span><br><span class="line">        hdr.ethernet.srcAddr &#x3D; hdr.ethernet.dstAddr;</span><br><span class="line">        hdr.ethernet.dstAddr &#x3D; dstAddr;</span><br><span class="line">        hdr.ipv4.ttl &#x3D; hdr.ipv4.ttl - 1;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    table ipv4_lpm &#123;</span><br><span class="line">        key &#x3D; &#123;</span><br><span class="line">            hdr.ipv4.dstAddr: lpm;</span><br><span class="line">        &#125;</span><br><span class="line">        actions &#x3D; &#123;</span><br><span class="line">            ipv4_forward;</span><br><span class="line">            drop;</span><br><span class="line">            NoAction;</span><br><span class="line">        &#125;</span><br><span class="line">        size &#x3D; 1024;</span><br><span class="line">        default_action &#x3D; drop();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    apply &#123;</span><br><span class="line">        if (hdr.ipv4.isValid()) &#123;</span><br><span class="line">            ipv4_lpm.apply();</span><br><span class="line">        &#125;</span><br><span class="line">        else if (hdr.probe.isValid()) &#123;</span><br><span class="line">            standard_metadata.egress_spec &#x3D; (bit&lt;9&gt;)meta.egress_spec;</span><br><span class="line">            hdr.probe.hop_cnt &#x3D; hdr.probe.hop_cnt + 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>比basic那个实验多了一个如果hdr.probe.isValid()（也就是这个包是探测包），就记录 <code>egress_spec</code>并且更新<code>hdr.probe.hop_cnt</code> </p>
+</blockquote>
+<p><strong>Egress Control 部分</strong></p>
+<p>这部分是状态处理发生的地方，使用<code>byte_cnt_regs</code>寄存器在计算自最后一个探测包通过该端口以来通过每个端口的字节数；</p>
+<p>这部分增加了一个新的<code>probe_data</code>  ,并且填写了 <code>bos</code> (bottom of stack) 和 <code>swid</code> (switch ID)；</p>
+<p>要做的部分是填写探测包字段的其余部分，以确保您可以正确地测量链路利用率</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">****************  E G R E S S   P R O C E S S I N G   ********************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyEgress(inout headers hdr,</span><br><span class="line">                 inout metadata meta,</span><br><span class="line">                 inout standard_metadata_t standard_metadata) &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; count the number of bytes seen since the last probe</span><br><span class="line">    register&lt;bit&lt;32&gt;&gt;(MAX_PORTS) byte_cnt_reg;</span><br><span class="line">    &#x2F;&#x2F; remember the time of the last probe</span><br><span class="line">    register&lt;time_t&gt;(MAX_PORTS) last_time_reg;</span><br><span class="line"></span><br><span class="line">    action set_swid(bit&lt;7&gt; swid) &#123;</span><br><span class="line">        hdr.probe_data[0].swid &#x3D; swid;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    table swid &#123;</span><br><span class="line">        actions &#x3D; &#123;</span><br><span class="line">            set_swid;</span><br><span class="line">            NoAction;</span><br><span class="line">        &#125;</span><br><span class="line">        default_action &#x3D; NoAction();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    apply &#123;</span><br><span class="line">        bit&lt;32&gt; byte_cnt;</span><br><span class="line">        bit&lt;32&gt; new_byte_cnt;</span><br><span class="line">        time_t last_time;</span><br><span class="line">        time_t cur_time &#x3D; standard_metadata.egress_global_timestamp;</span><br><span class="line">        &#x2F;&#x2F; increment byte cnt for this packet&#39;s port</span><br><span class="line">        byte_cnt_reg.read(byte_cnt, (bit&lt;32&gt;)standard_metadata.egress_port);</span><br><span class="line">        byte_cnt &#x3D; byte_cnt + standard_metadata.packet_length;</span><br><span class="line">        &#x2F;&#x2F; reset the byte count when a probe packet passes through</span><br><span class="line">        new_byte_cnt &#x3D; (hdr.probe.isValid()) ? 0 : byte_cnt;</span><br><span class="line">        byte_cnt_reg.write((bit&lt;32&gt;)standard_metadata.egress_port, new_byte_cnt);</span><br><span class="line"></span><br><span class="line">        if (hdr.probe.isValid()) &#123;</span><br><span class="line">            &#x2F;&#x2F; fill out probe fields</span><br><span class="line">            hdr.probe_data.push_front(1);</span><br><span class="line">            hdr.probe_data[0].setValid();</span><br><span class="line">            if (hdr.probe.hop_cnt &#x3D;&#x3D; 1) &#123;</span><br><span class="line">                hdr.probe_data[0].bos &#x3D; 1;</span><br><span class="line">            &#125;</span><br><span class="line">            else &#123;</span><br><span class="line">                hdr.probe_data[0].bos &#x3D; 0;</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F; set switch ID field</span><br><span class="line">            swid.apply();</span><br><span class="line">            &#x2F;&#x2F; TODO: fill out the rest of the probe packet fields</span><br><span class="line">            &#x2F;&#x2F; hdr.probe_data[0].port &#x3D; ...</span><br><span class="line">            &#x2F;&#x2F; hdr.probe_data[0].byte_cnt &#x3D; ...</span><br><span class="line">            &#x2F;&#x2F; TODO: read &#x2F; update the last_time_reg</span><br><span class="line">            &#x2F;&#x2F; last_time_reg.read(&lt;val&gt;, &lt;index&gt;);</span><br><span class="line">            &#x2F;&#x2F; last_time_reg.write(&lt;index&gt;, &lt;val&gt;); </span><br><span class="line">            &#x2F;&#x2F; hdr.probe_data[0].last_time &#x3D; ...</span><br><span class="line">            &#x2F;&#x2F; hdr.probe_data[0].cur_time &#x3D; ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解答：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">****************  E G R E S S   P R O C E S S I N G   ********************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyEgress(inout headers hdr,</span><br><span class="line">                 inout metadata meta,</span><br><span class="line">                 inout standard_metadata_t standard_metadata) &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; count the number of bytes seen since the last probe</span><br><span class="line">    register&lt;bit&lt;32&gt;&gt;(MAX_PORTS) byte_cnt_reg;</span><br><span class="line">    &#x2F;&#x2F; remember the time of the last probe</span><br><span class="line">    register&lt;time_t&gt;(MAX_PORTS) last_time_reg;</span><br><span class="line"></span><br><span class="line">    action set_swid(bit&lt;7&gt; swid) &#123;</span><br><span class="line">        hdr.probe_data[0].swid &#x3D; swid;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    table swid &#123;</span><br><span class="line">        actions &#x3D; &#123;</span><br><span class="line">            set_swid;</span><br><span class="line">            NoAction;</span><br><span class="line">        &#125;</span><br><span class="line">        default_action &#x3D; NoAction();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    apply &#123;</span><br><span class="line">        bit&lt;32&gt; byte_cnt;</span><br><span class="line">        bit&lt;32&gt; new_byte_cnt;</span><br><span class="line">        time_t last_time;</span><br><span class="line">        time_t cur_time &#x3D; standard_metadata.egress_global_timestamp;</span><br><span class="line">        &#x2F;&#x2F; increment byte cnt for this packet&#39;s port</span><br><span class="line">        byte_cnt_reg.read(byte_cnt, (bit&lt;32&gt;)standard_metadata.egress_port);</span><br><span class="line">        byte_cnt &#x3D; byte_cnt + standard_metadata.packet_length;</span><br><span class="line">        &#x2F;&#x2F; reset the byte count when a probe packet passes through</span><br><span class="line">        new_byte_cnt &#x3D; (hdr.probe.isValid()) ? 0 : byte_cnt;</span><br><span class="line">        byte_cnt_reg.write((bit&lt;32&gt;)standard_metadata.egress_port, new_byte_cnt);</span><br><span class="line"></span><br><span class="line">        if (hdr.probe.isValid()) &#123;</span><br><span class="line">            &#x2F;&#x2F; fill out probe fields</span><br><span class="line">            hdr.probe_data.push_front(1);</span><br><span class="line">            hdr.probe_data[0].setValid();</span><br><span class="line">            if (hdr.probe.hop_cnt &#x3D;&#x3D; 1) &#123;</span><br><span class="line">                hdr.probe_data[0].bos &#x3D; 1;</span><br><span class="line">            &#125;</span><br><span class="line">            else &#123;</span><br><span class="line">                hdr.probe_data[0].bos &#x3D; 0;</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F; set switch ID field</span><br><span class="line">            swid.apply();</span><br><span class="line">            hdr.probe_data[0].port &#x3D; (bit&lt;8&gt;)standard_metadata.egress_port;</span><br><span class="line">            hdr.probe_data[0].byte_cnt &#x3D; byte_cnt;</span><br><span class="line">            &#x2F;&#x2F; read &#x2F; update the last_time_reg</span><br><span class="line">            last_time_reg.read(last_time, (bit&lt;32&gt;)standard_metadata.egress_port);</span><br><span class="line">            last_time_reg.write((bit&lt;32&gt;)standard_metadata.egress_port, cur_time);</span><br><span class="line">            hdr.probe_data[0].last_time &#x3D; last_time;</span><br><span class="line">            hdr.probe_data[0].cur_time &#x3D; cur_time;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>其余部分</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">*************   C H E C K S U M    C O M P U T A T I O N   ***************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyComputeChecksum(inout headers  hdr, inout metadata meta) &#123;</span><br><span class="line">     apply &#123;</span><br><span class="line">	update_checksum(</span><br><span class="line">	    hdr.ipv4.isValid(),</span><br><span class="line">            &#123; hdr.ipv4.version,</span><br><span class="line">	      hdr.ipv4.ihl,</span><br><span class="line">              hdr.ipv4.diffserv,</span><br><span class="line">              hdr.ipv4.totalLen,</span><br><span class="line">              hdr.ipv4.identification,</span><br><span class="line">              hdr.ipv4.flags,</span><br><span class="line">              hdr.ipv4.fragOffset,</span><br><span class="line">              hdr.ipv4.ttl,</span><br><span class="line">              hdr.ipv4.protocol,</span><br><span class="line">              hdr.ipv4.srcAddr,</span><br><span class="line">              hdr.ipv4.dstAddr &#125;,</span><br><span class="line">            hdr.ipv4.hdrChecksum,</span><br><span class="line">            HashAlgorithm.csum16);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">***********************  D E P A R S E R  *******************************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyDeparser(packet_out packet, in headers hdr) &#123;</span><br><span class="line">    apply &#123;</span><br><span class="line">        packet.emit(hdr.ethernet);</span><br><span class="line">        packet.emit(hdr.ipv4);</span><br><span class="line">        packet.emit(hdr.probe);</span><br><span class="line">        packet.emit(hdr.probe_data);</span><br><span class="line">        packet.emit(hdr.probe_fwd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">***********************  S W I T C H  *******************************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">V1Switch(</span><br><span class="line">MyParser(),</span><br><span class="line">MyVerifyChecksum(),</span><br><span class="line">MyIngress(),</span><br><span class="line">MyEgress(),</span><br><span class="line">MyComputeChecksum(),</span><br><span class="line">MyDeparser()</span><br><span class="line">) main;</span><br></pre></td></tr></table></figure>
+<h4 id="probe-hdrs-py分析"><a href="#probe-hdrs-py分析" class="headerlink" title="probe_hdrs.py分析:"></a>probe_hdrs.py分析:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">from scapy.all import *</span><br><span class="line"></span><br><span class="line">TYPE_PROBE &#x3D; 0x812</span><br><span class="line"></span><br><span class="line">class Probe(Packet):</span><br><span class="line">   fields_desc &#x3D; [ ByteField(&quot;hop_cnt&quot;, 0)]</span><br><span class="line"></span><br><span class="line">class ProbeData(Packet):</span><br><span class="line">   fields_desc &#x3D; [ BitField(&quot;bos&quot;, 0, 1),</span><br><span class="line">                   BitField(&quot;swid&quot;, 0, 7),</span><br><span class="line">                   ByteField(&quot;port&quot;, 0),</span><br><span class="line">                   IntField(&quot;byte_cnt&quot;, 0),</span><br><span class="line">                   BitField(&quot;last_time&quot;, 0, 48),</span><br><span class="line">                   BitField(&quot;cur_time&quot;, 0, 48)]</span><br><span class="line"></span><br><span class="line">class ProbeFwd(Packet):</span><br><span class="line">   fields_desc &#x3D; [ ByteField(&quot;egress_spec&quot;, 0)]</span><br><span class="line"></span><br><span class="line">bind_layers(Ether, Probe, type&#x3D;TYPE_PROBE)</span><br><span class="line">bind_layers(Probe, ProbeFwd, hop_cnt&#x3D;0)</span><br><span class="line">bind_layers(Probe, ProbeData)</span><br><span class="line">bind_layers(ProbeData, ProbeData, bos&#x3D;0)</span><br><span class="line">bind_layers(ProbeData, ProbeFwd, bos&#x3D;1)</span><br><span class="line">bind_layers(ProbeFwd, ProbeFwd)</span><br></pre></td></tr></table></figure>
+<p>这部分是在控制平面用scapy定义了探测包的结构，从bind_layers可以看出，结构关系大概如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Ethernet&#123;</span><br><span class="line">	.....</span><br><span class="line">	Probe&#123;</span><br><span class="line">		ProbeFwd&#123;</span><br><span class="line">			ProbeFwd&#123;</span><br><span class="line">			....</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		ProbeData&#123;</span><br><span class="line">			ProbeData&#123;</span><br><span class="line">			....</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样其中ProbeFwd以及ProbeData可以嵌套；具体的结构在class里面进行了定义</p>
+<h4 id="send-py分析"><a href="#send-py分析" class="headerlink" title="send.py分析"></a>send.py分析</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line">import sys</span><br><span class="line">import time</span><br><span class="line">from probe_hdrs import *</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line"></span><br><span class="line">    probe_pkt &#x3D; Ether(dst&#x3D;&#39;ff:ff:ff:ff:ff:ff&#39;, src&#x3D;get_if_hwaddr(&#39;eth0&#39;)) &#x2F; \</span><br><span class="line">                Probe(hop_cnt&#x3D;0) &#x2F; \</span><br><span class="line">                ProbeFwd(egress_spec&#x3D;4) &#x2F; \</span><br><span class="line">                ProbeFwd(egress_spec&#x3D;1) &#x2F; \</span><br><span class="line">                ProbeFwd(egress_spec&#x3D;4) &#x2F; \</span><br><span class="line">                ProbeFwd(egress_spec&#x3D;1) &#x2F; \</span><br><span class="line">                ProbeFwd(egress_spec&#x3D;3) &#x2F; \</span><br><span class="line">                ProbeFwd(egress_spec&#x3D;2) &#x2F; \</span><br><span class="line">                ProbeFwd(egress_spec&#x3D;3) &#x2F; \</span><br><span class="line">                ProbeFwd(egress_spec&#x3D;2) &#x2F; \</span><br><span class="line">                ProbeFwd(egress_spec&#x3D;1)# 根据拓扑也就是s1-s1的4端口出到s4,s41端口出到s2……</span><br><span class="line"></span><br><span class="line">    while True:</span><br><span class="line">        try:</span><br><span class="line">            sendp(probe_pkt, iface&#x3D;&#39;eth0&#39;)# 每隔一秒发一个探测包</span><br><span class="line">            time.sleep(1)</span><br><span class="line">        except KeyboardInterrupt:</span><br><span class="line">            sys.exit()</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>这部分要结合拓扑图来看:</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/link-monitor-topo.png" alt="topology" title="">
+                </div>
+                <div class="image-caption">topology</div>
+            </figure>
+<p>这部分probe_pkt这个包其实仔细观察不难发现，它里面的ProbeFwd和拓扑图的路线完全一致，假设是s1进行了发包，那么就是从s1-s1的4端口出到s4,s4的1端口出到s2……然后完成了一个回路到了s1;下面的代码只是每隔一秒钟发一下罢了；</p>
+<h4 id="receive-py分析"><a href="#receive-py分析" class="headerlink" title="receive.py分析"></a>receive.py分析</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env python</span><br><span class="line"></span><br><span class="line">from probe_hdrs import *</span><br><span class="line"></span><br><span class="line">def expand(x):</span><br><span class="line">    yield x</span><br><span class="line">    while x.payload:</span><br><span class="line">        x &#x3D; x.payload</span><br><span class="line">        yield x</span><br><span class="line"></span><br><span class="line">def handle_pkt(pkt):</span><br><span class="line">    if ProbeData in pkt:</span><br><span class="line">        data_layers &#x3D; [l for l in expand(pkt) if l.name&#x3D;&#x3D;&#39;ProbeData&#39;]</span><br><span class="line">        print &quot;&quot;</span><br><span class="line">        for sw in data_layers:</span><br><span class="line">            utilization &#x3D; 0 if sw.cur_time &#x3D;&#x3D; sw.last_time else 8.0*sw.byte_cnt&#x2F;(sw.cur_time - sw.last_time)</span><br><span class="line">            print &quot;Switch &#123;&#125; - Port &#123;&#125;: &#123;&#125; Mbps&quot;.format(sw.swid, sw.port, utilization)</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    iface &#x3D; &#39;eth0&#39;</span><br><span class="line">    print &quot;sniffing on &#123;&#125;&quot;.format(iface)</span><br><span class="line">    sniff(iface &#x3D; iface,</span><br><span class="line">          prn &#x3D; lambda x: handle_pkt(x)) #prn指定回调函数，每当一个符合filter的报文被探测到时，就会执行回调函数，通常使用lambda表达式来写回调函数</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>expand 这个就是一个走yield的递归的函数；</p>
+<p>handle_pkt这部分首先实会不停的往后整pkt得到ProbeData的部分然后存到data_layer里面，然后解析里面的内容，看utilization，计算公式就是以Bit为单位的数据除以时间；</p>
+<p>main还是里面的sniff是一个过滤器，其实是iface为”eth0”的包就扔到handle_pkt里面去处理；</p>
+<h4 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h4><ol>
+<li><p>跑:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make run</span><br></pre></td></tr></table></figure>
+<ul>
+<li>编译link_monitor.p4</li>
+<li>在mininet里面启动如上面图片的拓扑并且将所有的交换机都设置好p4程序和相应的table entries</li>
+<li>根据topology.json设置所有的主机</li>
+</ul>
+</li>
+<li><p>使用mininet打开h1端口，开两个</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mininet&gt; xterm h1 h1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在一个窗口里面跑send.py脚本可以开始每秒发送探测包。探测包的路线和拓扑图一样</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./send.py</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在另一个窗口跑receive.py可以开始接受并且接受这些探测包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./receive.py</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>报告的链路利用率和交换机端口号将始终为0，因为探测字段还没有填写。</p>
+</blockquote>
+</li>
+<li><p>在h1和h4之间开一个iperf流</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mininet&gt;iperf h1 h4</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在所有窗口里面exit然后make stop</p>
+</li>
+</ol>
+<blockquote>
+<p>测量的链路利用率与iperf报告的不一致，因为探测包字段还没有填充。您的目标是填写探测包字段，以便两个测量结果一致。</p>
+</blockquote>
+<h6 id="控制平面的一些说明"><a href="#控制平面的一些说明" class="headerlink" title="控制平面的一些说明"></a>控制平面的一些说明</h6><p>P4程序定义了一个包处理管道，但是每个表中的规则是由控制平面插入的。当一个规则匹配一个包时，它的操作将被控制平面作为规则的一部分提供的参数调用。</p>
+<p>在这个练习中，我们已经为您实现了控制平面逻辑。作为启动Mininet实例的一部分，<code>make run</code>命令将在每个交换机的表中安装包处理规则。这些是在<code>sX-runtime.json</code>中定义的，其中<code>X</code> 对应开关号。</p>
+<p><strong>注意点：</strong>我们使用P4Runtime来安装控制平面规则。 <code>sX-runtime.json</code>文件的运行时的内容指的是表、键和动作的特定名称，如编译器生成的P4Info文件中定义的(在执行<code>make run</code>后查找 <code>build/link_monitor.p4.p4info.txt</code>文件)。P4程序中添加或重命名表、键或操作的任何更改都需要反映在这些 <code>sX-runtime.json</code>文件中。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2021-04-27T16:17:31.093Z" itemprop="dateUpdated">2021-04-28 00:17:31</time>
+</span><br>
+
+
+        
+        Link：<a href="/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/" target="_blank" rel="external">http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/p4/" rel="tag">p4</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/&title=《p4学习-6:实现网络测量》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/&title=《p4学习-6:实现网络测量》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《p4学习-6:实现网络测量》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2021/07/02/%E5%AD%A6%E6%A0%A1%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91%E7%9A%84%E9%85%8D%E7%BD%AE/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">学校服务器访问外网的配置</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2021/04/13/%E5%8C%88%E7%89%99%E5%88%A9%E7%AE%97%E6%B3%95/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">匈牙利算法</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/&title=《p4学习-6:实现网络测量》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/&title=《p4学习-6:实现网络测量》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《p4学习-6:实现网络测量》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMUlEQVR42u3awYrDMAxF0f7/T3eg22LnPikdiHy9KtNk4pOCkCy9Xni9Pyu9/nvxu16/WDJkyHgs471dK8bqkfutf/9Pfs3FS5EhQ8YBjH2Q5Ztb3cvD8f7e5d9lyJAhY/t5vyESvvkrkCFDhow0jeuE3XvvkiFDxgmMWuhMU73VS0kDugwZMk5jpI2B//z8w/6GDBkyHsJ4h+veJuU+7Qt2JUOGjNEMUkbyspbDagd2F+FYhgwZoxn3HrHxwJpmfa1MVoYMGY9l8E3zIMiTOT5qdnGNDBkyRjPSLfL0jjyYNy/RwZwMGTKGMmoDEOlgRIpPj/lkyJAxm0G+ThM7gk9HNPgeZMiQMY/Bx7NIktcpWWstBxkyZJzD4Mf6tYZiiklDsAwZMmYzeLjsDFjUBsh4i1SGDBmzGbUGQOdgjjRN4/RUhgwZBzBIKIwP6MPmQZqGLmtxGTJkjGPw5iJfnYK2RpUhQ8Y5jFp4TcNurWBOm6MyZMiYyuCHaGm7MS16SVkrQ4aMcxi1lmSnVVAbwkC/gAwZMkYz+p/JlbXr0QuSIUPGaEaaP6ahMD3C64xfyJAhYyqjduifFrQ8pBa/lSFDxmhGWqyS1I0/jIfpu0puGTJkPJdRC7JpQZsmf+lTZMiQcQKjVtz2S9DavctSVoYMGccz0rtqg2VpUS1DhgwZfCSiUwDzsI5amDJkyBjKSMe5Oo3JYpm6T0ZlyJAxmtGZ1CANy9rRfy00y5AhYxzjD3z7qHbyR6cYAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>

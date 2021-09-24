@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>p4学习-3:P4 basic tunnel实验 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="p4">
+    <meta name="description" content="P4学习-3：P4 basic tunnel实验实验目标 在本练习中，我们将向IP添加对基本隧道协议的支持 你在上一个作业中完成的路由器。基本交换机根据目的IP地址进行转发。您的工作是定义一个新的头类型来封装IP包并修改交换代码，这样它就可以使用一个新的隧道头来决定目的端口。 新的头类型将包含协议ID，它指示被封装的包的类型，以及用于路由的目的地ID。  P4程序定义了一个包处理管道，但是每个表中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="p4学习-3:P4 basic tunnel实验">
+<meta property="og:url" content="http://tyler-ytr.github.io/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="P4学习-3：P4 basic tunnel实验实验目标 在本练习中，我们将向IP添加对基本隧道协议的支持 你在上一个作业中完成的路由器。基本交换机根据目的IP地址进行转发。您的工作是定义一个新的头类型来封装IP包并修改交换代码，这样它就可以使用一个新的隧道头来决定目的端口。 新的头类型将包含协议ID，它指示被封装的包的类型，以及用于路由的目的地ID。  P4程序定义了一个包处理管道，但是每个表中">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/topo_basic_tunnel.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210228215634236.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210228215915163.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210228220230000.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210228221250171.png">
+<meta property="article:published_time" content="2021-02-24T08:52:17.000Z">
+<meta property="article:modified_time" content="2021-03-05T08:01:47.355Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="p4">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/topo_basic_tunnel.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">p4学习-3:P4 basic tunnel实验</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">p4学习-3:P4 basic tunnel实验</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2021-02-24T08:52:17.000Z" itemprop="datePublished" class="page-time">
+  2021-02-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#P4学习-3：P4-basic-tunnel实验"><span class="post-toc-number">1.</span> <span class="post-toc-text">P4学习-3：P4 basic tunnel实验</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实验目标"><span class="post-toc-number">1.0.1.</span> <span class="post-toc-text">实验目标</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#代码部分"><span class="post-toc-number">1.0.2.</span> <span class="post-toc-text">代码部分</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Parser部分："><span class="post-toc-number">1.0.2.1.</span> <span class="post-toc-text">Parser部分：</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Ingress部分（以及checksum部分）："><span class="post-toc-number">1.0.2.2.</span> <span class="post-toc-text">Ingress部分（以及checksum部分）：</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Egress部分（以及checksum部分）："><span class="post-toc-number">1.0.2.3.</span> <span class="post-toc-text">Egress部分（以及checksum部分）：</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实验结果"><span class="post-toc-number">1.0.3.</span> <span class="post-toc-text">实验结果</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#解析其他内容"><span class="post-toc-number">1.0.4.</span> <span class="post-toc-text">解析其他内容</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#my-tunnel-py"><span class="post-toc-number">1.0.4.1.</span> <span class="post-toc-text">my_tunnel.py</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#send-py"><span class="post-toc-number">1.0.4.2.</span> <span class="post-toc-text">send.py</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#receive-py"><span class="post-toc-number">1.0.4.3.</span> <span class="post-toc-text">receive.py</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#原文部分"><span class="post-toc-number">1.0.5.</span> <span class="post-toc-text">原文部分</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Introduction"><span class="post-toc-number">2.</span> <span class="post-toc-text">Introduction</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#A-note-about-the-control-plane"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">A note about the control plane</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考博客："><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">参考博客：</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-p4学习-3"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">p4学习-3:P4 basic tunnel实验</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2021-02-24 16:52:17" datetime="2021-02-24T08:52:17.000Z"  itemprop="datePublished">2021-02-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="P4学习-3：P4-basic-tunnel实验"><a href="#P4学习-3：P4-basic-tunnel实验" class="headerlink" title="P4学习-3：P4 basic tunnel实验"></a>P4学习-3：P4 basic tunnel实验</h2><h4 id="实验目标"><a href="#实验目标" class="headerlink" title="实验目标"></a>实验目标</h4><ol>
+<li><p>在本练习中，我们将向IP添加对基本隧道协议的支持</p>
+<p>你在上一个作业中完成的路由器。基本交换机根据目的IP地址进行转发。您的工作是定义一个新的头类型来封装IP包并修改交换代码，这样它就可以使用一个新的隧道头来决定目的端口。</p>
+<p>新的头类型将包含协议ID，它指示被封装的包的类型，以及用于路由的目的地ID。</p>
+</li>
+<li><p>P4程序定义了一个包处理管道，但是每个表中的规则是由控制平面插入的。当一个规则匹配一个包时，它的操作将被控制平面作为规则的一部分提供的参数调用。</p>
+<p>对于本练习，我们已经添加了必要的静态控制平面条目。作为启动Mininet实例的一部分，<code>make run</code>命令将在每个交换机的表中安装包处理规则。这些是在<code>sX-runtime</code>中定义的<code>json files</code>，其中<code>X</code>对应开关号。</p>
+<p>因为控制平面试图访问<code>myTunnel_exact</code>表，而这个表还不存在，所以<code>make run</code>命令不能与启动器代码一起工作。</p>
+<p>PS：这里使用P4Runtime来安装规则，文件内容在<code>sX-runtime.json</code>里面</p>
+</li>
+<li><p>拓扑如下:</p>
+<p><img src="/picture/topo_basic_tunnel.png" alt="pod-topo"></p>
+</li>
+<li><p><code>basic_tunnel.p4</code>文件包含了一个基本的IP路由器的实现，完整的实现版本将能够转发基于自定义封装头的内容，以及如果封装头在数据包中不存在，那么将执行正常的IP转发。工作有以下几个部分:</p>
+<ol>
+<li><strong>NOTE:</strong>添加了一个新的头类型称作<code>myTunnel_t</code> ,包含了<code>proto_id</code> and <code>dst_id</code></li>
+<li><strong>NOTE:</strong><code>myTunnel_t</code> 已经加入了<code>myTunnel_t</code> header</li>
+<li><strong>TODO:</strong>更新解析器，根据以太网头中的<code>etherType</code>字段提取<code>myTunnel</code>头或<code>ipv4</code>头。myTunnel报头对应的etherType是’ 0x1212 ‘。如果<code>proto_id</code> == <code>TYPE_IPV4 &#39;</code>即0x0800)，解析器还应该在<code>myTunnel 头</code>之后提取<code>ipv4</code>头。</li>
+<li><strong>TODO:</strong> 定义了一个新的action称作 <code>myTunnel_forward</code> ，它设置出口端口(即<code>standard_metadata</code>总线的<code>egress_spec</code>字段)到控制平面提供的端口号。</li>
+<li><strong>TODO:</strong>定义一个名为<code>myTunnel_exact</code>的新表，它对<code>myTunnel</code>报头的<code>dst_id</code>字段执行精确匹配。如果表中有匹配项，该表应该调用<code>myTunnel_forward</code>操作，否则它应该调用<code>drop</code>操作。</li>
+<li><strong>TODO:</strong>如果<code>myTunnel</code>报头有效，更新<code>MyIngress</code>控制块中的<code>apply</code>语句，以应用新定义的<code>myTunnel_exact</code>表。否则，如果<code>ipv4</code>报头有效，则调用<code>ipv4_lpm</code>表。</li>
+<li>更新deparser以发出’ ethernet ‘，然后是’ myTunnel ‘，然后是’ ipv4 ‘头。请记住，deparser只会在消息头有效时发出消息头。头的隐式有效性位由解析器在提取时设置。这里不需要检查头的有效性。</li>
+<li>为新定义的表添加静态规则，以便交换机能够正确转发’ dst_id ‘的每个可能值。请参阅下面的图，了解拓扑的端口配置以及我们将如何为主机分配id。在此步骤中，您需要将转发规则添加到“sX-runtime”中。json文件。</li>
+</ol>
+</li>
+</ol>
+<h4 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h4><p><strong>headers部分：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* -*- P4_16 -*- *&#x2F;</span><br><span class="line">#include &lt;core.p4&gt;</span><br><span class="line">#include &lt;v1model.p4&gt;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; NOTE: new type added here</span><br><span class="line">const bit&lt;16&gt; TYPE_MYTUNNEL &#x3D; 0x1212;</span><br><span class="line">const bit&lt;16&gt; TYPE_IPV4 &#x3D; 0x800;</span><br><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">*********************** H E A D E R S  ***********************************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">typedef bit&lt;9&gt;  egressSpec_t;</span><br><span class="line">typedef bit&lt;48&gt; macAddr_t;</span><br><span class="line">typedef bit&lt;32&gt; ip4Addr_t;</span><br><span class="line"></span><br><span class="line">header ethernet_t &#123;</span><br><span class="line">    macAddr_t dstAddr;</span><br><span class="line">    macAddr_t srcAddr;</span><br><span class="line">    bit&lt;16&gt;   etherType;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; NOTE: added new header type</span><br><span class="line">header myTunnel_t &#123;&#x2F;&#x2F;新的header type</span><br><span class="line">    bit&lt;16&gt; proto_id; &#x2F;&#x2F;包含了proto_id以及dst_id</span><br><span class="line">    bit&lt;16&gt; dst_id;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">header ipv4_t &#123;</span><br><span class="line">    bit&lt;4&gt;    version;</span><br><span class="line">    bit&lt;4&gt;    ihl;</span><br><span class="line">    bit&lt;8&gt;    diffserv;</span><br><span class="line">    bit&lt;16&gt;   totalLen;</span><br><span class="line">    bit&lt;16&gt;   identification;</span><br><span class="line">    bit&lt;3&gt;    flags;</span><br><span class="line">    bit&lt;13&gt;   fragOffset;</span><br><span class="line">    bit&lt;8&gt;    ttl;</span><br><span class="line">    bit&lt;8&gt;    protocol;</span><br><span class="line">    bit&lt;16&gt;   hdrChecksum;</span><br><span class="line">    ip4Addr_t srcAddr;</span><br><span class="line">    ip4Addr_t dstAddr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct metadata &#123;</span><br><span class="line">    &#x2F;* empty *&#x2F;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; NOTE: Added new header type to headers struct</span><br><span class="line">struct headers &#123;</span><br><span class="line">    ethernet_t   ethernet;</span><br><span class="line">    myTunnel_t   myTunnel; &#x2F;&#x2F;新添加的字段</span><br><span class="line">    ipv4_t       ipv4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Parser部分："><a href="#Parser部分：" class="headerlink" title="Parser部分："></a><strong>Parser部分：</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*************************************************************************</span><br><span class="line">*********************** P A R S E R  ***********************************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; TODO: Update the parser to parse the myTunnel header as well</span><br><span class="line">parser MyParser(packet_in packet,</span><br><span class="line">                out headers hdr,</span><br><span class="line">                inout metadata meta,</span><br><span class="line">                inout standard_metadata_t standard_metadata) &#123;</span><br><span class="line"></span><br><span class="line">    state start &#123;</span><br><span class="line">        transition parse_ethernet;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    state parse_ethernet &#123;</span><br><span class="line">        packet.extract(hdr.ethernet);</span><br><span class="line">        transition select(hdr.ethernet.etherType) &#123;</span><br><span class="line">            TYPE_IPV4 : parse_ipv4;</span><br><span class="line">            default : accept;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    state parse_ipv4 &#123;</span><br><span class="line">        packet.extract(hdr.ipv4);</span><br><span class="line">        transition accept;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解答:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*************************************************************************</span><br><span class="line">*********************** P A R S E R  ***********************************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; TODO: Update the parser to parse the myTunnel header as well</span><br><span class="line">parser MyParser(packet_in packet,</span><br><span class="line">                out headers hdr,</span><br><span class="line">                inout metadata meta,</span><br><span class="line">                inout standard_metadata_t standard_metadata) &#123;</span><br><span class="line"></span><br><span class="line">    state start &#123;</span><br><span class="line">        transition parse_ethernet;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    state parse_ethernet &#123;</span><br><span class="line">        packet.extract(hdr.ethernet);</span><br><span class="line">        transition select(hdr.ethernet.etherType) &#123;</span><br><span class="line">            TYPE_IPV4 : parse_ipv4;</span><br><span class="line">            TYPE_MYTUNNEL : parse_mytunnel;</span><br><span class="line">            default : accept;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    state parse_ipv4 &#123;</span><br><span class="line">        packet.extract(hdr.ipv4);</span><br><span class="line">        transition accept;</span><br><span class="line">    &#125;</span><br><span class="line">    state parse_mytunnel&#123;</span><br><span class="line">    	packet.extract(hdr.myTunnel);</span><br><span class="line">    	transition select(hdr.myTunnel.proto_id)&#123; &#x2F;&#x2F;满足需求：如果&#96;proto_id &#96; &#x3D;&#x3D; &#96; TYPE_IPV4 &#39;&#96;即0x0800)，解析器还应该在&#96;myTunnel 头&#96;之后提取&#96;ipv4 &#96;头。</span><br><span class="line">    		TYPE_IPV4 : parse_ipv4;</span><br><span class="line">    		default : accept;</span><br><span class="line">    	&#125;</span><br><span class="line">    	transition accept;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Ingress部分（以及checksum部分）："><a href="#Ingress部分（以及checksum部分）：" class="headerlink" title="Ingress部分（以及checksum部分）："></a><strong>Ingress部分（以及checksum部分）：</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">************   C H E C K S U M    V E R I F I C A T I O N   *************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyVerifyChecksum(inout headers hdr, inout metadata meta) &#123;   </span><br><span class="line">    apply &#123;  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">**************  I N G R E S S   P R O C E S S I N G   *******************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyIngress(inout headers hdr,</span><br><span class="line">                  inout metadata meta,</span><br><span class="line">                  inout standard_metadata_t standard_metadata) &#123;</span><br><span class="line">    action drop() &#123;</span><br><span class="line">        mark_to_drop(standard_metadata);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    action ipv4_forward(macAddr_t dstAddr, egressSpec_t port) &#123;</span><br><span class="line">        standard_metadata.egress_spec &#x3D; port;</span><br><span class="line">        hdr.ethernet.srcAddr &#x3D; hdr.ethernet.dstAddr;</span><br><span class="line">        hdr.ethernet.dstAddr &#x3D; dstAddr;</span><br><span class="line">        hdr.ipv4.ttl &#x3D; hdr.ipv4.ttl - 1;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    table ipv4_lpm &#123;</span><br><span class="line">        key &#x3D; &#123;</span><br><span class="line">            hdr.ipv4.dstAddr: lpm;</span><br><span class="line">        &#125;</span><br><span class="line">        actions &#x3D; &#123;</span><br><span class="line">            ipv4_forward;</span><br><span class="line">            drop;</span><br><span class="line">            NoAction;</span><br><span class="line">        &#125;</span><br><span class="line">        size &#x3D; 1024;</span><br><span class="line">        default_action &#x3D; drop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; TODO: declare a new action: myTunnel_forward(egressSpec_t port)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; TODO: declare a new table: myTunnel_exact</span><br><span class="line">    &#x2F;&#x2F; TODO: also remember to add table entries!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    apply &#123;</span><br><span class="line">        &#x2F;&#x2F; TODO: Update control flow</span><br><span class="line">        if (hdr.ipv4.isValid()) &#123;</span><br><span class="line">            ipv4_lpm.apply();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解答：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">************   C H E C K S U M    V E R I F I C A T I O N   *************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyVerifyChecksum(inout headers hdr, inout metadata meta) &#123;   </span><br><span class="line">    apply &#123;  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">**************  I N G R E S S   P R O C E S S I N G   *******************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyIngress(inout headers hdr,</span><br><span class="line">                  inout metadata meta,</span><br><span class="line">                  inout standard_metadata_t standard_metadata) &#123;</span><br><span class="line">    action drop() &#123;</span><br><span class="line">        mark_to_drop(standard_metadata);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    action ipv4_forward(macAddr_t dstAddr, egressSpec_t port) &#123;</span><br><span class="line">        standard_metadata.egress_spec &#x3D; port;</span><br><span class="line">        hdr.ethernet.srcAddr &#x3D; hdr.ethernet.dstAddr;</span><br><span class="line">        hdr.ethernet.dstAddr &#x3D; dstAddr;</span><br><span class="line">        hdr.ipv4.ttl &#x3D; hdr.ipv4.ttl - 1;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    table ipv4_lpm &#123;</span><br><span class="line">        key &#x3D; &#123;</span><br><span class="line">            hdr.ipv4.dstAddr: lpm;&#x2F;&#x2F;最长前缀匹配</span><br><span class="line">        &#125;</span><br><span class="line">        actions &#x3D; &#123;</span><br><span class="line">            ipv4_forward;</span><br><span class="line">            drop;</span><br><span class="line">            NoAction;</span><br><span class="line">        &#125;</span><br><span class="line">        size &#x3D; 1024;</span><br><span class="line">        default_action &#x3D; drop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; TODO: declare a new action: myTunnel_forward(egressSpec_t port)</span><br><span class="line">	action myTunnel_ford(egressSpec_t port)&#123;</span><br><span class="line">		standard_metadata.egress_spec &#x3D; port;&#x2F;&#x2F;设置端口号</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; TODO: declare a new table: myTunnel_exact</span><br><span class="line">    table myTunnel_exact&#123;</span><br><span class="line">    	key&#x3D;&#123;</span><br><span class="line">    		hdr.myTunnel.dst_id: exact;&#x2F;&#x2F;精准匹配</span><br><span class="line">    	&#125;</span><br><span class="line">    	actions&#x3D;&#123;</span><br><span class="line">    		myTunnel_ford;</span><br><span class="line">    		drop;&#x2F;&#x2F;如果表中有匹配项，该表应该调用&#96; myTunnel_forward &#96;操作，否则它应该调用&#96; drop &#96;操作。</span><br><span class="line">    	&#125;</span><br><span class="line">    	size &#x3D; 1024;</span><br><span class="line">        default_action &#x3D; drop();</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; TODO: also remember to add table entries!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    apply &#123;</span><br><span class="line">        &#x2F;&#x2F; TODO: Update control flow</span><br><span class="line">        if (hdr.ipv4.isValid()) &#123;</span><br><span class="line">            ipv4_lpm.apply();</span><br><span class="line">        &#125;</span><br><span class="line">        if(hdr.myTunnel.isValid())&#123;&#x2F;&#x2F;模仿ipv4写的</span><br><span class="line">        	myTunnel_exact.apply();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>PS: match_kind： 这是match_action table里面的一种类型，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">key&#x3D;&#123;</span><br><span class="line">	hdr.myTunnel.dst_id: exact;&#x2F;&#x2F;精准匹配</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>里面的exact就是一种match_kind，<a href="https://github.com/p4lang/p4c" target="_blank" rel="noopener">p4c</a>/<a href="https://github.com/p4lang/p4c/tree/master/p4include" target="_blank" rel="noopener">p4include</a>/core.p4有三种:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">match_kind &#123;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; Match bits exactly.精准匹配</span><br><span class="line">    exact,</span><br><span class="line">    &#x2F;&#x2F;&#x2F; Ternary match, using a mask. 把值和一个 mask 比较，比如 0x01020304 符合 mask 0x0F0F0F0F</span><br><span class="line">    ternary,</span><br><span class="line">    &#x2F;&#x2F;&#x2F; Longest-prefix match.最长前缀匹配</span><br><span class="line">    lpm</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/p4lang/p4c" target="_blank" rel="noopener">p4c</a>/<a href="https://github.com/p4lang/p4c/tree/master/p4include" target="_blank" rel="noopener">p4include</a>/<strong>v1model.p4</strong>里面有一下几种:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">match_kind &#123;</span><br><span class="line">    &#x2F;&#x2F;检查是否值在一个范围里，比如取 0x01020304 - 0x010203FF 之间的值</span><br><span class="line">    range,</span><br><span class="line">    &#x2F;&#x2F; Either an exact match, or a wildcard (matching any value).精准匹配或者通配</span><br><span class="line">    optional,</span><br><span class="line">    &#x2F;&#x2F; Used for implementing dynamic_action_selection 用于实现dynamic_action_selection</span><br><span class="line">    selector</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为在include上述两个文件的情况下一共有六种</p>
+<h5 id="Egress部分（以及checksum部分）："><a href="#Egress部分（以及checksum部分）：" class="headerlink" title="Egress部分（以及checksum部分）："></a>Egress部分（以及checksum部分）：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*************************************************************************</span><br><span class="line">****************  E G R E S S   P R O C E S S I N G   *******************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyEgress(inout headers hdr,</span><br><span class="line">                 inout metadata meta,</span><br><span class="line">                 inout standard_metadata_t standard_metadata) &#123;</span><br><span class="line">    apply &#123;  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;*************************************************************************</span><br><span class="line">*************   C H E C K S U M    C O M P U T A T I O N   **************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyComputeChecksum(inout headers  hdr, inout metadata meta) &#123;</span><br><span class="line">     apply &#123;</span><br><span class="line">	update_checksum(</span><br><span class="line">	    hdr.ipv4.isValid(),</span><br><span class="line">            &#123; hdr.ipv4.version,</span><br><span class="line">	      hdr.ipv4.ihl,</span><br><span class="line">              hdr.ipv4.diffserv,</span><br><span class="line">              hdr.ipv4.totalLen,</span><br><span class="line">              hdr.ipv4.identification,</span><br><span class="line">              hdr.ipv4.flags,</span><br><span class="line">              hdr.ipv4.fragOffset,</span><br><span class="line">              hdr.ipv4.ttl,</span><br><span class="line">              hdr.ipv4.protocol,</span><br><span class="line">              hdr.ipv4.srcAddr,</span><br><span class="line">              hdr.ipv4.dstAddr &#125;,</span><br><span class="line">            hdr.ipv4.hdrChecksum,</span><br><span class="line">            HashAlgorithm.csum16);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Deparser部分:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*************************************************************************</span><br><span class="line">***********************  D E P A R S E R  *******************************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyDeparser(packet_out packet, in headers hdr) &#123;</span><br><span class="line">    apply &#123;</span><br><span class="line">        packet.emit(hdr.ethernet);</span><br><span class="line">        &#x2F;&#x2F; TODO: emit myTunnel header as well</span><br><span class="line">        packet.emit(hdr.ipv4);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解答:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*************************************************************************</span><br><span class="line">***********************  D E P A R S E R  *******************************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">control MyDeparser(packet_out packet, in headers hdr) &#123;</span><br><span class="line">    apply &#123;</span><br><span class="line">        packet.emit(hdr.ethernet);</span><br><span class="line">        &#x2F;&#x2F; TODO: emit myTunnel header as well</span><br><span class="line">        packet.emit(hdr.myTunnel);</span><br><span class="line">        packet.emit(hdr.ipv4);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>实例化部分：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*************************************************************************</span><br><span class="line">***********************  S W I T C H  *******************************</span><br><span class="line">*************************************************************************&#x2F;</span><br><span class="line"></span><br><span class="line">V1Switch(</span><br><span class="line">MyParser(),</span><br><span class="line">MyVerifyChecksum(),</span><br><span class="line">MyIngress(),</span><br><span class="line">MyEgress(),</span><br><span class="line">MyComputeChecksum(),</span><br><span class="line">MyDeparser()</span><br><span class="line">) main;</span><br></pre></td></tr></table></figure>
+<h4 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h4><ol>
+<li><p>make run</p>
+<p>这会进行以下几步:</p>
+<ol>
+<li>编译basic_tunnel.p4</li>
+<li>启动一个Mininet实例，其中三个交换机(<code>s1</code>、<code>s2</code>、<code>s3</code>)配置在一个三角形中，每个交换机连接到一个主机(<code>h1</code>、<code>h2</code>和<code>h3</code>)。</li>
+<li>这些主机的ip地址设置为<code>10.0.1.1</code>, <code>10.0.2.2</code>, and <code>10.0.3.3</code>.</li>
+</ol>
+<p>然后进入mininet界面</p>
+</li>
+<li><p>使用mininet的xterm功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mininet&gt; xterm h1 h2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在h2的界面输入 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;receive.py</span><br></pre></td></tr></table></figure>
+<p>在h1的界面输入:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;send.py 10.0.2.2 &quot;P4 is cool&quot;</span><br></pre></td></tr></table></figure>
+<p>这是不经过my_tunnel的测试；</p>
+<p>如果您检查接收到的数据包，您应该会看到它由一个以太网报头、一个IP报头、一个TCP报头和消息组成。如果您更改了目的IP地址(例如试图发送到’ 10.0.3.3 ‘)，则该消息不应该被’ h2 ‘接收，而将被’ h3 ‘接收。</p>
+<p>结果如下图:</p>
+<p><img src="/picture/image-20210228215634236.png" alt="image-20210228215634236"></p>
+<p>发给10.0.3.3之后:</p>
+<p>h1有相似的显示，h2没有变化</p>
+</li>
+<li><p>下面测试my_tunnel</p>
+<p>在h1的界面输入:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;send.py 10.0.2.2 &quot;P4 is cool&quot; --dst_id 2</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>   结果如下图:</p>
+<p>   <img src="/picture/image-20210228215915163.png" alt="image-20210228215915163"></p>
+<p>   数据包在<code>h2</code>处接收。它由一个以太网报头、一个隧道报头、一个IP报头、一个TCP报头和消息组成。隧道报头就是那个###[MyTunnel]在IP报头上面;</p>
+<ol>
+<li><p>在h1的界面输入:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;send.py 10.0.3.3 &quot;P4 is cool&quot; --dst_id 2</span><br></pre></td></tr></table></figure>
+<p>结果如下:</p>
+<p><img src="/picture/image-20210228220230000.png" alt="image-20210228220230000"></p>
+<p>即使IP地址是<code>h3</code>的地址，数据包也应该在<code>h2</code>处接收。这是因为当<code>MyTunnel</code>头在包中时，交换机不再使用IP头进行路由。</p>
+<p>一开始我也不理解上面这句话，后来我看了s1-runtime文件，这个文件规定了交换机的静态规则，将这个文件和basic里面的同名文件比较会发现里面多了:</p>
+<p><img src="/picture/image-20210228221250171.png" alt="image-20210228221250171"></p>
+<p>这部分内容结合刚刚./receive代码里面的—dst 2后缀可以得知刚刚那个包在进入交换机s1之后会因为p4的解包触发走myTunnel_forward的规则然后发给S1的2端口，结合拓扑图可以看出确实是发给h2的</p>
+</li>
+</ol>
+<h4 id="解析其他内容"><a href="#解析其他内容" class="headerlink" title="解析其他内容"></a>解析其他内容</h4><h5 id="my-tunnel-py"><a href="#my-tunnel-py" class="headerlink" title="my_tunnel.py"></a>my_tunnel.py</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> scapy.all <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> sys, os</span><br><span class="line"></span><br><span class="line">TYPE_MYTUNNEL = <span class="number">0x1212</span></span><br><span class="line">TYPE_IPV4 = <span class="number">0x0800</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyTunnel</span><span class="params">(Packet)</span>:</span></span><br><span class="line">    name = <span class="string">"MyTunnel"</span></span><br><span class="line">    fields_desc = [</span><br><span class="line">        ShortField(<span class="string">"pid"</span>, <span class="number">0</span>),</span><br><span class="line">        ShortField(<span class="string">"dst_id"</span>, <span class="number">0</span>)</span><br><span class="line">    ]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mysummary</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.sprintf(<span class="string">"pid=%pid%, dst_id=%dst_id%"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">bind_layers(Ether, MyTunnel, type=TYPE_MYTUNNEL)</span><br><span class="line">bind_layers(MyTunnel, IP, pid=TYPE_IPV4)</span><br></pre></td></tr></table></figure>
+<p>因为原来的scapy只支持ipv4，不支持我们的myTunnel协议，因此需要重新定义，上面的文件就重新定义了MyTunnel；</p>
+<blockquote>
+<p>每一个协议层都是Packet类的子类。协议层背后所有逻辑的操作都是被Packet类和继承的类所处理的。一个简单的协议层是被一系列的字段构成，他们关联在一起组成了协议层，解析时拆分成一个一个的字符串。这些字段都包含在名为fields_desc的属性中。每一个字段都是一个field类的实例：</p>
+</blockquote>
+<p>上面MyTunnel的协议层有两个字段分别是pid和dst_id，默认值都是0；</p>
+<p>UDP的协议层定义如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class UDP(Packet):</span><br><span class="line">    name &#x3D; &quot;UDP&quot;</span><br><span class="line">    fields_desc &#x3D; [ ShortEnumField(&quot;sport&quot;, 53, UDP_SERVICES),</span><br><span class="line">                    ShortEnumField(&quot;dport&quot;, 53, UDP_SERVICES),</span><br><span class="line">                    ShortField(&quot;len&quot;, None),</span><br><span class="line">                    XShortField(&quot;chksum&quot;, None), ]</span><br></pre></td></tr></table></figure>
+<p>最后两句是绑定协议层;</p>
+<blockquote>
+<p>Scapy在解析协议层时一个很酷的特性是他试图猜测下一层协议是什么。连接两个协议层官方的方法是bind_layers():</p>
+</blockquote>
+<h5 id="send-py"><a href="#send-py" class="headerlink" title="send.py"></a>send.py</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scapy.all <span class="keyword">import</span> sendp, send, get_if_list, get_if_hwaddr, hexdump</span><br><span class="line"><span class="keyword">from</span> scapy.all <span class="keyword">import</span> Packet</span><br><span class="line"><span class="keyword">from</span> scapy.all <span class="keyword">import</span> Ether, IP, UDP, TCP</span><br><span class="line"><span class="keyword">from</span> myTunnel_header <span class="keyword">import</span> MyTunnel</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_if</span><span class="params">()</span>:</span></span><br><span class="line">    ifs=get_if_list() <span class="comment">#    # type: () -&gt; List[str] """Return a list of interface names""",返回接口(网卡)名字</span></span><br><span class="line">    iface=<span class="literal">None</span> <span class="comment"># "h1-eth0"</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> get_if_list():</span><br><span class="line">        <span class="keyword">if</span> <span class="string">"eth0"</span> <span class="keyword">in</span> i:</span><br><span class="line">            iface=i</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> iface:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Cannot find eth0 interface"</span></span><br><span class="line">        exit(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> iface</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    parser = argparse.ArgumentParser()<span class="comment">#argsparse是python的命令行解析的标准模块，相当于就是解析./send.py后面的参数</span></span><br><span class="line">    parser.add_argument(<span class="string">'ip_addr'</span>, type=str, help=<span class="string">"The destination IP address to use"</span>)<span class="comment">#type是要传入的参数的数据类型  help是该参数的提示信息,使用python send.py -h可以看到</span></span><br><span class="line">    parser.add_argument(<span class="string">'message'</span>, type=str, help=<span class="string">"The message to include in packet"</span>)</span><br><span class="line">    parser.add_argument(<span class="string">'--dst_id'</span>, type=int, default=<span class="literal">None</span>, help=<span class="string">'The myTunnel dst_id to use, if unspecified then myTunnel header will not be included in packet'</span>)</span><br><span class="line">    args = parser.parse_args()<span class="comment">##获得传入的参数</span></span><br><span class="line"></span><br><span class="line">    addr = socket.gethostbyname(args.ip_addr)<span class="comment">## 获取ip_addr的主机名</span></span><br><span class="line">    dst_id = args.dst_id<span class="comment">#获得dst_id</span></span><br><span class="line">    iface = get_if()<span class="comment">#获取网卡的名字</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (dst_id <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>):<span class="comment">#包装</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"sending on interface &#123;&#125; to dst_id &#123;&#125;"</span>.format(iface, str(dst_id))</span><br><span class="line">        pkt =  Ether(src=get_if_hwaddr(iface), dst=<span class="string">'ff:ff:ff:ff:ff:ff'</span>)</span><br><span class="line">        pkt = pkt / MyTunnel(dst_id=dst_id) / IP(dst=addr) / args.message</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"sending on interface &#123;&#125; to IP addr &#123;&#125;"</span>.format(iface, str(addr))</span><br><span class="line">        pkt =  Ether(src=get_if_hwaddr(iface), dst=<span class="string">'ff:ff:ff:ff:ff:ff'</span>)</span><br><span class="line">        pkt = pkt / IP(dst=addr) / TCP(dport=<span class="number">1234</span>, sport=random.randint(<span class="number">49152</span>,<span class="number">65535</span>)) / args.message</span><br><span class="line"></span><br><span class="line">    pkt.show2()</span><br><span class="line"><span class="comment">#    hexdump(pkt)</span></span><br><span class="line"><span class="comment">#    print "len(pkt) = ", len(pkt)</span></span><br><span class="line">    sendp(pkt, iface=iface, verbose=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>大概流程就是，先分析参数，然后包装成Ether的格式然后用scapy发包;</p>
+<h5 id="receive-py"><a href="#receive-py" class="headerlink" title="receive.py"></a>receive.py</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scapy.all <span class="keyword">import</span> sniff, sendp, hexdump, get_if_list, get_if_hwaddr</span><br><span class="line"><span class="keyword">from</span> scapy.all <span class="keyword">import</span> Packet, IPOption</span><br><span class="line"><span class="keyword">from</span> scapy.all <span class="keyword">import</span> ShortField, IntField, LongField, BitField, FieldListField, FieldLenField</span><br><span class="line"><span class="keyword">from</span> scapy.all <span class="keyword">import</span> IP, TCP, UDP, Raw</span><br><span class="line"><span class="keyword">from</span> scapy.layers.inet <span class="keyword">import</span> _IPOption_HDR</span><br><span class="line"><span class="keyword">from</span> myTunnel_header <span class="keyword">import</span> MyTunnel</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_if</span><span class="params">()</span>:</span> <span class="comment"># 获得网卡接口</span></span><br><span class="line">    ifs=get_if_list()</span><br><span class="line">    iface=<span class="literal">None</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> get_if_list():</span><br><span class="line">        <span class="keyword">if</span> <span class="string">"eth0"</span> <span class="keyword">in</span> i:</span><br><span class="line">            iface=i</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> iface:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Cannot find eth0 interface"</span></span><br><span class="line">        exit(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> iface</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_pkt</span><span class="params">(pkt)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> MyTunnel <span class="keyword">in</span> pkt <span class="keyword">or</span> (TCP <span class="keyword">in</span> pkt <span class="keyword">and</span> pkt[TCP].dport == <span class="number">1234</span>):</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"got a packet"</span></span><br><span class="line">        pkt.show2()</span><br><span class="line"><span class="comment">#        hexdump(pkt)</span></span><br><span class="line"><span class="comment">#        print "len(pkt) = ", len(pkt)</span></span><br><span class="line">        sys.stdout.flush()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    ifaces = filter(<span class="keyword">lambda</span> i: <span class="string">'eth'</span> <span class="keyword">in</span> i, os.listdir(<span class="string">'/sys/class/net/'</span>))</span><br><span class="line">    iface = ifaces[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"sniffing on %s"</span> % iface</span><br><span class="line">    sys.stdout.flush()</span><br><span class="line">    sniff(iface = iface,</span><br><span class="line">          prn = <span class="keyword">lambda</span> x: handle_pkt(x))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p>首先获得网卡，发出“sniffing on….”信息，并且立刻打出来，然后把收到的包里面的东西立刻打印出来</p>
+<h4 id="原文部分"><a href="#原文部分" class="headerlink" title="原文部分"></a>原文部分</h4><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>In this exercise, we will add support for a basic tunneling protocol to the IP<br>router that you completed in the previous assignment.  The basic switch<br>forwards based on the destination IP address.  Your jobs is to define a new<br>header type to encapsulate the IP packet and modify the switch code, so that it<br>instead decides the destination port using a new tunnel header.</p>
+<p>The new header type will contain a protocol ID, which indicates the type of<br>packet being encapsulated, along with a destination ID to be used for routing.</p>
+<blockquote>
+<p><strong>Spoiler alert:</strong> There is a reference solution in the <code>solution</code><br>sub-directory. Feel free to compare your implementation to the reference.</p>
+</blockquote>
+<p>The starter code for this assignment is in a file called <code>basic_tunnel.p4</code> and<br>is simply the solution to the IP router from the previous exercise.</p>
+<h3 id="A-note-about-the-control-plane"><a href="#A-note-about-the-control-plane" class="headerlink" title="A note about the control plane"></a>A note about the control plane</h3><p>A P4 program defines a packet-processing pipeline, but the rules within each<br>table are inserted by the control plane. When a rule matches a packet, its<br>action is invoked with parameters supplied by the control plane as part of the<br>rule.</p>
+<p>For this exercise, we have already added the necessary static control plane<br>entries. As part of bringing up the Mininet instance, the <code>make run</code> command<br>will install packet-processing rules in the tables of each switch. These are<br>defined in the <code>sX-runtime.json</code> files, where <code>X</code> corresponds to the switch<br>number.</p>
+<p>Since the control plane tries to access the <code>myTunnel_exact</code> table, and that<br>table does not yet exist, the <code>make run</code> command will not work with the starter<br>code.</p>
+<p><strong>Important:</strong> We use P4Runtime to install the control plane rules. The content<br>of files <code>sX-runtime.json</code> refer to specific names of tables, keys, and<br>actions, as defined in the P4Info file produced by the compiler (look for the<br>file <code>build/basic.p4info</code> after executing <code>make run</code>). Any changes in the P4<br>program that add or rename tables, keys, or actions will need to be reflected<br>in these <code>sX-runtime.json</code> files.</p>
+<h4 id="参考博客："><a href="#参考博客：" class="headerlink" title="参考博客："></a>参考博客：</h4><ul>
+<li><a href="https://www.zhihu.com/column/c_1336207793033015296" target="_blank" rel="noopener">P4学习笔记专栏</a></li>
+<li><a href="https://github.com/p4lang/p4c/blob/master/p4include/core.p4" target="_blank" rel="noopener">core.p4库</a></li>
+<li><a href="https://wizardforcel.gitbooks.io/scapy-docs/content/3.html" target="_blank" rel="noopener">scapy中文文档</a></li>
+<li><a href="https://blog.csdn.net/dj1174232716/article/details/49046409" target="_blank" rel="noopener">scapy添加新的协议</a></li>
+<li><a href="https://github.com/secdev/scapy" target="_blank" rel="noopener">scapy源码</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/56922793" target="_blank" rel="noopener">argparse使用</a></li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2021-03-05T08:01:47.355Z" itemprop="dateUpdated">2021-03-05 16:01:47</time>
+</span><br>
+
+
+        
+        Link：<a href="/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/" target="_blank" rel="external">http://tyler-ytr.github.io/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/p4/" rel="tag">p4</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/&title=《p4学习-3:P4 basic tunnel实验》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/&title=《p4学习-3:P4 basic tunnel实验》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《p4学习-3:P4 basic tunnel实验》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2021/02/25/how-to-read-a-paper-notes/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">如何阅读一篇论文阅读笔记</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2021/02/24/leetcode24-m/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">leetcode24-m</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/&title=《p4学习-3:P4 basic tunnel实验》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/&title=《p4学习-3:P4 basic tunnel实验》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《p4学习-3:P4 basic tunnel实验》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/02/24/p4%E5%AD%A6%E4%B9%A0-3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMElEQVR42u3aUY6DMAwFwN7/0uwBKuh7Cd2KZPJVVRQyrOS1Y79e8TpO1tmVZ789u9vZlTcvDAyMxzKOy/W+ueTz2Tftr5K9YWBg7MNIHnYdCpMw2m4xD+sYGBgY18GuDcHX32NgYGDMMJJQGz2yDNYYGBgYeYp2HVjzw7If1+IYGBgPZOSn7v//+Sv9DQwMjEcxjumVJ3nf2xUGBsbajDYIzhyrJQdt7SgGBgbGDoz80vlNj4XpItRiYGAsyshTuradOdMWzV8TBgbGPox89GGmyJwJtXWGi4GBsRxjpmRN0rh8LKxtar7yiI6BgfFwxr03bRljQx4YGBi7MfIBi7GEr00rb26LYmBgLMFoA2h7xJaA2xcRdWIxMDCWYMwcio0d38+kkqd7wMDA2ICRjzXMgNvWZvESMTAwtmGMHYrlgfKuIjbqwWJgYCzEGGtDtqOreeE6k0RiYGCsypgJo0mDM99o28I8PW7DwMBYlPGrEbG8PVk0LzEwMJZj5IEvf3xb1rZ7+PA3wcDAWI6RjDIkATd5ZBLck2D9oYWJgYGxHKM9/GpHXfP0ri19iy4HBgbGwxlHucaK2ITXJpH1fAcGBsZjGfk6vrby/wxJoomBgbEqY6yV2JamY62IIhxjYGBswCiq3rjFOBZk23ExDAwMjLZhOZMaTg1eYGBgYAwF3+ujunaY7AMSAwNjA8bMLdpBirHyNerEYmBgLMpoRxzuHbZoy+MbWpgYGBhPYvwBgVuZr6FCbGoAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>ubuntu教程 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="教程">
+    <meta name="description" content="反思 之前崩的原因是搜狗输入法安装的时候没有提前安装fcix框架,导致乱码然后系统就傻掉了; 重装很多次的原因是因为没有在重装之前完全的格式化分区,我建议每一次玩具坏了都要用windows格式化一次呜呜呜  复活操作基本配置 管理员权限,换源,安装vim    sudo passwd(修改sudo密码)   sudo apt-get update   sudo apt-get install vi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu教程">
+<meta property="og:url" content="http://tyler-ytr.github.io/2020/01/22/ubuntu-back/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="反思 之前崩的原因是搜狗输入法安装的时候没有提前安装fcix框架,导致乱码然后系统就傻掉了; 重装很多次的原因是因为没有在重装之前完全的格式化分区,我建议每一次玩具坏了都要用windows格式化一次呜呜呜  复活操作基本配置 管理员权限,换源,安装vim    sudo passwd(修改sudo密码)   sudo apt-get update   sudo apt-get install vi">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-22T08:28:15.000Z">
+<meta property="article:modified_time" content="2021-02-25T08:13:34.397Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">ubuntu教程</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">ubuntu教程</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-01-22T08:28:15.000Z" itemprop="datePublished" class="page-time">
+  2020-01-22
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#反思"><span class="post-toc-number">1.</span> <span class="post-toc-text">反思</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#复活操作"><span class="post-toc-number">2.</span> <span class="post-toc-text">复活操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基本配置"><span class="post-toc-number">2.0.1.</span> <span class="post-toc-text">基本配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#科学的看世界"><span class="post-toc-number">2.0.2.</span> <span class="post-toc-text">科学的看世界</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#优化美化"><span class="post-toc-number">2.0.3.</span> <span class="post-toc-text">优化美化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#zsh安装与美化"><span class="post-toc-number">2.0.3.1.</span> <span class="post-toc-text">zsh安装与美化</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#tmux"><span class="post-toc-number">2.0.3.2.</span> <span class="post-toc-text">tmux</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#vim的美化"><span class="post-toc-number">2.0.3.3.</span> <span class="post-toc-text">vim的美化</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#其他内容"><span class="post-toc-number">2.0.4.</span> <span class="post-toc-text">其他内容:</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ubuntu-jupyter-lab配置"><span class="post-toc-number">2.0.5.</span> <span class="post-toc-text">ubuntu jupyter lab配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#To-be-continued"><span class="post-toc-number">2.0.6.</span> <span class="post-toc-text">To be continued</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-ubuntu-back"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">ubuntu教程</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-01-22 16:28:15" datetime="2020-01-22T08:28:15.000Z"  itemprop="datePublished">2020-01-22</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><ul>
+<li>之前崩的原因是搜狗输入法安装的时候没有提前安装fcix框架,导致乱码然后系统就傻掉了;</li>
+<li>重装很多次的原因是因为没有在重装之前完全的格式化分区,我建议每一次玩具坏了都要用windows格式化一次呜呜呜</li>
+</ul>
+<h2 id="复活操作"><a href="#复活操作" class="headerlink" title="复活操作"></a>复活操作</h2><h4 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h4><ul>
+<li>管理员权限,换源,安装vim  <pre><code>  sudo passwd(修改sudo密码)
+  sudo apt-get update
+  sudo apt-get install vim
+  </code></pre></li>
+<li>更换国内源,这里我选择的是<a href="https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/" target="_blank" rel="noopener">清华源</a>用下面的命令打开文件,并且注释里面的所有内容,<br> <pre><code> sudo vim /etc/apt/sources.list
+</code></pre> <ul>
+<li>然后粘贴下面的内容到打开的文件里面<br><pre><code># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+</code></pre><br>如果你学过vim,就知道:w :q的含义,如果没有可以在终端使用vimtutor学习一下;</li>
+</ul>
+</li>
+<li>安装搜狗输入法(之前几次都因为它炸了我不信了……)，我参考了这一篇<a href="https://blog.csdn.net/qq_33159059/article/details/85019467" target="_blank" rel="noopener">博客</a></li>
+<li>然后搭建基本的C语言环境,主要参考啦蒋老师的PA讲义<pre><code>su
+apt-get install build-essential
+apt-get install man                # on-line reference manual
+apt-get install gcc-doc            # manual for GCC
+apt-get install gdb                # GNU debugger
+apt-get install git                # reversion control system
+apt-get install libreadline-dev    # a library to use compile the project later
+apt-get install libsdl2-dev        # a library to use compile the project later
+apt-get install qemu-system-x86    # QEMU
+</code></pre></li>
+<li>安装chrome:请使用bing搜索;用gmail同步很香;</li>
+</ul>
+<h4 id="科学的看世界"><a href="#科学的看世界" class="headerlink" title="科学的看世界"></a>科学的看世界</h4><ul>
+<li>我选择的是shadowsocks-libev(因为我qt5以及普通的pip安装的shadowsocks就没有成功过) <pre><code> mkdir shadowsocks
+ cd shadowsocks
+ touch shadowsocks.json
+ vim shadowsocks.json
+ </code></pre></li>
+<li>将下面的内容根据自己的配置放进去:<pre><code>
+{
+  "server":"my_server_ip",
+  "server_port":53450,
+  "local_address": "127.0.0.1",
+  "local_port":1080,
+  "password":"密码",
+  "timeout":300,
+  "method":"aes-256-gcm",
+  "fast_open": false
+}
+</code></pre></li>
+<li>然后: ss-local -c ~/shadowsocks/shadowsocks/json &amp;<br>自己测试一下有没有问题;</li>
+<li>感谢阿姨的提醒,我决定用别名+脚本来启动shadowsocks(因为每次开机输入上面的东西实在没有效率)：<ul>
+<li>先写一个自启动脚本：<pre><code> touch ~/.ssstart.sh
+vim ~/.ssstart.sh
+</code></pre>
+内容是:
+<pre><code>#!/bin/bash
+ss-local -c ~/shadowsocks/shadowsocks.json 
+</code></pre></li>
+<li>然后在终端里面起别名:<br><pre><code>vim ~/.bashrc
+在末尾添加:
+alias ss='. ~/.ssstart.sh'
+:wq 保存,退出
+在终端里面: 
+source ~/.bashrc
+(如果是zsh:source ~/.zshrc)
+</code></pre><br>尝试一下在终端输入ss,它lei了;</li>
+</ul>
+</li>
+<li><p>因为后面的netdata需要<strong>终端</strong>翻墙,我也就尝试了一下,如果没有需求可以跳过这一步:</p>
+<ul>
+<li>主要参考的是谷歌出来的<a href="http://www.totorocyx.me/2018/10/02/ubuntu_shadowsocks/" target="_blank" rel="noopener">网站</a></li>
+<li>首先用pip -V康康有没有pip,没有的话使用sudo apt-get install python-pip安装</li>
+<li><p>下面尝试全局代理(我也不确定能不能成功)：</p>
+<ul>
+<li>sudo pip install genpac</li>
+<li>选择安装配置文件的目录,我选择的是:<pre><code>/home/larryytr/shadowsocks</code></pre></li>
+<li>然后执行以下命令:<pre><code>sudo genpac --proxy="SOCKS5 127.0.0.1:1080" --gfwlist-proxy="SOCKS5 127.0.0.1:1080" -o autoproxy.pac --gfwlist-url="https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt"</code></pre></li>
+<li>下面是一句搬运,我没有遇到过:<pre><code>注意：如果报错“fetch gfwlist fail.online: https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt local:None”，可以使用后面的语句：sudo genpac --proxy="SOCKS5 127.0.0.1:1080" -o autoproxy.pac --gfwlist-url="https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt"
+</pre>&lt;/code&gt;</li>
+<li>执行完之后,目录下面会有一个autoproxy.pac文件。</li>
+<li><p>然后在右上角,打开系统设置——网络——网络代理：“方法”选择“自动”，“配置URL”填写：</p>
+<pre><code>file:///home/larryytr/shadowsocks/autoproxy.pac (请根据自己的实际情况修改)</code></pre></li>
+</ul>
+</li>
+<li><p>然后使得终端也能使用代理。我们需要<strong>privoxy</strong>代理工具:</p>
+<ul>
+<li><p>安装很自然:sudo apt-get install privoxy</p>
+</li>
+<li><p>然后编辑配置文件<pre><code>sudo vim /etc/privoxy/config </pre>&lt;/code&gt;</p>
+</li>
+<li><p>在文档中搜索(vim 使用/搜索)“<strong>listen-address</strong>”（即监听地址），找到如下一行：<strong>listen-address localhost:8118</strong> 确保它没有被注释（如果这一行有#号，就手动删除）。再查找“<strong>forward-socks5t</strong>”，找到如下一行：<strong>forward-socks5t / 127.0.0.1:1080</strong> . 同样确保它没有被注释。如果没有这一行，就手动添加（注意！句尾那个点 . 是要写的！）。然后保存退出，再执行以下命令启动privoxy：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo privoxy --user privoxy &#x2F;etc&#x2F;privoxy&#x2F;config</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后，再配置/etc/profile：<pre><code></p>
+<pre><code># 先进入编辑模式
+</code></pre><p>sudo vim /etc/profile</p>
+<pre><code> # 在末尾添加以下三行：
+</code></pre><p>export http_proxy=<a href="http://127.0.0.1:8118" target="_blank" rel="noopener">http://127.0.0.1:8118</a><br>export https_proxy=<a href="http://127.0.0.1:8118" target="_blank" rel="noopener">http://127.0.0.1:8118</a><br>export ftp_proxy=<a href="http://127.0.0.1:8118" target="_blank" rel="noopener">http://127.0.0.1:8118</a></p>
+<pre><code># 退出之后记得执行
+source /etc/profile
+</code></pre><p>&lt;/code&gt;&lt;/pre&gt;</p>
+</li>
+<li><p>验证是否成功:curl www.google.com或wget www.google.com判断是否可以访问</p>
+</li>
+<li><p>HINT(请务必注意):使用proxy的时候没有办法提交os作业,要make submit之前,先进入配置文件(/etc/privoxy/config)把刚刚做的事情给注释掉,然后用上面的命令重启privoxy,最后就可以提交了！！！</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="优化美化"><a href="#优化美化" class="headerlink" title="优化美化"></a>优化美化</h4><ul>
+<li>官网安装网易云</li>
+<li>官网安装vscode</li>
+<li>配置zsh,tmux,vim:</li>
+</ul>
+<h5 id="zsh安装与美化"><a href="#zsh安装与美化" class="headerlink" title="zsh安装与美化"></a>zsh安装与美化</h5><ul>
+<li>学习了:<a href="https://www.sysgeek.cn/install-zsh-shell-ubuntu-18-04/" target="_blank" rel="noopener">https://www.sysgeek.cn/install-zsh-shell-ubuntu-18-04/</a><br><a href="https://segmentfault.com/a/1190000013612471这两篇教程" target="_blank" rel="noopener">https://segmentfault.com/a/1190000013612471这两篇教程</a>;</li>
+<li>感谢何伟的配置文件;</li>
+<li>相应的setting请参考我的github<a href="https://github.com/larryytr/Note_for_blog/tree/master/ubuntu" target="_blank" rel="noopener">相关内容</a>.</li>
+<li>安装zsh:<pre><code>sudo apt-get update
+sudo apt-get install zsh
+chsh -s /bin/zsh (设置zsh为默认)
+</code></pre></li>
+<li>重启你的ubuntu</li>
+<li>安装oh-my-zsh插件:<pre><code> wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+</code></pre></li>
+<li>不改theme一无所有</li>
+<li>准备使用powerline主题  </li>
+<li>首先安装powerline字体：<pre><code>
+git clone https://github.com/powerline/fonts.git --depth=1
+# install
+cd fonts
+./install.sh
+# clean-up a bit
+cd ..
+rm -rf fonts
+</code></pre></li>
+<li>安装完字体之后要记得使用：终端-编辑-首选项-文本-文本外观-自定义字体打勾-选一个带有powerline的。(星际玩家找了好久)</li>
+<li>安装powerline: sudo apt install powerline </li>
+<li>我的配置见<a href="https://github.com/larryytr/Note_for_blog/tree/master/ubuntu" target="_blank" rel="noopener">相关内容</a>的setting .zshrc</li>
+<li>颜色选择困难请: <pre><code>for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would look like%f"</code></pre></li>
+<li>改完请source ~/.zshrc</li>
+</ul>
+<h5 id="tmux"><a href="#tmux" class="headerlink" title="tmux"></a>tmux</h5><ul>
+<li>tmux是一个很优秀的分屏软件,介绍可以看jyy的PA讲义以及自己搜索教程;</li>
+<li>我使用了何伟的配置,具体见<a href="https://github.com/larryytr/Note_for_blog/tree/master/ubuntu" target="_blank" rel="noopener">相关内容</a>的setting</li>
+<li>我又加了一个插件使得tmux在重启之后状态可以恢复:<ul>
+<li>主要参考这个<a href="https://zhuanlan.zhihu.com/p/24660412" target="_blank" rel="noopener">知乎教程</a></li>
+<li><pre><code>git clone https://github.com/tmux-plugins/tmux-resurrect ~/tmux_tmp
+</code></pre></li>
+<li>在~/.tmux.conf.local里面加上:<pre><code>run-shell ~/tmux_tmp/resurrect.tmux
+</code></pre></li>
+<li>最后载入这个配置：<pre><code>tmux source-file ~/.tmux.conf
+</code></pre></li>
+</ul>
+</li>
+</ul>
+<h5 id="vim的美化"><a href="#vim的美化" class="headerlink" title="vim的美化"></a>vim的美化</h5><ul>
+<li>使用啦懒人vim: spf13-vim美化</li>
+<li>请看<a href="https://github.com/larryytr/Note_for_blog/tree/master/ubuntu" target="_blank" rel="noopener">相关内容</a>的setting，找到并且下载spf13-vim.sh,然后bash spf13-vim.sh</li>
+<li>我的配置同样在<a href="https://github.com/larryytr/Note_for_blog/tree/master/ubuntu" target="_blank" rel="noopener">相关内容</a>的setting里面;</li>
+<li>这个时候的vim没有办法和系统剪切版交互,我根据<a href="https://www.cnblogs.com/memory4young/p/could-not-use-system-clipboard-in-vim.html" target="_blank" rel="noopener">https://www.cnblogs.com/memory4young/p/could-not-use-system-clipboard-in-vim.html</a> 下载了其他一些插件:<br><pre><code>sudo apt-get install vim-scripts vim-gtk vim-gnome</pre>&lt;/code&gt;<br>这样 vim —version|grep “cliboard” 会看到 +clipboard;<br>然后就可以用+y,+p实现系统剪切版和vim剪切版的交互啦！</li>
+</ul>
+<h4 id="其他内容"><a href="#其他内容" class="headerlink" title="其他内容:"></a>其他内容:</h4><ul>
+<li>OSlab还需要:<ul>
+<li>sudo apt-get install curl</li>
+<li>sudo apt-get install gcc-multilib</li>
+</ul>
+</li>
+<li>git 配置请搜索廖雪峰</li>
+<li>ctags 可以参考Mengzelev的<a href="https://mengzelev.github.io/2018/10/04/pa-inspirations/" target="_blank" rel="noopener">博客</a></li>
+<li>感谢xnr给我推荐的network来查看linux的运行情况<ul>
+<li>这是netdata的官方网站:<a href="https://github.com/netdata/netdata#user-base" target="_blank" rel="noopener">https://github.com/netdata/netdata#user-base</a></li>
+<li>但是由于GFW,安装会出现报错,事实上需要终端翻墙才行</li>
+<li>可以通过这篇<a href="https://blog.csdn.net/zhangvalue/article/details/80270169" target="_blank" rel="noopener">教程</a><br><pre><code> sudo apt-get install net-tools
+  ifconfig
+</code></pre><br>查看inet 之后的内容来得知自己的server_ip</li>
+<li>成功之后,进入 <a href="http://127.0.0.1:19999/" target="_blank" rel="noopener">http://127.0.0.1:19999/</a> (:19999前面的是自己的server_ip地址,请按需要更改),得到炫酷的体验</li>
+<li>相应配置可以参考这篇<a href="https://cloud.tencent.com/developer/article/1181577" target="_blank" rel="noopener">博客</a>或者自己搜索</li>
+</ul>
+</li>
+<li>OSlab的kvm bug处理方法：<a href="https://bugzilla.redhat.com/show_bug.cgi?id=1479558" target="_blank" rel="noopener">https://bugzilla.redhat.com/show_bug.cgi?id=1479558</a><pre><code>chmod 666 /dev/kvm to get it working right now. Then to fix future reboots, create a file /lib/udev/rules.d/99-kvm.rules with this content:
+KERNEL=="kvm", GROUP="kvm", MODE="0666"</code></pre></li>
+<li>texlive 安装<pre><code>sudo apt install texlive-full</code></pre>
+相关的vscode配置可以抄我的[setting](https://github.com/larryytr/Note_for_blog/tree/master/setting)
+vscode的保存即编译请<pre><code>Ctrl+Shift+p,搜索setting,搜索Build,Latex-workshop › Synctex › After Build: Enabled打勾；</code></pre></li>
+<li>ubuntu的截图:我参考了这篇<a href="https://blog.csdn.net/qq_17448289/article/details/56480805" target="_blank" rel="noopener">博客</a><ul>
+<li>打开右上角的设置—&gt;设备—&gt;键盘—&gt;快捷键,点击+</li>
+<li>显然的配置好按键,然后在命令里面写<pre><code>gnome-screenshot -a</code></pre></li>
+<li>hint:上面的命令终端输入也有效<br>截屏的图在文件夹的图片(picture)里面;</li>
+</ul>
+</li>
+</ul>
+<h4 id="ubuntu-jupyter-lab配置"><a href="#ubuntu-jupyter-lab配置" class="headerlink" title="ubuntu jupyter lab配置"></a>ubuntu jupyter lab配置</h4><p>在服务器上面配置了jupyter lab;</p>
+<p>主要借鉴了:<a href="https://cloud.tencent.com/developer/article/1769288?from=information.detail.jupyter%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1769288?from=information.detail.jupyter%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8</a></p>
+<ul>
+<li><p>安装anaconda</p>
+</li>
+<li><p>使用python生成密钥;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">In [1]: from notebook.auth import passwd                                        </span><br><span class="line"></span><br><span class="line">In [2]: passwd()                                                                </span><br><span class="line">Enter password: </span><br><span class="line">Verify password: </span><br><span class="line">Out[2]: &#39;sha1:salt:hashed-password&#39;#这里输出的东西就是密钥，复制好之后填</span><br><span class="line"></span><br><span class="line">In [3]: exit()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成配置文件:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jupyter notebook --generate-config</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改它:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi ~<span class="regexp">/.jupyter/</span>jupyter_notebook_config.py</span><br></pre></td></tr></table></figure>
+<p>在末尾加上:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">c.NotebookApp.allow_remote_access &#x3D; True   # 允许外部访问</span><br><span class="line">c.NotebookApp.ip&#x3D;&#39;*&#39;                       # 设置所有ip皆可访问</span><br><span class="line">c.NotebookApp.password &#x3D; u&#39;sha1:salt:hashed-password&#39;  # 使用刚才生成的密钥</span><br><span class="line">c.NotebookApp.open_browser &#x3D; False       # 禁止自动打开浏览器</span><br><span class="line">c.NotebookApp.port &#x3D; 2021                # 任意指定一个不冲突的端口，</span><br><span class="line">c.NotebookApp.notebook_dir &#x3D; &#39;&#x2F;home&#x2F;ubuntu&#x2F;JupyterProject&#x2F;&#39; #默认文件路径,这里用户名要改成自己的</span><br><span class="line">c.NotebookApp.allow_root &#x3D; True          # 允许root身份运行jupyter notebook</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>记得在安全组里面打开这个</p>
+</li>
+<li><p>在服务器端输入jupyter notebook, 然后本地浏览器输入 服务器地址:2021就行啦(比如 122.52.187.69:2021)(这个服务器是随意打的)</p>
+</li>
+</ul>
+<h4 id="To-be-continued"><a href="#To-be-continued" class="headerlink" title="To be continued"></a>To be continued</h4><ul>
+<li>有空再研究怎么换主题;</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2021-02-25T08:13:34.397Z" itemprop="dateUpdated">2021-02-25 16:13:34</time>
+</span><br>
+
+
+        
+        Link：<a href="/2020/01/22/ubuntu-back/" target="_blank" rel="external">http://tyler-ytr.github.io/2020/01/22/ubuntu-back/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&title=《ubuntu教程》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&title=《ubuntu教程》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ubuntu教程》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/01/22/winter-learning-plan/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Winter plan</h4>
+      </a>
+    </div>
+  
+
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&title=《ubuntu教程》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&title=《ubuntu教程》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ubuntu教程》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2020/01/22/ubuntu-back/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIUlEQVR42u3ay47CMAwFUP7/pzvSrEZChGsbRmpysqoQtDldmPjxeMTr+l3JJ38/f75+/s76Dh9eGBgYt2Vcy9XbxJqUI5O9YWBgnMNYB9lXP863O+ElfwAYGBgYa9IaOT/LYWBgYMwZyRZ76TEGBgbGZwNfL0BXk+cP5OIYGBg3ZFQbA/95/cX+BgYGxk0YV3FVmwFJkzIvz718FgYGxtaMpH04D7556a0aXaO8GQMD4+aMZmErbgbMhzaSoIyBgXEOI99icpjrHSJ7g2IYGBgnMPIH59uah+9mLo6BgbEdIx+kqBbrq+3GyXAGBgbG3oxCohiHy3XozAt8+R0wMDBOYPSCY/V68qs3bAwMjK0Z+WMmQxKTJmWhtYCBgXEAo9ew7KWgeWshD9wYGBgnMKpJbK9I12s2RM1UDAyMwxi9hLY34PX1Ey4GBsYBjEkZrlwyi+9TeGcYGBg3ZyTHvvyoNxmkmBT1MDAw9mZ8qsSfJ5+9QB+9bgwMjE0ZSaJYLZ/1xiyqhT8MDIyTGfnWkyyyWphLvv+m0IaBgbEdo5dM5qG5F8QnrQgMDIz9GFdxzYNjfv/CczEwMLZmzKN1NWXNg3hvsAwDA2NXxiQIThoDeVDGwMDAyINptdxWxYxycQwMDIw4HZ23J5tlPgwMDIx4kKLXKkiaoFE/FgMDY2vGfMArPxRWD4vRy8LAwNiaUU0dqy3MSUKbHzExMDA2ZfwAhH1b0R1stKgAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>

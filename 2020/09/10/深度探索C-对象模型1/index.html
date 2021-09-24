@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>深度探索C++对象模型1 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="C++,深度探索C++对象模型">
+    <meta name="description" content="深度探索c++对象模型1 C++的主要额外负担： virtual function 机制 virtual base class 用以实现“多次出现在继承体系中的base class，又一个单一而被共享的实例” 多重继承下的额外负担    1.1 C++对象模式 C++对象模型  非静态成员变量存放在每一个class object里面，静态成员变量存放在个别的class object 之外；静态函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度探索C++对象模型1">
+<meta property="og:url" content="http://tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="深度探索c++对象模型1 C++的主要额外负担： virtual function 机制 virtual base class 用以实现“多次出现在继承体系中的base class，又一个单一而被共享的实例” 多重继承下的额外负担    1.1 C++对象模式 C++对象模型  非静态成员变量存放在每一个class object里面，静态成员变量存放在个别的class object 之外；静态函数">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/nGapT7QCPUdiFhS.jpg">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/u4XH1PLQEbrGwfv.jpg">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/hozFU6gL9ubjs54.jpg">
+<meta property="article:published_time" content="2020-09-10T02:08:08.000Z">
+<meta property="article:modified_time" content="2020-09-10T02:30:37.240Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="深度探索C++对象模型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/nGapT7QCPUdiFhS.jpg">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">深度探索C++对象模型1</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">深度探索C++对象模型1</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-09-10T02:08:08.000Z" itemprop="datePublished" class="page-time">
+  2020-09-10
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#深度探索c-对象模型1"><span class="post-toc-number">1.</span> <span class="post-toc-text">深度探索c++对象模型1</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-1-C-对象模式"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.1 C++对象模式</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-深度探索C-对象模型1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">深度探索C++对象模型1</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-09-10 10:08:08" datetime="2020-09-10T02:08:08.000Z"  itemprop="datePublished">2020-09-10</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h4 id="深度探索c-对象模型1"><a href="#深度探索c-对象模型1" class="headerlink" title="深度探索c++对象模型1"></a>深度探索c++对象模型1</h4><ul>
+<li>C++的主要额外负担：<ul>
+<li>virtual function 机制</li>
+<li>virtual base class 用以实现“多次出现在继承体系中的base class，又一个单一而被共享的实例”</li>
+<li>多重继承下的额外负担</li>
+</ul>
+</li>
+</ul>
+<h5 id="1-1-C-对象模式"><a href="#1-1-C-对象模式" class="headerlink" title="1.1 C++对象模式"></a>1.1 C++对象模式</h5><ul>
+<li><p>C++对象模型</p>
+<ul>
+<li>非静态成员变量存放在每一个class object里面，静态成员变量存放在个别的class object 之外；静态函数，非静态函数成员放在个别的class object之外，虚函数特殊对待：<ul>
+<li>每一个class 产生出一堆指向virtual function 的指针，放在表格中，这个表格称之为虚函数表（virtual table）</li>
+<li>每一个class object被安插一个指针，指向相关的virtual table。通常这个指针称为$vtpr$.$vtpr$的设定由每一个class的constructor，destructor和copy assignment运算符自动完成。每一个class所关联的$tyle_info$ object(用来支持runtime type identification)也经由虚函数表纸出来，通常放在表格的第一个slot里面。<br>例子如下<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/nGapT7QCPUdiFhS.jpg" alt="Alt" title="">
+                </div>
+                <div class="image-caption">Alt</div>
+            </figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>C++继承</p>
+<ul>
+<li>使用所谓的base table 模型。每一个class object内涵一个bptr,被初始化，指向它的base class table，然后这个表就如同虚函数表一样指向继承的类的对象，如下图<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/u4XH1PLQEbrGwfv.jpg" alt="Alt" title="">
+                </div>
+                <div class="image-caption">Alt</div>
+            </figure></li>
+</ul>
+</li>
+<li><p>什么时候一个人应该使用struct 取代class？当它让一个人感觉比较好的时候（狗头）<br>聚合（composition）而非继承才是把C++和C结合起来的好方法。<br>struct在C++中的一个合理用途，是当你要传递一个“复杂的class object的全部或者部分”到某一个C函数去的时候，struct声明可以将数据封装起来，并且保证拥有与C兼容的空间布局，然而这种保证只在聚合（composition）的情况下存在。如果是继承的话，可能会因为内存布局原因无法实现想要的结果。</p>
+</li>
+<li><p>C++以下列方法支持多态：</p>
+<ul>
+<li>经过一组隐式的转化操作，比如把一个派生类的指针转化为一个指向它的public base type的指针：<br>shape *ps=new circle ();</li>
+<li>经由virtual function机制：<br>ps-&gt;rotate（）</li>
+<li>经由$dynamic_cast$和typeid运算符：<br>$if(circle <em>pc=dynami_cast &lt; circle</em>&gt;(ps))$</li>
+</ul>
+</li>
+<li><p>需要多少内存才能够表现一个class object：</p>
+<ul>
+<li>非静态成员变量的总和大小</li>
+<li>加上任何由于alignment（对齐）的需求而填补（padding）上去的空间</li>
+<li>加上为了支持virtual而内部产生的任何额外负担</li>
+</ul>
+</li>
+<li><p>关于指针：<br>不同类型的指针从内存需求的观点来看没有什么不同，“指向不同类型之各指针‘间的差异，既不在其指针表示法的不同，也不再其内容的不同，而是在其所寻址出来的object类型不同。也就是说，“指针类型”会教导编译器如何解释某一个特定地址的内存内容及其大小。</p>
+</li>
+<li><p>最后一部分内容讨论了多态发生的条件，我认为总结下来就是引用和指针可能触发多态，通过虚函数来实现。然后将子对象赋值给父类对象一般会导致切割，来放置数据溢出。</p>
+</li>
+<li><p>具体问题：</p>
+<ul>
+<li><p>一个Bear指针和一个ZooAnimal指针有什么不同：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Bear b;</span><br><span class="line">ZooAnimal *pz&#x3D;&amp;b;</span><br><span class="line">Bear *pb&#x3D;&amp;;</span><br></pre></td></tr></table></figure>
+<p>它们每一个都指向Bear object 的第一个type，它们的区别是：pb所涵盖的地址包含整个 Bear object但是pz所涵盖的地址之包含Bear object中的ZooAnimal subobject.<br>内存布局如下图：<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/hozFU6gL9ubjs54.jpg" alt="Alt" title="">
+                </div>
+                <div class="image-caption">Alt</div>
+            </figure></p>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2020-09-10T02:30:37.240Z" itemprop="dateUpdated">2020-09-10 10:30:37</time>
+</span><br>
+
+
+        
+        Link：<a href="/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/" target="_blank" rel="external">http://tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B/" rel="tag">深度探索C++对象模型</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/&title=《深度探索C++对象模型1》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/&title=《深度探索C++对象模型1》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《深度探索C++对象模型1》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/09/19/HDU-2089/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">HDU_2089 不要62</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/09/07/leetcode22-m/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">leetcode22_m</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/&title=《深度探索C++对象模型1》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/&title=《深度探索C++对象模型1》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《深度探索C++对象模型1》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2020/09/10/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAEOCAAAAABd2qZ5AAAD30lEQVR42u3ay66bQBAFQP//TztStg74nO7hJpGKlWUbmCkWTT9er/h4/z7uv//8/Hl8npv/8/6+n+derfnAgQMHDhw4gq3eL+sdHPfXTBDv15Y8gPuzkpXjwIEDB45THEkQvbxEHJg3BC1xgo4DBw4cOP4ux9kksE29ZsEeBw4cOHD8+xzHQtqacv84ceDAgQPHcxxJcXBW/psF2hx9X9zEgQMHDhxnOdpQ9z9+fnC+AwcOHDhwlOW2NpTmDafZIF0etuvd4cCBAweONces/ZNsfoY1G4CYhdgio8WBAwcOHAuO9vt9AW4WwpNvZqVJHDhw4MDxNEebMrWNovwBJECzYI8DBw4cOE5xJGlPnnQ9x9emmsk/L2ulOHDgwIFjwbEZFEj4ZgtKQmZS7GtXggMHDhw49hx5gW+GMmti5WSbEuQf1okDBw4cOB7maMt2yS03obcdj0vCPw4cOHDgeI4jyvbiTe5HHzaPpL0ODhw4cOB4giNvLOUba8PqprS3eV3IfsaBAwcOHCnHcFg5Zqr7YOU684f6JVTjwIEDB45DHHnzZg+UF+w2ZMeKgzhw4MCBY8Qx28ZmWGGWCrb3qqFx4MCBA8eaI7lBHtjatG125Ty0D18UcODAgQPHguPUOMJmfC3ZRtt2ml0fBw4cOHDsOfISWxsgZ62jdg0J96adhgMHDhw42nNnraC8/DcL2G3w3r8o4MCBAweOUxxtWW2TYp0qRG4eW5G24cCBAweOQxxty+dU2jZrg+UtrmIXOHDgwIFjwTFb7mYz+4LjE4kiDhw4cOA4yzEbF2hDYBss9+MIecny1crhwIEDB454X5ttz4YVZgN5Lehwpzhw4MCBo+SYlf9mN2sLeZtQ2o4+4MCBAweOsxz7Al+bhuXDbW1xMG8yRbVSHDhw4MBRciR/yrfX3nL26waiKF/iwIEDB44Rx37D+7StLRHm6VxS1vzShcOBAwcOHAuO2bBacp02+CV3zJtb9fgCDhw4cOA4xJGnRrPBuLy51YbV9jpfaqU4cODAgWPNkcedfJxuloy1V56F3suV4MCBAweONccsaLWFxc2G20Jkfv3Lb3DgwIEDx4LjXR6zBk+ygbZomKSXdSqIAwcOHDjWHPlRnxBvY1YczF8F9g8DBw4cOHC0HG1w3bSdnmhEtaxfuHHgwIEDxyGOfJPt5zZUb9pRB14dcODAgQPHD3IkzZ48sOUBvuXOi4mXKRwOHDhw4Phxjk1pb4abb2nTxMKBAwcOHKc42uJgvpS24LgZy2vD9rG2Ew4cOHDgODrQsC8LJovOm1h5U202qIEDBw4cOC44fgEZrj9xj/56ywAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
