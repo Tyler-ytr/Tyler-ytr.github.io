@@ -21,20 +21,25 @@
     
     
     <meta name="keywords" content="计算机网络,实验基础,ns3">
-    <meta name="description" content="ns3学习总结ns3简介ns3安装参考http:&#x2F;&#x2F;www.soolco.com&#x2F;post&#x2F;94032_1_1.html； 尝试了使用官方文档https:&#x2F;&#x2F;www.nsnam.org&#x2F;wiki&#x2F;Installation 的bake进行安装但是比较不成功，建议参考上述博客进行安装。安装依赖建议使用清华源。安装过程和编译过程比较消耗时间，建议虚拟机或者真机保证4GB以上的内存。 ns3依赖12345">
+    <meta name="description" content="ns3学习总结ns3简介ns3关键概念节点ns3是一个网络simulator,为了防止混淆，使用节点来代替主机，用来表示基本设备的抽象； 使用Node类来进行描述，具体调用科研使用NodeContainer 类，比如: 12NodeContainer nodes;nodes.Create (2)&#39;&#39; 应用需要被仿真的用户程序被抽象成为应用，在Application类中进行了描述；它">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ns_learning">
 <meta property="og:url" content="http://tyler-ytr.github.io/2021/09/11/ns-learning/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
-<meta property="og:description" content="ns3学习总结ns3简介ns3安装参考http:&#x2F;&#x2F;www.soolco.com&#x2F;post&#x2F;94032_1_1.html； 尝试了使用官方文档https:&#x2F;&#x2F;www.nsnam.org&#x2F;wiki&#x2F;Installation 的bake进行安装但是比较不成功，建议参考上述博客进行安装。安装依赖建议使用清华源。安装过程和编译过程比较消耗时间，建议虚拟机或者真机保证4GB以上的内存。 ns3依赖12345">
+<meta property="og:description" content="ns3学习总结ns3简介ns3关键概念节点ns3是一个网络simulator,为了防止混淆，使用节点来代替主机，用来表示基本设备的抽象； 使用Node类来进行描述，具体调用科研使用NodeContainer 类，比如: 12NodeContainer nodes;nodes.Create (2)&#39;&#39; 应用需要被仿真的用户程序被抽象成为应用，在Application类中进行了描述；它">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/09/11/ns-learning/picture/image-20211009205558340.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/09/11/ns-learning/picture/image-20211009205733732.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/09/11/ns-learning/picture/image-20211009210157505.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/09/11/ns-learning/picture/image-20211009210646796.png">
 <meta property="article:published_time" content="2021-09-11T10:00:15.000Z">
-<meta property="article:modified_time" content="2021-09-11T10:14:17.034Z">
+<meta property="article:modified_time" content="2021-10-09T13:07:32.845Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="计算机网络">
 <meta property="article:tag" content="实验基础">
 <meta property="article:tag" content="ns3">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/2021/09/11/ns-learning/picture/image-20211009205558340.png">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
@@ -176,7 +181,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ns3学习总结"><span class="post-toc-number">1.</span> <span class="post-toc-text">ns3学习总结</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ns3简介"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">ns3简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ns3安装"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">ns3安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ns3依赖"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">ns3依赖</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ns3安装-1"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">ns3安装</span></a></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ns3学习总结"><span class="post-toc-number">1.</span> <span class="post-toc-text">ns3学习总结</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ns3简介"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">ns3简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ns3关键概念"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">ns3关键概念</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#节点"><span class="post-toc-number">1.1.1.1.</span> <span class="post-toc-text">节点</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#应用"><span class="post-toc-number">1.1.1.2.</span> <span class="post-toc-text">应用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#信道"><span class="post-toc-number">1.1.1.3.</span> <span class="post-toc-text">信道</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#网络设备"><span class="post-toc-number">1.1.1.4.</span> <span class="post-toc-text">网络设备</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#拓扑帮助"><span class="post-toc-number">1.1.1.5.</span> <span class="post-toc-text">拓扑帮助</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ns3优化技术"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">ns3优化技术</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#logging系统"><span class="post-toc-number">1.1.2.1.</span> <span class="post-toc-text">logging系统</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#logging等级"><span class="post-toc-number">1.1.2.1.1.</span> <span class="post-toc-text">logging等级</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#脚本中设置记录模块"><span class="post-toc-number">1.1.2.1.2.</span> <span class="post-toc-text">脚本中设置记录模块</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#在环境变量中设置"><span class="post-toc-number">1.1.2.1.3.</span> <span class="post-toc-text">在环境变量中设置</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#自定义logging代码"><span class="post-toc-number">1.1.2.1.4.</span> <span class="post-toc-text">自定义logging代码</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ns3安装"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">ns3安装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ns3依赖"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">ns3依赖</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ns3安装-1"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">ns3安装</span></a></li></ol></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -202,7 +207,75 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="ns3学习总结"><a href="#ns3学习总结" class="headerlink" title="ns3学习总结"></a>ns3学习总结</h1><h2 id="ns3简介"><a href="#ns3简介" class="headerlink" title="ns3简介"></a>ns3简介</h2><h2 id="ns3安装"><a href="#ns3安装" class="headerlink" title="ns3安装"></a>ns3安装</h2><p>参考<a href="http://www.soolco.com/post/94032_1_1.html；" target="_blank" rel="noopener">http://www.soolco.com/post/94032_1_1.html；</a></p>
+            <h1 id="ns3学习总结"><a href="#ns3学习总结" class="headerlink" title="ns3学习总结"></a>ns3学习总结</h1><h2 id="ns3简介"><a href="#ns3简介" class="headerlink" title="ns3简介"></a>ns3简介</h2><h3 id="ns3关键概念"><a href="#ns3关键概念" class="headerlink" title="ns3关键概念"></a>ns3关键概念</h3><h4 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h4><p>ns3是一个网络simulator,为了防止混淆，使用节点来代替主机，用来表示基本设备的抽象；</p>
+<p>使用Node类来进行描述，具体调用科研使用NodeContainer 类，比如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NodeContainer nodes;</span><br><span class="line">nodes.Create (2)&#39;&#39;</span><br></pre></td></tr></table></figure>
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><p>需要被仿真的用户程序被抽象成为应用，在Application类中进行了描述；它的实例还有UdpEchoClientApplication以及UdpEchoServerApplication等等，前者用来回显服务端所回复的分组；</p>
+<h4 id="信道"><a href="#信道" class="headerlink" title="信道"></a>信道</h4><p>网络中数据里流过的媒介成为信道，在channel类中进行了描述，它提供了管理通信子网对象和把节点连接到它们的各种方法，几个信道模型的实例包括：CsmaChannel,PointToPointChannel 以及WifiChannel;</p>
+<h4 id="网络设备"><a href="#网络设备" class="headerlink" title="网络设备"></a>网络设备</h4><p>这个概念相当于硬件设备以及软件驱动的总和，网络设备在ns3中安装在节点上面，使得节点通过信道和其他节点通信，一个节点可以通过多个网络设备同时连接到多条信道上面。主要在NetDevice类中进行了描述，这部分也允许开发者自定义。几个网络设备的实例包括：CsmaNetDevice,PointToPointNetDevice以及Wi-FiNetDevice。</p>
+<h4 id="拓扑帮助"><a href="#拓扑帮助" class="headerlink" title="拓扑帮助"></a>拓扑帮助</h4><p>可以使用拓扑生成器来让配置IP等等任务变得容易。同时拓扑生成器还能帮助整合例如创建网络设备，配置MAC地址，把网络设备装到节点上面，设置节点协议栈，连接网络设备到信道等等分立的工作。这部分主要在Helper类中。</p>
+<h3 id="ns3优化技术"><a href="#ns3优化技术" class="headerlink" title="ns3优化技术"></a>ns3优化技术</h3><h4 id="logging系统"><a href="#logging系统" class="headerlink" title="logging系统"></a>logging系统</h4><h5 id="logging等级"><a href="#logging等级" class="headerlink" title="logging等级"></a>logging等级</h5><p>一共由低到高提供了7个等级：</p>
+<ul>
+<li>LOG_ERROR—记录错误信息;</li>
+<li>LOG_WARN—记录警告信息;</li>
+<li>LOG_DEBUG—记录一些调试信息;</li>
+<li>LOG_INFO—记录一些程序相关的信息;</li>
+<li>LOG_FUNCTION一当有函数被调用时，该调用信息就被记录;</li>
+<li>LOG_LOGIC—对于整体逻辑的描述;</li>
+<li>LOG_ALL-包含上述的所有信息。</li>
+</ul>
+<h5 id="脚本中设置记录模块"><a href="#脚本中设置记录模块" class="headerlink" title="脚本中设置记录模块"></a>脚本中设置记录模块</h5><p>在脚本中可以使用进行记录，</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LogComponentEnable ( <span class="string">"UdpEchoClientApplication"</span>，LOG_LEVEL_INFO) ;</span><br><span class="line">LogcomponentEnable (<span class="string">"UdpEchoserverApplication"</span>，LOG_LEVEL_INFO);</span><br></pre></td></tr></table></figure>
+<p>在first.cc这个例子中，大致的效果为:</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="picture/image-20211009205558340.png" alt="image-20211009205558340" title="">
+                </div>
+                <div class="image-caption">image-20211009205558340</div>
+            </figure>
+<h5 id="在环境变量中设置"><a href="#在环境变量中设置" class="headerlink" title="在环境变量中设置"></a>在环境变量中设置</h5><p>可以使用:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> <span class="string">'NS_LOG=UdpEchoClientApplication=level_all|prefix_func|prefix_time:UdpEchoServerApplication=level_all|prefix_func|prefix_time'</span></span><br></pre></td></tr></table></figure>
+<p>在外部环境变量设置等级，并且覆盖文件中的等级的效果，现在大致的效果如下:</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="picture/image-20211009205733732.png" alt="image-20211009205733732" title="">
+                </div>
+                <div class="image-caption">image-20211009205733732</div>
+            </figure>
+<p>prefix_func增加了函数调用信息，prefix_time增加了时间信息；</p>
+<h5 id="自定义logging代码"><a href="#自定义logging代码" class="headerlink" title="自定义logging代码"></a>自定义logging代码</h5><p>在first.cc中有一句代码:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NS_LOG_COMPONENT_DEFINE(<span class="string">"FirstscriptExample"</span>);</span><br></pre></td></tr></table></figure>
+<p>这个代码向ns-3系统中注册了“FirstScriptExample”这个组件，通过记录组件，可以在仿真脚本中使用Logging系统进行自定义的输出语句；</p>
+<p>然后可以在代码中创建节点之前的位置添加:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NS_LOG_INFO(<span class="string">"Creating Topology"</span>);</span><br></pre></td></tr></table></figure>
+<p>此时重新编译是没有效果的，因为没有激活这个组件，可以用如下两种方法激活:</p>
+<ol>
+<li><p>在代码中添加:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LogComponentEnable (&quot;FirstScriptExample&quot;, LOG_LEVEL_INFO);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在外部环境变量激活</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> NS_LOG=FirstScriptExample=info</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>效果如下:</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="picture/image-20211009210157505.png" alt="方法1" title="">
+                </div>
+                <div class="image-caption">方法1</div>
+            </figure>方法1没有覆盖之前的环境变量。
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="picture/image-20211009210646796.png" alt="方法2" title="">
+                </div>
+                <div class="image-caption">方法2</div>
+            </figure>
+<h2 id="ns3安装"><a href="#ns3安装" class="headerlink" title="ns3安装"></a>ns3安装</h2><p>参考<a href="http://www.soolco.com/post/94032_1_1.html；" target="_blank" rel="noopener">http://www.soolco.com/post/94032_1_1.html；</a></p>
 <p>尝试了使用官方文档<a href="https://www.nsnam.org/wiki/Installation" target="_blank" rel="noopener">https://www.nsnam.org/wiki/Installation</a> 的bake进行安装但是比较不成功，建议参考上述博客进行安装。安装依赖建议使用清华源。安装过程和编译过程比较消耗时间，建议虚拟机或者真机保证4GB以上的内存。</p>
 <h3 id="ns3依赖"><a href="#ns3依赖" class="headerlink" title="ns3依赖"></a>ns3依赖</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ubuntu18.04 使用;使用-y可以自动确认，可以改成.sh脚本，chmod赋予权限之后使用。</span></span><br><span class="line">sudo apt-get -y install g++ python3</span><br><span class="line">sudo apt-get -y install g++ python3 python3-dev pkg-config sqlite3</span><br><span class="line">sudo apt-get -y install python3-setuptools git</span><br><span class="line">sudo apt-get -y install qt5-default mercurial</span><br><span class="line">sudo apt-get -y install gir1.2-goocanvas-2.0 python-gi python-gi-cairo python-pygraphviz python3-gi python3-gi-cairo python3-pygraphviz gir1.2-gtk-3.0 ipython ipython3</span><br><span class="line">sudo apt-get -y install openmpi-bin openmpi-common openmpi-doc libopenmpi-dev</span><br><span class="line">sudo apt-get -y install autoconf cvs bzr unrar</span><br><span class="line">sudo apt-get -y install gdb valgrind</span><br><span class="line">sudo apt-get -y install uncrustify</span><br><span class="line">sudo apt-get -y install doxygen graphviz imagemagick</span><br><span class="line">sudo apt-get -y install texlive texlive-extra-utils texlive-latex-extra texlive-font-utils dvipng latexmk</span><br><span class="line">sudo apt-get -y install python3-sphinx dia</span><br><span class="line">sudo apt-get -y install gsl-bin libgsl-dev libgsl23 libgslcblas0</span><br><span class="line">sudo apt-get -y install tcpdump</span><br><span class="line">sudo apt-get -y install sqlite sqlite3 libsqlite3-dev</span><br><span class="line">sudo apt-get -y install libxml2 libxml2-dev</span><br><span class="line">sudo apt-get -y install cmake libc6-dev libc6-dev-i386 libclang-6.0-dev llvm-6.0-dev automake</span><br><span class="line">sudo apt-get -y install python3-pip</span><br><span class="line">sudo apt-get -y install libgtk-3-dev</span><br><span class="line">sudo apt-get -y install vtun lxc uml-utilities</span><br><span class="line">sudo apt-get -y install libboost-signals-dev libboost-filesystem-dev</span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这部分pip相关 如有需要请换源之后处理</span></span><br><span class="line">sudo pip3 install --upgrade pip</span><br><span class="line">python3 -m pip install --user cxxfilt</span><br><span class="line">pip3 install pygccxml</span><br><span class="line">pip3 install CastXML</span><br><span class="line">pip3 install PyBindGen</span><br></pre></td></tr></table></figure>
@@ -226,7 +299,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-09-11T10:14:17.034Z" itemprop="dateUpdated">2021-09-11 18:14:17</time>
+    Last updated: <time datetime="2021-10-09T13:07:32.845Z" itemprop="dateUpdated">2021-10-09 21:07:32</time>
 </span><br>
 
 
