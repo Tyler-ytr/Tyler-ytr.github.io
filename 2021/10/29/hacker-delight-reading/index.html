@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>hacker&#39;s delight 阅读 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="hacker&#39;s delight">
+    <meta name="description" content="主要是P4使用中可能会需要一些骚操作，遂阅读此书；  默认字长为32位；  ch2 最右边的位元：  考虑用x+1,x-1配上与或非取反进行操作，比如$x \&amp; (x-1)$; $\neg x\&amp;(x+1)$,$\neg x\&amp;(x-1)$,$\neg x |(x+1)$…… 这块建议查书；   从右到左的可计算性：  如果一个函数能够以位元为单位从右到左计算出来，那么它肯">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hacker&#39;s delight 阅读">
+<meta property="og:url" content="http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="主要是P4使用中可能会需要一些骚操作，遂阅读此书；  默认字长为32位；  ch2 最右边的位元：  考虑用x+1,x-1配上与或非取反进行操作，比如$x \&amp; (x-1)$; $\neg x\&amp;(x+1)$,$\neg x\&amp;(x-1)$,$\neg x |(x+1)$…… 这块建议查书；   从右到左的可计算性：  如果一个函数能够以位元为单位从右到左计算出来，那么它肯">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/picture/image-20211029134915635.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/picture/image-20211029135925706.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/picture/image-20211029135929924.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/picture/image-20211029140134548.png">
+<meta property="article:published_time" content="2021-10-29T04:29:48.000Z">
+<meta property="article:modified_time" content="2021-10-29T06:01:37.901Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="hacker&#39;s delight">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/picture/image-20211029134915635.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">hacker&#39;s delight 阅读</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">hacker&#39;s delight 阅读</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2021-10-29T04:29:48.000Z" itemprop="datePublished" class="page-time">
+  2021-10-29
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ch2"><span class="post-toc-number">1.</span> <span class="post-toc-text">ch2</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-hacker-delight-reading"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">hacker's delight 阅读</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2021-10-29 12:29:48" datetime="2021-10-29T04:29:48.000Z"  itemprop="datePublished">2021-10-29</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>主要是P4使用中可能会需要一些骚操作，遂阅读此书；</p>
+<blockquote>
+<p>默认字长为32位；</p>
+</blockquote>
+<h2 id="ch2"><a href="#ch2" class="headerlink" title="ch2"></a>ch2</h2><ol>
+<li><p>最右边的位元：</p>
+<ol>
+<li>考虑用x+1,x-1配上与或非取反进行操作，比如$x \&amp; (x-1)$;</li>
+<li>$\neg x\&amp;(x+1)$,$\neg x\&amp;(x-1)$,$\neg x |(x+1)$……</li>
+<li>这块建议查书；</li>
+</ol>
+</li>
+<li><p>从右到左的可计算性：</p>
+<ol>
+<li><p>如果一个函数能够以位元为单位从右到左计算出来，那么它肯定可以用加法减法按位和按位与以及按位取反及其复合指令实现；反之，如果这些基本指令描述一个函数，那么它必然可以通过从右到左的按位运算做出来；</p>
+</li>
+<li><p>我觉得可能要反复揣摩这个定理：</p>
+<p><img src="picture/image-20211029134915635.png" alt="image-20211029134915635"></p>
+</li>
+<li><p>根据书上的特例可以很清晰的理解它要表达的用于构造的例子：</p>
+<p><img src="picture/image-20211029135925706.png" alt="image-20211029135925706"></p>
+<p><img src="picture/image-20211029135929924.png" alt="image-20211029135929924"></p>
+<p>上面的可以通过下面的获得，第二行第三行按位与然后和第一行按位或然后和第四行按位与（先执行操作然后对位置定位）</p>
+</li>
+<li><p>与此同时有一些问题没法用五个基本运算组合得出，这里就要看想要获得的结果与原始输入之间的关系，是不是从右到左的，也就是说最右边的值不应该和它左边的有联系，比如如下的例子：</p>
+<p><img src="picture/image-20211029140134548.png" alt="image-20211029140134548"></p>
+</li>
+</ol>
+</li>
+<li></li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2021-10-29T06:01:37.901Z" itemprop="dateUpdated">2021-10-29 14:01:37</time>
+</span><br>
+
+
+        
+        Link：<a href="/2021/10/29/hacker-delight-reading/" target="_blank" rel="external">http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hacker-s-delight/" rel="tag">hacker's delight</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/&title=《hacker's delight 阅读》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/&title=《hacker's delight 阅读》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《hacker's delight 阅读》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2021/10/25/p4-overview/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">p4_overview</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/&title=《hacker's delight 阅读》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/&title=《hacker's delight 阅读》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《hacker's delight 阅读》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/10/29/hacker-delight-reading/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJElEQVR42u3aQY7CMAwFUO5/6c4WCSnzbRekJi8rVCDNy8Jy7Lxe8bg+Rv779yefv1n/6+aBgYHxWMa1HMkL1s/XM6+3KZ8BAwPjBMZ6cevQmQTQCSPaOAwMDIzWEtefe+/FwMDAmAfcaqK5PtxiYGBg9ELnOmjmoTkpzH3lLI6BgfFARl51//3nr/Q3MDAwHsW4iqNaxJ+3P6NVYWBgbM3IA1wvsasmiL31YGBgnMBYp4CTctjowDm5KIaBgbEdoxfgkhf0inTNJigGBsaRjDwd7KWAeSMh2iYMDIxNGXnS1ju+9lqV5c3FwMA4klG9HpEE6N6xOQq+GBgYWzN6002KcckW9AI6BgbGrowkUZskcL2Qmrc5MTAwzmHkJbBqVjbP4qIyHAYGxtaM6pG197xa1Ovdo8DAwDiNUb02sZ4hn7+ZGmJgYBzDqB5le83OSbmt3BLAwMDYglEt6+dhdH61opAmYmBgbM3Ik7NCipYfO1uzRfdHMDAwtmP02pC95ebNyzxwY2BgnMNICmHzpU+aAf88wcDAOIBRJeUXI6qNhF6bEwMDY1fGVRzVyvxkU5pJIQYGxnaMaphLAmt+GO61VJt9WgwMjIcz5s2A5NvJhbPyWRwDA2NTRjVQTkr8d5XwMDAwMKopWrWIllwsK1zgwMDAwBgX1Kpz5pV/DAyMcxjVxG7SAOiF7NvKbRgYGA9kVK845EfQm7sT80YmBgbG8xh/SqGyUKmr/WIAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
