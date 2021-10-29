@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Tyler-ytr.github.io/"/>
-  <updated>2021-10-29T06:01:37.901Z</updated>
+  <updated>2021-10-29T06:05:38.117Z</updated>
   <id>http://Tyler-ytr.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://Tyler-ytr.github.io/2021/10/29/hacker-delight-reading/"/>
     <id>http://Tyler-ytr.github.io/2021/10/29/hacker-delight-reading/</id>
     <published>2021-10-29T04:29:48.000Z</published>
-    <updated>2021-10-29T06:01:37.901Z</updated>
+    <updated>2021-10-29T06:05:38.117Z</updated>
     
-    <content type="html"><![CDATA[<p>主要是P4使用中可能会需要一些骚操作，遂阅读此书；</p><blockquote><p>默认字长为32位；</p></blockquote><h2 id="ch2"><a href="#ch2" class="headerlink" title="ch2"></a>ch2</h2><ol><li><p>最右边的位元：</p><ol><li>考虑用x+1,x-1配上与或非取反进行操作，比如$x \&amp; (x-1)$;</li><li>$\neg x\&amp;(x+1)$,$\neg x\&amp;(x-1)$,$\neg x |(x+1)$……</li><li>这块建议查书；</li></ol></li><li><p>从右到左的可计算性：</p><ol><li><p>如果一个函数能够以位元为单位从右到左计算出来，那么它肯定可以用加法减法按位和按位与以及按位取反及其复合指令实现；反之，如果这些基本指令描述一个函数，那么它必然可以通过从右到左的按位运算做出来；</p></li><li><p>我觉得可能要反复揣摩这个定理：</p><p><img src="picture/image-20211029134915635.png" alt="image-20211029134915635"></p></li><li><p>根据书上的特例可以很清晰的理解它要表达的用于构造的例子：</p><p><img src="picture/image-20211029135925706.png" alt="image-20211029135925706"></p><p><img src="picture/image-20211029135929924.png" alt="image-20211029135929924"></p><p>上面的可以通过下面的获得，第二行第三行按位与然后和第一行按位或然后和第四行按位与（先执行操作然后对位置定位）</p></li><li><p>与此同时有一些问题没法用五个基本运算组合得出，这里就要看想要获得的结果与原始输入之间的关系，是不是从右到左的，也就是说最右边的值不应该和它左边的有联系，比如如下的例子：</p><p><img src="picture/image-20211029140134548.png" alt="image-20211029140134548"></p></li></ol></li><li></li></ol>]]></content>
+    <content type="html"><![CDATA[<p>主要是P4使用中可能会需要一些骚操作，遂阅读此书；</p><blockquote><p>默认字长为32位；</p></blockquote><h2 id="ch2"><a href="#ch2" class="headerlink" title="ch2"></a>ch2</h2><ol><li><p>最右边的位元：</p><ol><li>考虑用x+1,x-1配上与或非取反进行操作，比如$x \&amp; (x-1)$;</li><li>$\neg x\&amp;(x+1)$,$\neg x\&amp;(x-1)$,$\neg x |(x+1)$……</li><li>这块建议查书；</li></ol></li><li><p>从右到左的可计算性：</p><ol><li><p>如果一个函数能够以位元为单位从右到左计算出来，那么它肯定可以用加法减法按位和按位与以及按位取反及其复合指令实现；反之，如果这些基本指令描述一个函数，那么它必然可以通过从右到左的按位运算做出来；</p></li><li><p>我觉得可能要反复揣摩这个定理：</p><p><img src="/picture/image-20211029134915635.png" alt="image-20211029134915635"></p></li><li><p>根据书上的特例可以很清晰的理解它要表达的用于构造的例子：</p><p><img src="/picture/image-20211029135925706.png" alt="image-20211029135925706"></p><p><img src="/picture/image-20211029135929924.png" alt="image-20211029135929924"></p><p>上面的可以通过下面的获得，第二行第三行按位与然后和第一行按位或然后和第四行按位与（先执行操作然后对位置定位）</p></li><li><p>与此同时有一些问题没法用五个基本运算组合得出，这里就要看想要获得的结果与原始输入之间的关系，是不是从右到左的，也就是说最右边的值不应该和它左边的有联系，比如如下的例子：</p><p><img src="/picture/image-20211029140134548.png" alt="image-20211029140134548"></p></li></ol></li><li></li></ol>]]></content>
     
     <summary type="html">
     
