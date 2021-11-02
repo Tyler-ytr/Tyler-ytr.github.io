@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20211102211649316.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20211102212058420.png">
 <meta property="article:published_time" content="2021-11-02T13:08:35.000Z">
-<meta property="article:modified_time" content="2021-11-02T13:23:31.926Z">
+<meta property="article:modified_time" content="2021-11-02T13:25:04.398Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="教程">
 <meta property="article:tag" content="python心得">
@@ -217,9 +217,9 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20211102211300861.png" alt="image-20211102211300861" title="">
+                    <img src="/picture/image-20211102211300861.png" alt="homework" title="">
                 </div>
-                <div class="image-caption">image-20211102211300861</div>
+                <div class="image-caption">homework</div>
             </figure>
 <p>然后把要处理的邮件批量放进去，这一步可以现在腾讯企业邮箱批量的把邮件移动到某文件夹然后再放进去；</p>
 <p>然后在D盘创建文件夹，比如名字为temp;</p>
@@ -227,26 +227,26 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20211102211602890.png" alt="image-20211102211602890" title="">
+                    <img src="/picture/image-20211102211602890.png" alt="trust setting1" title="">
                 </div>
-                <div class="image-caption">image-20211102211602890</div>
+                <div class="image-caption">trust setting1</div>
             </figure>
 <p>然后信任中心，信任中心设置，启用所有宏：</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20211102211649316.png" alt="image-20211102211649316" title="">
+                    <img src="/picture/image-20211102211649316.png" alt="trust setting2" title="">
                 </div>
-                <div class="image-caption">image-20211102211649316</div>
+                <div class="image-caption">trust setting2</div>
             </figure>
 <p>最后打开outlook,按住alt+f11，调出VBA编辑的页面，填入如下代码:</p>
 <figure class="highlight vb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Sub</span> Savetheattachment()     </span><br><span class="line">	<span class="keyword">Dim</span> olApp <span class="keyword">As</span> <span class="keyword">New</span> Outlook.Application</span><br><span class="line">    <span class="keyword">Dim</span> nmsName <span class="keyword">As</span> Outlook.<span class="keyword">NameSpace</span></span><br><span class="line">    <span class="keyword">Dim</span> vItem <span class="keyword">As</span> <span class="built_in">Object</span></span><br><span class="line">    <span class="keyword">Set</span> nmsName = olApp.GetNamespace(<span class="string">"MAPI"</span>)</span><br><span class="line">    <span class="keyword">Set</span> myFolder = nmsName.GetDefaultFolder(olFolderInbox)</span><br><span class="line">    <span class="keyword">Set</span> fldFolder = myFolder.Folders(<span class="string">"homework"</span>)</span><br><span class="line">    <span class="keyword">For</span> <span class="keyword">Each</span> vItem <span class="keyword">In</span> fldFolder.Items         </span><br><span class="line">    <span class="comment">'-----Save Attachment------</span></span><br><span class="line">    	<span class="keyword">For</span> <span class="keyword">Each</span> att <span class="keyword">In</span> vItem.Attachments</span><br><span class="line">                att.SaveAsFile <span class="string">"D:\temp\"</span> &amp; att.FileName</span><br><span class="line">            <span class="keyword">Next</span></span><br><span class="line">    <span class="comment">'------Save Attachment-------</span></span><br><span class="line">    <span class="keyword">Next</span></span><br><span class="line">    <span class="keyword">Set</span> fldFolder = <span class="literal">Nothing</span></span><br><span class="line">    <span class="keyword">Set</span> nmsName = <span class="literal">Nothing</span></span><br><span class="line"><span class="keyword">End</span> <span class="keyword">Sub</span></span><br></pre></td></tr></table></figure>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20211102212058420.png" alt="image-20211102212058420" title="">
+                    <img src="/picture/image-20211102212058420.png" alt="running VBA" title="">
                 </div>
-                <div class="image-caption">image-20211102212058420</div>
+                <div class="image-caption">running VBA</div>
             </figure>
 <p>然后如图示点击运行即可</p>
 
@@ -257,7 +257,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-11-02T13:23:31.926Z" itemprop="dateUpdated">2021-11-02 21:23:31</time>
+    Last updated: <time datetime="2021-11-02T13:25:04.398Z" itemprop="dateUpdated">2021-11-02 21:25:04</time>
 </span><br>
 
 
