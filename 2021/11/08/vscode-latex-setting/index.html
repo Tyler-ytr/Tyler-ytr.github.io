@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>vscode+latex 配置 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="windows 配置">
+    <meta name="description" content="安装texlive，验证的方式: 1234tex -vlatex -vxelatex -vpdflatex -v  vscode 安装 Latex Workshop插件以及Code Spell Checker插件  配置json，打开配置的方法是Ctrl+shift+p然后搜索setj选择选择首选项设置: 123456789101112131415161718192021222324252627">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vscode+latex 配置">
+<meta property="og:url" content="http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="安装texlive，验证的方式: 1234tex -vlatex -vxelatex -vpdflatex -v  vscode 安装 Latex Workshop插件以及Code Spell Checker插件  配置json，打开配置的方法是Ctrl+shift+p然后搜索setj选择选择首选项设置: 123456789101112131415161718192021222324252627">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-11-08T02:45:56.000Z">
+<meta property="article:modified_time" content="2021-11-08T02:51:02.944Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="windows 配置">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">vscode+latex 配置</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">vscode+latex 配置</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2021-11-08T02:45:56.000Z" itemprop="datePublished" class="page-time">
+  2021-11-08
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE/">电脑配置</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+
+<article id="post-vscode-latex-setting"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">vscode+latex 配置</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2021-11-08 10:45:56" datetime="2021-11-08T02:45:56.000Z"  itemprop="datePublished">2021-11-08</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E7%94%B5%E8%84%91%E9%85%8D%E7%BD%AE/">电脑配置</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <ol>
+<li><p>安装texlive，验证的方式:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tex -v</span><br><span class="line">latex -v</span><br><span class="line">xelatex -v</span><br><span class="line">pdflatex -v</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>vscode 安装 Latex Workshop插件以及Code Spell Checker插件</p>
+</li>
+<li><p>配置json，打开配置的方法是Ctrl+shift+p然后搜索setj选择选择首选项设置:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">"latex-workshop.latex.recipes": [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"xelatex -&gt; bibtex -&gt; xelatex*2"</span>,</span><br><span class="line">      <span class="attr">"tools"</span>: [</span><br><span class="line">        <span class="string">"xelatex"</span>,</span><br><span class="line">        <span class="string">"bibtex"</span>,</span><br><span class="line">        <span class="string">"xelatex"</span>,</span><br><span class="line">        <span class="string">"xelatex"</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "latex-workshop.latex.tools": [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"xelatex"</span>,</span><br><span class="line">      <span class="attr">"command"</span>: <span class="string">"xelatex"</span>,</span><br><span class="line">      <span class="attr">"args"</span>: [</span><br><span class="line">        <span class="string">"-synctex=1"</span>,</span><br><span class="line">        <span class="string">"-interaction=nonstopmode"</span>,</span><br><span class="line">        <span class="string">"-file-line-error"</span>,</span><br><span class="line">        <span class="string">"%DOCFILE%"</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"latexmk"</span>,</span><br><span class="line">      <span class="attr">"command"</span>: <span class="string">"latexmk"</span>,</span><br><span class="line">      <span class="attr">"args"</span>: [</span><br><span class="line">        <span class="string">"-synctex=1"</span>,</span><br><span class="line">        <span class="string">"-interaction=nonstopmode"</span>,</span><br><span class="line">        <span class="string">"-file-line-error"</span>,</span><br><span class="line">        <span class="string">"%DOCFILE%"</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"pdflatex"</span>,</span><br><span class="line">      <span class="attr">"command"</span>: <span class="string">"pdflatex"</span>,</span><br><span class="line">      <span class="attr">"args"</span>: [</span><br><span class="line">        <span class="string">"-synctex=1"</span>,</span><br><span class="line">        <span class="string">"-interaction=nonstopmode"</span>,</span><br><span class="line">        <span class="string">"-file-line-error"</span>,</span><br><span class="line">        <span class="string">"%DOCFILE%"</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"name"</span>: <span class="string">"bibtex"</span>,</span><br><span class="line">      <span class="attr">"command"</span>: <span class="string">"bibtex"</span>,</span><br><span class="line">      <span class="attr">"args"</span>: [</span><br><span class="line">        <span class="string">"%DOCFILE%"</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  "latex-workshop.view.pdf.viewer": "tab",</span><br><span class="line">  "latex-workshop.latex.clean.fileTypes": [</span><br><span class="line">    "*.aux",</span><br><span class="line">    "*.bbl",</span><br><span class="line">    "*.blg",</span><br><span class="line">    "*.idx",</span><br><span class="line">    "*.ind",</span><br><span class="line">    "*.lof",</span><br><span class="line">    "*.lot",</span><br><span class="line">    "*.out",</span><br><span class="line">    "*.toc",</span><br><span class="line">    "*.acn",</span><br><span class="line">    "*.acr",</span><br><span class="line">    "*.alg",</span><br><span class="line">    "*.glg",</span><br><span class="line">    "*.glo",</span><br><span class="line">    "*.gls",</span><br><span class="line">    "*.ist",</span><br><span class="line">    "*.fls",</span><br><span class="line">    "*.log",</span><br><span class="line">    <span class="string">"*.fdb_latexmk"</span></span><br><span class="line">  ],</span><br><span class="line">  "latex-workshop.latex.autoClean.run": "onBuilt"</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li></li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2021-11-08T02:51:02.944Z" itemprop="dateUpdated">2021-11-08 10:51:02</time>
+</span><br>
+
+
+        
+        Link：<a href="/2021/11/08/vscode-latex-setting/" target="_blank" rel="external">http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows-%E9%85%8D%E7%BD%AE/" rel="tag">windows 配置</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/&title=《vscode+latex 配置》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/&title=《vscode+latex 配置》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《vscode+latex 配置》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2021/11/02/email_note/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">邮件处理</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/&title=《vscode+latex 配置》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/&title=《vscode+latex 配置》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《vscode+latex 配置》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJ0lEQVR42u3ay47iMBAFUP7/p+ntjBDRveWk1YlPVggC8fGiqIdfr/h6f1z/vv/t9bdvfd7/+a3XFRcGBsZtGe/DK2G0nx4DZr+AgYGxA+NbBDsOpnkAXWEcrw0DAwNjZYntRiTPxcDAwMgDbl58JkEWAwMDI2GshM781/L7L6zFMTAwbsjIu+6///qS+QYGBsatGO/yOoYlQXMlTH99CgYGxqMZeYBrW/azFHBlPRgYGE9lrByeyDFFyyzelGiPMTAwHsGYFa75A2aJZrJlBQ8DA+PmjHah+eGw/JjXbIT536cYGBiPZpybqOUtuZWAHs1jMTAwHsc4N3Qel8QrCWhdkWNgYDyIsd5Kyx/TButhaoiBgfEgxmyhs6MYK8csinYbBgbGlow8UVsJvrOjY6/8nwEDA+O2jPUitv3WWYnjybU4BgbGH2bMjn+19XEbpoepIQYGxkMZs59r08o2TNf/GBgYGBsw2qZ83mLLMe02YWBg7Mloj0rkQ4W2WG03CAMDYx/GLBDnbbXLB6IYGBhbMpKln5sUzpJFDAyM3RhtSreyxHbAWaSGGBgYD2LM0rX2CFe7rHyEiYGBsQNjJczNwnQOy0M2BgbGDozZkaxZS65t6hVlLQYGxgaMNvBd0aRrQz8GBgbGSrOsLV+TMcBwvoGBgbE946w7j0N5lG5iYGBswGiHAe0WJEtsD4dhYGDsw8hLx7xBlgwmZ2PIpUEmBgbG/Rg/1lXRP6IVsAQAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
