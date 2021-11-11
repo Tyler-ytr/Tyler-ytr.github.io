@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Tyler-ytr.github.io/"/>
-  <updated>2021-11-08T05:38:51.085Z</updated>
+  <updated>2021-11-11T09:22:28.205Z</updated>
   <id>http://Tyler-ytr.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>shell命令杂记</title>
+    <link href="http://Tyler-ytr.github.io/2021/11/10/shell-collect/"/>
+    <id>http://Tyler-ytr.github.io/2021/11/10/shell-collect/</id>
+    <published>2021-11-10T07:58:23.000Z</published>
+    <updated>2021-11-11T09:22:28.205Z</updated>
+    
+    <content type="html"><![CDATA[<p>用于记录一些遇到过的shell;</p><h4 id="一些shell命令含义的记录"><a href="#一些shell命令含义的记录" class="headerlink" title="一些shell命令含义的记录"></a>一些shell命令含义的记录</h4><ol><li><p><strong>1&gt;/dev/null 2&gt;&amp;1的含义</strong> </p><ol><li>> 代表重定向到哪里，例如：echo “123” &gt; /home/123.txt</li><li>1 表示stdout标准输出，系统默认值是1，所以”&gt;/dev/null”等同于”1&gt;/dev/null” </li><li>2 表示stderr标准错误</li><li>&amp; 表示等同于的意思，2&gt;&amp;1，表示2的输出重定向等同于1 </li></ol><p>因此该语句：</p><ol><li>1&gt;/dev/null 首先表示标准输出重定向到空设备文件，也就是不输出任何信息到终端，说白了就是不显示任何信息。 </li><li>2&gt;&amp;1 接着，标准错误输出重定向等同于 标准输出，因为之前标准输出已经重定向到了空设备文件，所以标准错误输出也重定向到空设备文件。 </li></ol></li><li><p>/dev/zero文件代表一个永远输出 0的设备文件，使用它作输入可以得到全为空的文件。因此可用来创建新文件和以覆盖的方式清除旧文件。</p></li><li></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;用于记录一些遇到过的shell;&lt;/p&gt;
+&lt;h4 id=&quot;一些shell命令含义的记录&quot;&gt;&lt;a href=&quot;#一些shell命令含义的记录&quot; class=&quot;headerlink&quot; title=&quot;一些shell命令含义的记录&quot;&gt;&lt;/a&gt;一些shell命令含义的记录&lt;/h4&gt;&lt;
+      
+    
+    </summary>
+    
+      <category term="个人总结" scheme="http://Tyler-ytr.github.io/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/"/>
+    
+    
+      <category term="shell" scheme="http://Tyler-ytr.github.io/tags/shell/"/>
+    
+  </entry>
   
   <entry>
     <title>vscode+latex 配置</title>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>shell命令杂记 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="shell">
+    <meta name="description" content="用于记录一些遇到过的shell; 一些shell命令含义的记录 1&gt;&#x2F;dev&#x2F;null 2&gt;&amp;1的含义   &gt; 代表重定向到哪里，例如：echo “123” &gt; &#x2F;home&#x2F;123.txt 1 表示stdout标准输出，系统默认值是1，所以”&gt;&#x2F;dev&#x2F;null”等同于”1&gt;&#x2F;dev&#x2F;null”  2 表示stderr标准错误 &amp; 表示等同于的意思，2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell命令杂记">
+<meta property="og:url" content="http://tyler-ytr.github.io/2021/11/10/shell-collect/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="用于记录一些遇到过的shell; 一些shell命令含义的记录 1&gt;&#x2F;dev&#x2F;null 2&gt;&amp;1的含义   &gt; 代表重定向到哪里，例如：echo “123” &gt; &#x2F;home&#x2F;123.txt 1 表示stdout标准输出，系统默认值是1，所以”&gt;&#x2F;dev&#x2F;null”等同于”1&gt;&#x2F;dev&#x2F;null”  2 表示stderr标准错误 &amp; 表示等同于的意思，2">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-11-10T07:58:23.000Z">
+<meta property="article:modified_time" content="2021-11-11T09:22:28.205Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="shell">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">shell命令杂记</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">shell命令杂记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2021-11-10T07:58:23.000Z" itemprop="datePublished" class="page-time">
+  2021-11-10
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#一些shell命令含义的记录"><span class="post-toc-number">1.</span> <span class="post-toc-text">一些shell命令含义的记录</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-shell-collect"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">shell命令杂记</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2021-11-10 15:58:23" datetime="2021-11-10T07:58:23.000Z"  itemprop="datePublished">2021-11-10</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>用于记录一些遇到过的shell;</p>
+<h4 id="一些shell命令含义的记录"><a href="#一些shell命令含义的记录" class="headerlink" title="一些shell命令含义的记录"></a>一些shell命令含义的记录</h4><ol>
+<li><p><strong>1&gt;/dev/null 2&gt;&amp;1的含义</strong> </p>
+<ol>
+<li>> 代表重定向到哪里，例如：echo “123” &gt; /home/123.txt</li>
+<li>1 表示stdout标准输出，系统默认值是1，所以”&gt;/dev/null”等同于”1&gt;/dev/null” </li>
+<li>2 表示stderr标准错误</li>
+<li>&amp; 表示等同于的意思，2&gt;&amp;1，表示2的输出重定向等同于1 </li>
+</ol>
+<p>因此该语句：</p>
+<ol>
+<li>1&gt;/dev/null 首先表示标准输出重定向到空设备文件，也就是不输出任何信息到终端，说白了就是不显示任何信息。 </li>
+<li>2&gt;&amp;1 接着，标准错误输出重定向等同于 标准输出，因为之前标准输出已经重定向到了空设备文件，所以标准错误输出也重定向到空设备文件。 </li>
+</ol>
+</li>
+<li><p>/dev/zero文件代表一个永远输出 0的设备文件，使用它作输入可以得到全为空的文件。因此可用来创建新文件和以覆盖的方式清除旧文件。</p>
+</li>
+<li></li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2021-11-11T09:22:28.205Z" itemprop="dateUpdated">2021-11-11 17:22:28</time>
+</span><br>
+
+
+        
+        Link：<a href="/2021/11/10/shell-collect/" target="_blank" rel="external">http://tyler-ytr.github.io/2021/11/10/shell-collect/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/" rel="tag">shell</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/11/10/shell-collect/&title=《shell命令杂记》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/11/10/shell-collect/&title=《shell命令杂记》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/11/10/shell-collect/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《shell命令杂记》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/11/10/shell-collect/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/11/10/shell-collect/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2021/11/08/vscode-latex-setting/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">vscode+latex 配置</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2021</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2021/11/10/shell-collect/&title=《shell命令杂记》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2021/11/10/shell-collect/&title=《shell命令杂记》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2021/11/10/shell-collect/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《shell命令杂记》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2021/11/10/shell-collect/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2021/11/10/shell-collect/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLUlEQVR42u3a0W6DMAwF0P7/T3evmzbotQ3SEg5PE02bHCYZO/HrFV/v0+t8/Pc7+SyvOy4MDIxlGckSq4zfS38Xr/K8GBgYD2Aki8jj3tG3jhZxzjifBQMDA+OqMUdhdD4vBgYGRnVMficfj4GBgZEXkwkyT/uqsMtqcQwMjAUZk9L07r9vOd/AwMBYinHHZv35yKtW8uM3MTAwtmb02iDOE8deuZsU1R8OGDAwMLZm9DbxE8zty82/hoGBsSyjZ02Wnh8M5I/g8JcxMDAew5iE1GQp80d2+CkGBsbWjGpgnWzM5cE0T0kxMDCew8gbKXqVY3V7rne0gIGB8QTGJBHM4/r5/epj+iPgYmBgbMfoFaLzkdU2i/KuIQYGxkaMSXtEXrjmSWcVHO29YWBgLM6YtDv0UsO8eC4cAGBgYGzNSBK7atDs9W5V08rDsIuBgbEp49rp8/HVInZ0YWBgLMuYTFY9pOyVrNGaMTAwtmb0ytE8NcyL5Cq4+T/BwMBYnHHHlL0gnofmw1ocAwNjU0a+uV8NuHkArTalYWBgPI1Rba2YBOjJvmDhvYGBgbEF4128qptrk2PLQvGMgYGxNWNykDkvQatvhlGzBQYGxuKMPMgmAbf65PIS+sPWHgYGxgMYvcBXTQ3zJSahHwMDA6OaolUbL/Ljh4iKgYGBEQTc+ZZZlXTLewMDA+MfMyYpXa+dYr5th4GB8RxGtcXhqhBcTSUvOMjEwMBYj/EFJ/v6CCDH2jkAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
