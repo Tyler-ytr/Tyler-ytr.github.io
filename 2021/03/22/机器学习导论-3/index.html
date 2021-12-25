@@ -45,7 +45,7 @@
     <!-- custom head -->
     
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -246,7 +246,7 @@
 </ul>
 <h3 id="二分类任务"><a href="#二分类任务" class="headerlink" title="二分类任务"></a>二分类任务</h3><ul>
 <li><p>线性回归的实际输出:$z=w^{T}x+b$</p>
-<p>期望输出 $y\in\{0,1\}$</p>
+<p>期望输出 $y\in{0,1}$</p>
 <p>这个二分类任务就是为了找到一个z,y的联系函数</p>
 </li>
 <li><p>理想模型：单位阶跃函数</p>
@@ -274,9 +274,8 @@
 </blockquote>
 <p><img src="picture/image-20210322115345578.png" alt="image-20210322115345578"></p>
 </li>
-<li><p>使用极大似然法(maximum likelihood method)求解,给定数据集$\{(x_{i}, y_{i})\}^{m}_{i=1}$,对率回归模型最大化“对数似然”:</p>
-<script type="math/tex; mode=display">
-l(w,b)=\sum_{i=1}^{m}\ln p (y_i|x_i;w,b)</script></li>
+<li><p>使用极大似然法(maximum likelihood method)求解,给定数据集${(x_{i}, y_{i})}^{m}<em>{i=1}$,对率回归模型最大化“对数似然”:<br>$$<br>l(w,b)=\sum</em>{i=1}^{m}\ln p (y_i|x_i;w,b)<br>$$</p>
+</li>
 </ul>
 <blockquote>
 <p>似然:正例的可能性*正例+负例的可能性*负例</p>

@@ -45,7 +45,7 @@
     <!-- custom head -->
     
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -293,17 +293,10 @@
 </li>
 <li><p>如何利用多次训练得到了多个混淆矩阵？</p>
 <ul>
-<li><p>macro-F1:</p>
-<script type="math/tex; mode=display">
-macro-P=\frac{1}{n}\sum^{n}_{i=1}P_i\\
-macro-R=\frac{1}{n}\sum^{n}_{i=1}R_i\\
-macro-F_1=\frac{2\times macro-P\times macro-R}{macro-P+macro-R}</script><p>也就是平均P,R之后再算</p>
+<li><p>macro-F1:<br>$$<br>macro-P=\frac{1}{n}\sum^{n}_{i=1}P_i\<br>macro-R=\frac{1}{n}\sum^{n}_{i=1}R_i\<br>macro-F_1=\frac{2\times macro-P\times macro-R}{macro-P+macro-R}<br>$$<br>也就是平均P,R之后再算</p>
 </li>
-<li><p>micro-F1:</p>
-<script type="math/tex; mode=display">
-micro-P=\frac{\overline{TP}}{\overline{TP}+\overline{FP}}\\
-micro-R=\frac{\overline{TP}}{\overline{TP}+\overline{FN}}\\
-micro-F1=\frac{2\times micro-P\times micro-R}{micro-P+micro-R}</script></li>
+<li><p>micro-F1:<br>$$<br>micro-P=\frac{\overline{TP}}{\overline{TP}+\overline{FP}}\<br>micro-R=\frac{\overline{TP}}{\overline{TP}+\overline{FN}}\<br>micro-F1=\frac{2\times micro-P\times micro-R}{micro-P+micro-R}<br>$$</p>
+</li>
 </ul>
 </li>
 </ul>
@@ -312,12 +305,9 @@ micro-F1=\frac{2\times micro-P\times micro-R}{micro-P+micro-R}</script></li>
 <ul>
 <li><p>$F1$ measure：$\frac{2\times TP}{N+TP-TN}$</p>
 </li>
-<li><p>AUC预测了排序质量,越高越好；</p>
-<script type="math/tex; mode=display">
-AUC=\frac{1}{2}\sum_{i=1}^{m-1}(x_{i+1}-x_{i})\cdot(y_{i}+y_{i+1})</script><p>AUC与排序的密切关系:考虑每一个正反例，若正例的预测值小于反例，那么就计算一个“罚分”：</p>
-<script type="math/tex; mode=display">
-\mathcal{l}_{tank}=\frac{1}{m^+m^-}\sum_{x^+\in D^+}\sum_{x^-\in D^-}(\mathbb{I}(f(x^+)<f(x^-))+\frac{1}{2}\mathbb{I}(f(x^+)=f(x^-)))</script><script type="math/tex; mode=display">
-AUC=1-\mathcal{l}_{tank}</script></li>
+<li><p>AUC预测了排序质量,越高越好；<br>$$<br>AUC=\frac{1}{2}\sum_{i=1}^{m-1}(x_{i+1}-x_{i})\cdot(y_{i}+y_{i+1})<br>$$<br>AUC与排序的密切关系:考虑每一个正反例，若正例的预测值小于反例，那么就计算一个“罚分”：<br>$$<br>\mathcal{l}<em>{tank}=\frac{1}{m^+m^-}\sum</em>{x^+\in D^+}\sum_{x^-\in D^-}(\mathbb{I}(f(x^+)&lt;f(x^-))+\frac{1}{2}\mathbb{I}(f(x^+)=f(x^-)))<br>$$</p>
+<p>$$<br>AUC=1-\mathcal{l}_{tank}<br>$$</p>
+</li>
 </ul>
 <ul>
 <li><p>代价敏感错误率:</p>
@@ -381,7 +371,7 @@ AUC=1-\mathcal{l}_{tank}</script></li>
 </li>
 <li><p>使用样本数目相同的不同训练集产生的方差为$var(x)=\mathbb{E}_{D}[(f(x:D)-\bar{f}(x))^{2}]$；(每次做的浮动范围)</p>
 </li>
-<li><p>噪声为$\varepsilon^{2}=\mathbb{E}_{D}[(y_{D}-y)^{2}]$: 本真误差</p>
+<li><p>噪声为$\varepsilon^{2}=\mathbb{E}<em>{D}[(y</em>{D}-y)^{2}]$: 本真误差</p>
 </li>
 <li><p>偏差$bias^2(x)=(\overline{f}(x)-y)^2$ 期望输出和真实输出的差别</p>
 <p>比较清晰的图示(周老师真nb):</p>

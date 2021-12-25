@@ -21,12 +21,12 @@
     
     
     <meta name="keywords" content="ML">
-    <meta name="description" content="机器学习导论-1 绪论与数学参考 二刷机器学习导论 参考书: 统计机器学习 PRML(贝叶斯) ESL(统计学派) MLAPP UML   绪论 学习过程  训练数据，经过 学习算法训练，得到 模型(决策树，射精网络，支持向量机，Boosting，贝叶斯网……)，可以判断 新数据样本，得到结论   机器学习的局限性，失效条件:  特征信息不充分 样本信息不充分   机器学习的理论基础(计算学习理论">
+    <meta name="description" content="机器学习导论-1 绪论与数学参考 二刷机器学习导论   参考书: 统计机器学习 PRML(贝叶斯) ESL(统计学派) MLAPP UML   绪论 学习过程  训练数据，经过 学习算法训练，得到 模型(决策树，射精网络，支持向量机，Boosting，贝叶斯网……)，可以判断 新数据样本，得到结论   机器学习的局限性，失效条件:  特征信息不充分 样本信息不充分   机器学习的理论基础(计算学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习导论-1 绪论与数学参考">
 <meta property="og:url" content="http://tyler-ytr.github.io/2021/03/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA-1/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
-<meta property="og:description" content="机器学习导论-1 绪论与数学参考 二刷机器学习导论 参考书: 统计机器学习 PRML(贝叶斯) ESL(统计学派) MLAPP UML   绪论 学习过程  训练数据，经过 学习算法训练，得到 模型(决策树，射精网络，支持向量机，Boosting，贝叶斯网……)，可以判断 新数据样本，得到结论   机器学习的局限性，失效条件:  特征信息不充分 样本信息不充分   机器学习的理论基础(计算学习理论">
+<meta property="og:description" content="机器学习导论-1 绪论与数学参考 二刷机器学习导论   参考书: 统计机器学习 PRML(贝叶斯) ESL(统计学派) MLAPP UML   绪论 学习过程  训练数据，经过 学习算法训练，得到 模型(决策树，射精网络，支持向量机，Boosting，贝叶斯网……)，可以判断 新数据样本，得到结论   机器学习的局限性，失效条件:  特征信息不充分 样本信息不充分   机器学习的理论基础(计算学习">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20210308113014539.png">
 <meta property="article:published_time" content="2021-03-08T02:18:18.000Z">
@@ -45,7 +45,7 @@
     <!-- custom head -->
     
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -204,6 +204,8 @@
         <div class="post-content" id="post-content" itemprop="postContent">
             <h2 id="机器学习导论-1-绪论与数学参考"><a href="#机器学习导论-1-绪论与数学参考" class="headerlink" title="机器学习导论-1 绪论与数学参考"></a>机器学习导论-1 绪论与数学参考</h2><blockquote>
 <p>二刷机器学习导论</p>
+</blockquote>
+<blockquote>
 <p>参考书: 统计机器学习 PRML(贝叶斯) ESL(统计学派) MLAPP UML </p>
 </blockquote>
 <h3 id="绪论"><a href="#绪论" class="headerlink" title="绪论"></a>绪论</h3><ol>
@@ -245,32 +247,18 @@
 </ul>
 <p>则称$||x||$为$R^n$上的向量范数</p>
 </li>
-<li><p>范数表达式:</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\left| \left| x \right| \right|_{p}\; :=\; \left( \sum_{i=1}^{n}{\left| x_{i} \right|^{p} } \right)^{\frac{1}{p} }\tag{1}
-\end{align}</script></li>
-<li><p>L1范数:</p>
-<script type="math/tex; mode=display">
-||x||_1 = |x_1| + |x_2| + \dots + |x_n| = \sum_i^n |x_i|</script><p>向量元素绝对值之和</p>
-<p>L2范数:</p>
-<script type="math/tex; mode=display">
-||x||_2 = (|x_1|^2 + |x_2|^2+\dots+ |x_n|^2)^{\frac{1}{2} } =\sqrt{ \sum_i^n x_i^2}</script><p>Euclid范数(欧几里得范数，常用计算向量长度)</p>
-<p>Lp范数:</p>
-<script type="math/tex; mode=display">
-||x||_p = (|x_1|^p + |x_2|^p+\dots+ |x_n|^p)^{\frac{1}{p} } =\sqrt[p]{ \sum_i^n x_i^p}</script><p><img src="/picture/image-20210308113014539.png" alt="image-20210308113014539"></p>
+<li><p>范数表达式:<br>$$<br>\begin{align}<br>\left| \left| x \right| \right|<em>{p}\; :=\; \left( \sum</em>{i=1}^{n}{\left| x_{i} \right|^{p} } \right)^{\frac{1}{p} }\tag{1}<br>\end{align}<br>$$</p>
+</li>
+<li><p>L1范数:<br>$$<br>||x||_1 = |x_1| + |x_2| + \dots + |x_n| = \sum_i^n |x_i|<br>$$<br>向量元素绝对值之和</p>
+<p>L2范数:<br>$$<br>||x||_2 = (|x_1|^2 + |x_2|^2+\dots+ |x_n|^2)^{\frac{1}{2} } =\sqrt{ \sum_i^n x_i^2}<br>$$<br>Euclid范数(欧几里得范数，常用计算向量长度)</p>
+<p>Lp范数:<br>$$<br>||x||_p = (|x_1|^p + |x_2|^p+\dots+ |x_n|^p)^{\frac{1}{p} } =\sqrt[p]{ \sum_i^n x_i^p}<br>$$<br><img src="/picture/image-20210308113014539.png" alt="image-20210308113014539"></p>
 <p>Lp的形状随p的变化的图</p>
-<p>L$\infty $范数:</p>
-<script type="math/tex; mode=display">
-||x||_{\infty} = \max\limits_{1\le i\le n} |x_i|</script></li>
+<p>L$\infty $范数:<br>$$<br>||x||<em>{\infty} = \max\limits</em>{1\le i\le n} |x_i|<br>$$</p>
+</li>
 </ul>
 <p>  所有向量元素绝对值中的最大值</p>
-<p>  L$-\infty$范数:</p>
-<script type="math/tex; mode=display">
-  ||x||_{\infty} = \min\limits_{1\le i\le n} |x_i|</script><p>  所有向量元素绝对值中的最小值</p>
-<p>  L0范数:</p>
-<script type="math/tex; mode=display">
-  ||x||_0 = \sum_i^n I(x_i \ne 0)</script><p>  也就是非零元素的数量</p>
+<p>  L$-\infty$范数:<br>  $$<br>  ||x||<em>{\infty} = \min\limits</em>{1\le i\le n} |x_i|<br>  $$<br>  所有向量元素绝对值中的最小值</p>
+<p>  L0范数:<br>  $$<br>  ||x||_0 = \sum_i^n I(x_i \ne 0)<br>  $$<br>  也就是非零元素的数量</p>
 <ul>
 <li><p>例子:$x=(1,4,3,0)^T$的常用范数:</p>
 <p>$||x||_0=3$</p>
@@ -289,49 +277,29 @@
 </ul>
 <p>则称$||A||$为$R^{n\times n}$上的一个矩阵范数</p>
 </li>
-<li><p><strong>列范数:</strong></p>
-<script type="math/tex; mode=display">
-||A||_1 = \max\limits_{1\le j\le n} \sum_i^n |a_{ij}|</script><p>$A$的每一列的绝对值的最大值，称作$A$的列范数</p>
+<li><p><strong>列范数:</strong><br>$$<br>||A||<em>1 = \max\limits</em>{1\le j\le n} \sum_i^n |a_{ij}|<br>$$<br>$A$的每一列的绝对值的最大值，称作$A$的列范数</p>
 </li>
-<li><p><strong>行范数:</strong></p>
-<script type="math/tex; mode=display">
-||A||_{\infty} = \max\limits_{1\le i\le n} \sum_j^n |a_{ij}|</script><p>$A$的每一行的绝对值的最大值，称作$A$的行范数</p>
+<li><p><strong>行范数:</strong><br>$$<br>||A||<em>{\infty} = \max\limits</em>{1\le i\le n} \sum_j^n |a_{ij}|<br>$$<br>$A$的每一行的绝对值的最大值，称作$A$的行范数</p>
 </li>
-<li><p><strong>L2范数:</strong></p>
-<script type="math/tex; mode=display">
-||A||_2 = \sqrt{\lambda_{max} (A^T A)}</script><p>其中$\lambda_{max}$表示$A^TA$的特征值的绝对值的最大值</p>
+<li><p><strong>L2范数:</strong><br>$$<br>||A||<em>2 = \sqrt{\lambda</em>{max} (A^T A)}<br>$$<br>其中$\lambda_{max}$表示$A^TA$的特征值的绝对值的最大值</p>
 </li>
-<li><p><strong>F-范数(Frobenius):</strong></p>
-<script type="math/tex; mode=display">
-||A||_F = (\sum_i^n \sum_j^n a_{ij}^2)^{\frac{1}{2} }=(tr(A^TA))^{1/2}</script><p>它相当于矩阵$A$各项元素的绝对值平方的总和,也就是矩阵张成向量之后的L2范数</p>
+<li><p><strong>F-范数(Frobenius):</strong><br>$$<br>||A||_F = (\sum_i^n \sum_j^n a_{ij}^2)^{\frac{1}{2} }=(tr(A^TA))^{1/2}<br>$$<br>它相当于矩阵$A$各项元素的绝对值平方的总和,也就是矩阵张成向量之后的L2范数</p>
 </li>
 </ul>
 <h4 id="求导"><a href="#求导" class="headerlink" title="求导"></a>求导</h4><ul>
 <li><p>一阶导数：雅可比矩阵</p>
-<p>假设函数$F:{R_n} \to {R_m}$是一个从欧式n维空间转换到欧式m维空间的函数.这个函数由m个实函数组成:$y1(x1,…,xn), …, ym(x1,…,xn)$. 这些函数的偏导数(如果存在)可以组成一个m行n列的矩阵, 这就是所谓的雅可比矩阵：</p>
-<script type="math/tex; mode=display">
-\begin{bmatrix} \frac{\partial y_1}{\partial x_1} & \cdots & \frac{\partial y_1}{\partial x_n} \\ \vdots & \ddots & \vdots \\ \frac{\partial y_m}{\partial x_1} & \cdots & \frac{\partial y_m}{\partial x_n} \end{bmatrix}</script></li>
+<p>假设函数$F:{R_n} \to {R_m}$是一个从欧式n维空间转换到欧式m维空间的函数.这个函数由m个实函数组成:$y1(x1,…,xn), …, ym(x1,…,xn)$. 这些函数的偏导数(如果存在)可以组成一个m行n列的矩阵, 这就是所谓的雅可比矩阵：<br>$$<br>\begin{bmatrix} \frac{\partial y_1}{\partial x_1} &amp; \cdots &amp; \frac{\partial y_1}{\partial x_n} \ \vdots &amp; \ddots &amp; \vdots \ \frac{\partial y_m}{\partial x_1} &amp; \cdots &amp; \frac{\partial y_m}{\partial x_n} \end{bmatrix}<br>$$</p>
+</li>
 </ul>
 <p>  此矩阵表示为: ${J_F}({x_1}, \ldots ,{x_n})$,或者$\frac{ {\partial {({y_1}, … ,{y_m})} }  } { {\partial {({x_1}, … ,{x_n})} } }$.</p>
 <blockquote>
 <p>hexo 两个{之间要加空格不然会报错: expected variable end</p>
 </blockquote>
-<p>  如果$p$是$R_n$中的一点，$F$在$p$点可微分，那么这一点的导数由$J_F(p)$给出.在此情况下, 由$F(p)$描述的线性算子即接近点$p$的$F$的最优线性逼近, $x$逼近于$p$:</p>
-<script type="math/tex; mode=display">
-  F({\bf{x} }) \approx F({\bf{p} }) + {J_F}({\bf{p} }) \cdot ({\bf{x} } – {\bf{p} })</script><ul>
+<p>  如果$p$是$R_n$中的一点，$F$在$p$点可微分，那么这一点的导数由$J_F(p)$给出.在此情况下, 由$F(p)$描述的线性算子即接近点$p$的$F$的最优线性逼近, $x$逼近于$p$:<br>  $$<br>  F({\bf{x} }) \approx F({\bf{p} }) + {J_F}({\bf{p} }) \cdot ({\bf{x} } – {\bf{p} })<br>  $$</p>
+<ul>
 <li><p>二阶导数：海森矩阵</p>
-<p>海森矩阵(Hessian matrix或Hessian)是一个自变量为向量的实值函数的二阶偏导数组成的方块矩阵, 此函数如下：</p>
-<script type="math/tex; mode=display">
-f({x_1},{x_2} \ldots ,{x_n})</script><p>如果$f$所有的二阶导都存在，那么有：</p>
-<script type="math/tex; mode=display">
-H{(f)_{ij} }(x) = {D_i}{D_j}f(x)</script><p>也就是:</p>
-<script type="math/tex; mode=display">
-\begin{bmatrix} 
-\frac{\partial^2 f}{\partial x_1^2} & \frac{\partial^2 f}{\partial x_1\,\partial x_2} & \cdots & \frac{\partial^2 f}{\partial x_1\,\partial x_n} \\  \\ 
-\frac{\partial^2 f}{\partial x_2\,\partial x_1} & \frac{\partial^2 f}{\partial x_2^2} & \cdots & \frac{\partial^2 f}{\partial x_2\,\partial x_n} \\  \\ 
-\vdots & \vdots & \ddots & \vdots \\  \\ 
-\frac{\partial^2 f}{\partial x_n\,\partial x_1} & \frac{\partial^2 f}{\partial x_n\,\partial x_2} & \cdots & \frac{\partial^2 f}{\partial x_n^2} 
-\end{bmatrix}</script></li>
+<p>海森矩阵(Hessian matrix或Hessian)是一个自变量为向量的实值函数的二阶偏导数组成的方块矩阵, 此函数如下：<br>$$<br>f({x_1},{x_2} \ldots ,{x_n})<br>$$<br>如果$f$所有的二阶导都存在，那么有：<br>$$<br>H{(f)_{ij} }(x) = {D_i}{D_j}f(x)<br>$$<br>也就是:<br>$$<br>\begin{bmatrix}<br>\frac{\partial^2 f}{\partial x_1^2} &amp; \frac{\partial^2 f}{\partial x_1\,\partial x_2} &amp; \cdots &amp; \frac{\partial^2 f}{\partial x_1\,\partial x_n} \  \<br>\frac{\partial^2 f}{\partial x_2\,\partial x_1} &amp; \frac{\partial^2 f}{\partial x_2^2} &amp; \cdots &amp; \frac{\partial^2 f}{\partial x_2\,\partial x_n} \  \<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \  \<br>\frac{\partial^2 f}{\partial x_n\,\partial x_1} &amp; \frac{\partial^2 f}{\partial x_n\,\partial x_2} &amp; \cdots &amp; \frac{\partial^2 f}{\partial x_n^2}<br>\end{bmatrix}<br>$$</p>
+</li>
 <li><p>链式法则的式子里面有转置的原因可以从维度的角度来思考;</p>
 </li>
 </ul>
@@ -377,13 +345,9 @@ H{(f)_{ij} }(x) = {D_i}{D_j}f(x)</script><p>也就是:</p>
 </ul>
 </li>
 <li><p>特征值与特征分解:</p>
-<p>特征值特征向量定义：$\lambda$是特征值,$x$是特征向量,A是方阵</p>
-<script type="math/tex; mode=display">
-Ax=\lambda x</script><p>求解走:</p>
+<p>特征值特征向量定义：$\lambda$是特征值,$x$是特征向量,A是方阵<br>$$<br>Ax=\lambda x<br>$$<br>求解走:</p>
 <p>$Ax=\lambda x\rightarrow Ax=\lambda E x\rightarrow (\lambda E-A)x=0\rightarrow|\lambda E-A|=0$解出特征值带入得到特征向量</p>
-<p>特征分解:对于mxm的满秩对称矩阵A</p>
-<script type="math/tex; mode=display">
-A=Q\Sigma Q^{-1}=Q\Sigma Q^T</script><p>其中，Q是这个矩阵A的特征向量组成的矩阵，Σ是一个对角矩阵，每一个对角线元素就是一个特征值，里面的特征值是由大到小排列的，这些特征值所对应的特征向量就是描述这个矩阵变化方向（从主要的变化到次要的变化排列）。也就是说矩阵A的信息可以由其特征值和特征向量表示。</p>
+<p>特征分解:对于mxm的满秩对称矩阵A<br>$$<br>A=Q\Sigma Q^{-1}=Q\Sigma Q^T<br>$$<br>其中，Q是这个矩阵A的特征向量组成的矩阵，Σ是一个对角矩阵，每一个对角线元素就是一个特征值，里面的特征值是由大到小排列的，这些特征值所对应的特征向量就是描述这个矩阵变化方向（从主要的变化到次要的变化排列）。也就是说矩阵A的信息可以由其特征值和特征向量表示。</p>
 <p>特征值分解也有很多的局限，比如说变换的矩阵必须是方阵。</p>
 </li>
 </ul>
@@ -397,52 +361,29 @@ A=Q\Sigma Q^{-1}=Q\Sigma Q^T</script><p>其中，Q是这个矩阵A的特征向�
 </ol>
 </li>
 <li><p><strong>SVD推导之矩阵分解:</strong></p>
-<p>对于矩阵$A$,有$A^TA = \lambda_{i} v_{i}$(因为$A^TA$肯定是方阵);$\lambda_i$是特征值,$v_i$是特征向量;假设$(v_{i}, v_{j})$是一组正交基，那么有$v_{i}^{T} \cdot v_{j} = 0$，那么:</p>
-<script type="math/tex; mode=display">
-\begin{align} (Av_{i}, Av_{j}) &= (Av_{i})^{T} \cdot Av_{j} \\ &= v_{i}^{T} A^T Av_{j} \\ &= v_{i}^{T} \lambda_{j} v_{j} \\ &= \lambda_{j} \color{red}{v_{i}^{T} v_{j} } \\ &= 0 \end{align} \tag{1}</script><p>可以得到$Av_{i}, Av_{j}$;根据公式$(1)$可以推导得到$(Av_{i}, Av_{i}) = \lambda_{i} v_{i}^{T} v_{i}=\lambda_{i}$;又因为行列式的性质$|AB|=|A||B|\rightarrow|(Av_{i})^{T} \cdot Av_{i}|=|Av_{i}^{T} ||Av_{i}|=|Av_{i}|^2$,所以有:</p>
-<script type="math/tex; mode=display">
-\begin{align} & |Av_{i}|^2 = \lambda_{i} \\ & |Av_{i}| = \sqrt{\lambda_{i} } \end{align} \tag{2}</script><p>根据公式(2),有$\frac{Av_{i} }{|Av_{i}|} = \frac{1}{\sqrt{\lambda_{i} } } Av_{i}$，令$\frac{1}{\sqrt{\lambda_{i} } } Av_{i}= u_{i}$,可以得到:</p>
-<script type="math/tex; mode=display">
-Av_{i}= \sqrt{\lambda_{i} }u_{i}=\delta_{i}u_{i} \tag{3}</script><p>其中$\delta_{i} = \sqrt{\lambda_{i} }$（这个称作奇异值）,进一步推导成矩阵形式:</p>
-<script type="math/tex; mode=display">
-\begin{align} AV &= A(v_{1}, v_{2}, \dots, v_{n} ) \\ &= (Av_{1}, Av_{2}, \dots, Av_{n} ) \\ &= (\delta_{1}u_{1}, \delta_{2}u_{2}, \dots, \delta_{n}u_{n} ) \\ &= U\Sigma \end{align} \tag{4}</script><p>从而得到:</p>
-<script type="math/tex; mode=display">
-A = U\Sigma V^T \tag{5}</script></li>
+<p>对于矩阵$A$,有$A^TA = \lambda_{i} v_{i}$(因为$A^TA$肯定是方阵);$\lambda_i$是特征值,$v_i$是特征向量;假设$(v_{i}, v_{j})$是一组正交基，那么有$v_{i}^{T} \cdot v_{j} = 0$，那么:<br>$$<br>\begin{align} (Av_{i}, Av_{j}) &amp;= (Av_{i})^{T} \cdot Av_{j} \ &amp;= v_{i}^{T} A^T Av_{j} \ &amp;= v_{i}^{T} \lambda_{j} v_{j} \ &amp;= \lambda_{j} \color{red}{v_{i}^{T} v_{j} } \ &amp;= 0 \end{align} \tag{1}<br>$$<br>可以得到$Av_{i}, Av_{j}$;根据公式$(1)$可以推导得到$(Av_{i}, Av_{i}) = \lambda_{i} v_{i}^{T} v_{i}=\lambda_{i}$;又因为行列式的性质$|AB|=|A||B|\rightarrow|(Av_{i})^{T} \cdot Av_{i}|=|Av_{i}^{T} ||Av_{i}|=|Av_{i}|^2$,所以有:<br>$$<br>\begin{align} &amp; |Av_{i}|^2 = \lambda_{i} \ &amp; |Av_{i}| = \sqrt{\lambda_{i} } \end{align} \tag{2}<br>$$<br>根据公式(2),有$\frac{Av_{i} }{|Av_{i}|} = \frac{1}{\sqrt{\lambda_{i} } } Av_{i}$，令$\frac{1}{\sqrt{\lambda_{i} } } Av_{i}= u_{i}$,可以得到:<br>$$<br>Av_{i}= \sqrt{\lambda_{i} }u_{i}=\delta_{i}u_{i} \tag{3}<br>$$<br>其中$\delta_{i} = \sqrt{\lambda_{i} }$（这个称作奇异值）,进一步推导成矩阵形式:<br>$$<br>\begin{align} AV &amp;= A(v_{1}, v_{2}, \dots, v_{n} ) \ &amp;= (Av_{1}, Av_{2}, \dots, Av_{n} ) \ &amp;= (\delta_{1}u_{1}, \delta_{2}u_{2}, \dots, \delta_{n}u_{n} ) \ &amp;= U\Sigma \end{align} \tag{4}<br>$$<br>从而得到:<br>$$<br>A = U\Sigma V^T \tag{5}<br>$$</p>
+</li>
 <li><p><strong>SVD推导之矩阵计算:</strong></p>
 <p>已知$A$怎么算$U$和$V$呢？</p>
-<p>首先计算$A$的转置$A^T$,而$A^T$相当于:</p>
-<script type="math/tex; mode=display">
-\begin{align} A^T =  V\Sigma^TU^T \end{align} \tag{6}</script><p>然后计算$A^TA$:</p>
-<script type="math/tex; mode=display">
-\begin{align} A^TA &= V\Sigma^TU^T U\Sigma V^T \\ &= V\Sigma^2V^T \end{align} \tag{7}</script><p>通过公式(7),会发现这不就是特征值分解嘛！！！可以得到$A^TA v_{i} = \lambda_{i}v_{i}$,只需要求出$A^TA$的特征向量就可以得到$V$了</p>
-<p>同理计算$AA^T:$</p>
-<script type="math/tex; mode=display">
-\begin{align} A A^T &= U\Sigma V^T V\Sigma^TU^T \\ &= U\Sigma^2U^T \end{align} \tag{8}</script><p>通过公式(8),可以得到$AA^T u_{i} = \lambda_{i}u_{i}$,只需要求出$AA^T$的特征向量就可以得到$U$了</p>
+<p>首先计算$A$的转置$A^T$,而$A^T$相当于:<br>$$<br>\begin{align} A^T =  V\Sigma^TU^T \end{align} \tag{6}<br>$$<br>然后计算$A^TA$:<br>$$<br>\begin{align} A^TA &amp;= V\Sigma^TU^T U\Sigma V^T \ &amp;= V\Sigma^2V^T \end{align} \tag{7}<br>$$<br>通过公式(7),会发现这不就是特征值分解嘛！！！可以得到$A^TA v_{i} = \lambda_{i}v_{i}$,只需要求出$A^TA$的特征向量就可以得到$V$了</p>
+<p>同理计算$AA^T:$<br>$$<br>\begin{align} A A^T &amp;= U\Sigma V^T V\Sigma^TU^T \ &amp;= U\Sigma^2U^T \end{align} \tag{8}<br>$$</p>
+<p>通过公式(8),可以得到$AA^T u_{i} = \lambda_{i}u_{i}$,只需要求出$AA^T$的特征向量就可以得到$U$了</p>
 <p>$\Sigma$是上面公式(7)或者公式(8)中求到的非零特征值从大到小排列后开根号的值</p>
 </li>
 <li><p>SVD计算例子:</p>
-<p>假设有一个矩阵$A$:</p>
-<script type="math/tex; mode=display">
-A=\begin{bmatrix} 1&1\\1&1\\0&0\end{bmatrix}</script><p>要计算:</p>
-<script type="math/tex; mode=display">
-A_{3\times 2}=U_{3\times 3}\Sigma_{3\times2}V^T_{2\times 2}</script><p>中的$U,V,\Sigma$</p>
+<p>假设有一个矩阵$A$:<br>$$<br>A=\begin{bmatrix} 1&amp;1\1&amp;1\0&amp;0\end{bmatrix}<br>$$<br>要计算:<br>$$<br>A_{3\times 2}=U_{3\times 3}\Sigma_{3\times2}V^T_{2\times 2}<br>$$<br>中的$U,V,\Sigma$</p>
 <ol>
 <li><p>计算$U$  </p>
-<p>$AA^T=\begin{bmatrix} 2&amp;2&amp;0\\2&amp;2&amp;0\\0&amp;0&amp;0\end{bmatrix}$,进行特征分解，得到特征值[4,0,0]以及对应的特征向量$[\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}},0]^T,[-\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}},0]^T,[0,0,1]^T$,可以得到：</p>
-<script type="math/tex; mode=display">
-U=\begin{bmatrix} \frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{2}}&0 \\ \frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}&0 \\ 0&0&1 \end{bmatrix}</script></li>
+<p>$AA^T=\begin{bmatrix} 2&amp;2&amp;0\2&amp;2&amp;0\0&amp;0&amp;0\end{bmatrix}$,进行特征分解，得到特征值[4,0,0]以及对应的特征向量$[\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}},0]^T,[-\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}},0]^T,[0,0,1]^T$,可以得到：<br>$$<br>U=\begin{bmatrix} \frac{1}{\sqrt{2}}&amp;-\frac{1}{\sqrt{2}}&amp;0 \ \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}&amp;0 \ 0&amp;0&amp;1 \end{bmatrix}<br>$$</p>
+</li>
 </ol>
 </li>
 <li><p>计算$V$  </p>
-<p>$A^TA=\begin{bmatrix} 2&amp;2 \\ 2&amp;2 \end{bmatrix}$,进行特征分解,得到特征值[4,0]以及对应的特征向量$[\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}]^T,[-\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}]^T$,可以得到:</p>
-<script type="math/tex; mode=display">
-   V=\begin{bmatrix} \frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}\end{bmatrix}</script></li>
+<p>$A^TA=\begin{bmatrix} 2&amp;2 \ 2&amp;2 \end{bmatrix}$,进行特征分解,得到特征值[4,0]以及对应的特征向量$[\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}]^T,[-\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}]^T$,可以得到:<br>$$<br>   V=\begin{bmatrix} \frac{1}{\sqrt{2}}&amp;-\frac{1}{\sqrt{2}} \ \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}\end{bmatrix}<br>$$</p>
+</li>
 <li><p>计算$\Sigma$ </p>
-<p>因为特征值是[4,0]，因此:</p>
-<script type="math/tex; mode=display">
-   \Sigma=\begin{bmatrix} 2&0 \\ 0&0 \\ 0&0 \end{bmatrix}</script><p>   所以$A$的SVD分解是:</p>
-<script type="math/tex; mode=display">
-   A=U \Sigma V^T= \begin{bmatrix} \frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{2}}&0 \\ \frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}&0 \\ 0&0&1 \end{bmatrix} \begin{bmatrix} 2&0 \\ 0&0 \\ 0&0 \end{bmatrix} {\begin{bmatrix} \frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}&\frac{1}{\sqrt{2}}\end{bmatrix}}^T=\begin{bmatrix} 1&1\\1&1\\0&0\end{bmatrix}</script></li>
+<p>因为特征值是[4,0]，因此:<br>$$<br>   \Sigma=\begin{bmatrix} 2&amp;0 \ 0&amp;0 \ 0&amp;0 \end{bmatrix}<br>$$<br>   所以$A$的SVD分解是:<br>$$<br>   A=U \Sigma V^T= \begin{bmatrix} \frac{1}{\sqrt{2}}&amp;-\frac{1}{\sqrt{2}}&amp;0 \ \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}&amp;0 \ 0&amp;0&amp;1 \end{bmatrix} \begin{bmatrix} 2&amp;0 \ 0&amp;0 \ 0&amp;0 \end{bmatrix} {\begin{bmatrix} \frac{1}{\sqrt{2}}&amp;-\frac{1}{\sqrt{2}} \ \frac{1}{\sqrt{2}}&amp;\frac{1}{\sqrt{2}}\end{bmatrix}}^T=\begin{bmatrix} 1&amp;1\1&amp;1\0&amp;0\end{bmatrix}<br>$$</p>
+</li>
 <li><p>代码求解方法:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">A=np.array([<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">0</span>,<span class="number">0</span>])</span><br><span class="line">print(np.linalg.svd(A))</span><br></pre></td></tr></table></figure>
 </li>

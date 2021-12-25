@@ -20,7 +20,7 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="计算机网络,mininet,实验基础">
+    <meta name="keywords" content="计算机网络,实验基础,mininet">
     <meta name="description" content="Mininet 学习来自https:&#x2F;&#x2F;www.51openlab.com&#x2F;college&#x2F; 的教程，以下是学习总结 Mininet 简介Mininet 基于Linux Container这一个内核虚拟化技术开发，利用linux的network namespace机制在一台电脑上创建多台虚拟主机，此外，Mininet建立的网络拓扑的交换节点可以是Open vSwitch、Linux Bridge等">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mininetlab 学习">
@@ -67,8 +67,8 @@
 <meta property="article:modified_time" content="2021-09-11T10:00:51.121Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="计算机网络">
-<meta property="article:tag" content="mininet">
 <meta property="article:tag" content="实验基础">
+<meta property="article:tag" content="mininet">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://tyler-ytr.github.io/picture/image-20210903160253663.png">
     
@@ -81,7 +81,7 @@
     <!-- custom head -->
     
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -265,7 +265,7 @@
 </ul>
 </li>
 </ul>
-<ol>
+<ol start="2">
 <li><p>查看mininet版本</p>
  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd mininet</span><br><span class="line">cat INSTALL|more</span><br></pre></td></tr></table></figure>
 </li>
@@ -291,14 +291,14 @@
 <li>single,n:设置一个交换机和n个主机相连的拓扑。</li>
 <li>linear,n:创建n个交换机，每个交换机只连接一个主机，并且所有交换机成线型排列。</li>
 <li>tree,depth=n,fanout=m:创建深度为n，每层树枝为m的树型拓扑。因此形成的拓扑的交换机个数为(mn-1) /(m-1)，主机个数为mn。</li>
-<li>—custom:在上述已有拓扑的基础上，Mininet支持自定义的拓扑，使用一个简单的Python API即可。—custom需和—topo一起使用，如mn —custom file.py —topo mytopo。</li>
+<li>–custom:在上述已有拓扑的基础上，Mininet支持自定义的拓扑，使用一个简单的Python API即可。–custom需和–topo一起使用，如mn –custom file.py –topo mytopo。</li>
 </ul>
 </li>
 <li><p>内部交互命令:</p>
-<p>| 参数                               | 作用 |<br>| ————————————————— | —— |<br>| -h                                 | show this help message and exit     |<br>| —switch=SWITCH                    |   [kernel user ovsk]   |<br>| —host=HOST                        |   [process]   |<br>| —controller=CONTROLLER            | [nox_dump none ref remote nox_pysw]     |<br>| —topo=TOPO                        | [tree reversed single linear minimal],arg1,arg2,…argN |<br>| -c,—clean                         | clean and exit |<br>| —custom=CUSTOM                    | read custom topo and node params from .py file |<br>| —test=TEST                        | [cli build pingall pingpair iperf all iperfudp none] |<br>| -x,—xterms                        | spawn xterms for each node |<br>| —mac                              | set MACs equal to DPIDs |<br>| —arp                              | set all-pairs ARP entries |<br>| -v VEIBOSITY,—verbosity=VEIBOSITY | [info warning critical error debug output] |<br>| —ip=IP                            | [ip address as a dotted decimal string for aremote controller] |<br>| —port=PORT                        | [port integer for a listening remote controller] |<br>| —innamespace                      | sw and ctrl in namespace |<br>| —listenport=LISTENPORT            | [base port for passive switch listening controller] |<br>| —nolistenport                     | don’t use passive listening port |<br>| —pre=PRE                          | [CLI script to run before tests] |<br>| —post=POST                        | [CLI script to run after tests] |</p>
+<p>| 参数                               | 作用 |<br>| ———————————- | —- |<br>| -h                                 | show this help message and exit     |<br>| –switch=SWITCH                    |   [kernel user ovsk]   |<br>| –host=HOST                        |   [process]   |<br>| –controller=CONTROLLER            | [nox_dump none ref remote nox_pysw]     |<br>| –topo=TOPO                        | [tree reversed single linear minimal],arg1,arg2,…argN |<br>| -c,–clean                         | clean and exit |<br>| –custom=CUSTOM                    | read custom topo and node params from .py file |<br>| –test=TEST                        | [cli build pingall pingpair iperf all iperfudp none] |<br>| -x,–xterms                        | spawn xterms for each node |<br>| –mac                              | set MACs equal to DPIDs |<br>| –arp                              | set all-pairs ARP entries |<br>| -v VEIBOSITY,–verbosity=VEIBOSITY | [info warning critical error debug output] |<br>| –ip=IP                            | [ip address as a dotted decimal string for aremote controller] |<br>| –port=PORT                        | [port integer for a listening remote controller] |<br>| –innamespace                      | sw and ctrl in namespace |<br>| –listenport=LISTENPORT            | [base port for passive switch listening controller] |<br>| –nolistenport                     | don’t use passive listening port |<br>| –pre=PRE                          | [CLI script to run before tests] |<br>| –post=POST                        | [CLI script to run after tests] |</p>
 </li>
 <li><p>Mininet常用命令总结：</p>
-<p>|命令|作用|<br>|——|——|<br>|help|默认列出所有命令文档，后面加命令名将介绍该命令用法 dump打印节点信息|<br>|gterm|给定节点上开启gnome-terminal 注：可能导致mn崩溃|<br>|xterm|给定节点上开启xterm|<br>|intfs|列出所有的网络接口|<br>|iperf|两个节点之间进行简单的iPerf TCP测试|<br>|iperfudp|两个节点之间用制定带宽UDP进行测试|<br>|net|显示网络链接情况|<br>|noecho|运行交互式窗口，关闭回应（echoing）|<br>|pingpair|在前两个主机之间互Ping测试|<br>|source|从外部文件中读入命令|<br>|dpctl|在所有交换机上用dptcl执行相关命令，本地为tcp 127.0.0.1:6634|<br>|link|禁用或启用两个节点之间的链路|<br>|nodes|列出所有的节点信息|<br>|pingall|所有主机节点之间互Ping|<br>|py|执行Python表达式|<br>|sh|运行外部shell命令|<br>|quit/exit|退出|</p>
+<p>|命令|作用|<br>|—-|—-|<br>|help|默认列出所有命令文档，后面加命令名将介绍该命令用法 dump打印节点信息|<br>|gterm|给定节点上开启gnome-terminal 注：可能导致mn崩溃|<br>|xterm|给定节点上开启xterm|<br>|intfs|列出所有的网络接口|<br>|iperf|两个节点之间进行简单的iPerf TCP测试|<br>|iperfudp|两个节点之间用制定带宽UDP进行测试|<br>|net|显示网络链接情况|<br>|noecho|运行交互式窗口，关闭回应（echoing）|<br>|pingpair|在前两个主机之间互Ping测试|<br>|source|从外部文件中读入命令|<br>|dpctl|在所有交换机上用dptcl执行相关命令，本地为tcp 127.0.0.1:6634|<br>|link|禁用或启用两个节点之间的链路|<br>|nodes|列出所有的节点信息|<br>|pingall|所有主机节点之间互Ping|<br>|py|执行Python表达式|<br>|sh|运行外部shell命令|<br>|quit/exit|退出|</p>
 </li>
 </ol>
 <h3 id="实际构建拓扑"><a href="#实际构建拓扑" class="headerlink" title="实际构建拓扑"></a>实际构建拓扑</h3><ol>
@@ -366,7 +366,7 @@
 <p>然后此时对交换机主机右击常看可以查看交换机的bridge信息以及打开host终端</p>
 </li>
 <li><p>Minideit保存脚本</p>
-<p>File—Export Level 2 Scirpt可以保存为python脚本，默认在mininet/examples下面，用 chomod给权限之后直接运行可以直接重现</p>
+<p>File–Export Level 2 Scirpt可以保存为python脚本，默认在mininet/examples下面，用 chomod给权限之后直接运行可以直接重现</p>
 <p>比如</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 777 temp.py</span><br><span class="line">sudo .&#x2F;temp.py</span><br></pre></td></tr></table></figure>
 </li>
@@ -380,7 +380,7 @@
 </ul>
 </li>
 </ol>
-<ol>
+<ol start="2">
 <li><p>首先使用自定义拓扑:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mn --custom topo-2sw-2host.py --topo mytopo</span><br></pre></td></tr></table></figure>
 </li>
@@ -448,11 +448,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dpctl add-flow dl_type&#x3D;0x0800,nw_dst&#x3D;10.0.0.2,actions&#x3D;output:2</span><br><span class="line">dpctl add-flow dl_type&#x3D;0x0800,nw_dst&#x3D;10.0.0.1,actions&#x3D;output:1</span><br><span class="line">dpctl dump-flows</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>执行命令ping h2 和h3：</p>
-<pre><code>   ![image-20210907030326211](/picture/image-20210907030326211.png)
+<pre><code>![image-20210907030326211](/picture/image-20210907030326211.png)
 </code></pre></li>
 </ol>
 <p>​    可以看到无法ping通</p>
-<ol>
+<ol start="13">
 <li><p>在主机h2,h3上面查看:</p>
 <p><img src="/picture/image-20210907030627886.png" alt="image-20210907030627886"></p>
 <p>原理解析：用dpctl对交换机添加flow，让交换机把所有EtherType为0x0800（IPv4）并且destiation IP为10.0.0.2的traffic从s1-eth2这个端口发出去。用dpctl对交换机添加flow，让交换机把所有EtherType为0x0800（IPv4）并且destiation IP为10.0.0.1的traffic从s1-eth1这个端口发出去。但处在同一网段下的主机，它们之间的交流是L2 forwarding，需要靠ARP来解析MAC地址，之前只匹配了0x0800(IPv4)协议，并没有匹配到0x0806(ARP)，这样当交换机收到h1的ARP包后，因为没有控制器，flow table里面也没有相应的flow告诉它如何转发这个ARP包，交换机只能将它丢弃，从而导致h1 ping h2失败，所以需要添加ARP协议的流表来使通信。</p>

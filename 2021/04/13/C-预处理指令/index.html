@@ -43,7 +43,7 @@
     <!-- custom head -->
     
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -209,7 +209,6 @@
 <p>c) 52 个字母，从 ‘a’ 到 ‘z’ 以及从 ‘A’ 到 ‘Z’</p>
 <p>d) 29 个标点字符：_ { } [ ] # ( ) &lt; &gt; % : ; . ? * + - / ^ &amp; | ~ ! = , \ “ ‘</p>
 <p>2) 任何无法被映射到基本源字符集中的字符的源文件字符，均被替换为其<a href="https://zh.cppreference.com/w/cpp/language/escape" target="_blank" rel="noopener">通用字符名</a>（用 <code>\u</code> 或 <code>\U</code> 转义），或某种被等价处理的由实现定义的形式。</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -223,7 +222,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 <h3 id="阶段-2"><a href="#阶段-2" class="headerlink" title="阶段 2"></a>阶段 2</h3><p>1) 当反斜杠出现于行尾（其后紧跟换行符）时，删除该反斜杠和换行符并将两个物理源码行组合成一个逻辑源码行。这是单趟操作：如果有一行以两个反斜杠结束且后随一个空行，这三行不会合为一行。若于此阶段组成了通用字符名（\uXXXX），则行为未定义。</p>
 <p>2) 若此步骤后，非空源文件不以换行符结束（无论是原本就无换行，还是以反斜杠结束），则其行为未定义 (C++11 前)在最后添加一个换行符 (C++11 起)。</p>
 <h3 id="阶段-3"><a href="#阶段-3" class="headerlink" title="阶段 3"></a>阶段 3</h3><p>1) 将源文件分解为<a href="https://zh.cppreference.com/w/cpp/comment" target="_blank" rel="noopener">注释</a>，空白字符（空格、水平制表、换行、垂直制表和换页）的序列，和下列各种<em>预处理记号</em>：</p>
@@ -233,7 +231,6 @@
 <p>d) ，包含<a href="https://zh.cppreference.com/w/cpp/language/user_literal" target="_blank" rel="noopener">用户定义</a>的 (C++11 起)<a href="https://zh.cppreference.com/w/cpp/language/character_literal" target="_blank" rel="noopener">字符</a>与<a href="https://zh.cppreference.com/w/cpp/language/string_literal" target="_blank" rel="noopener">字符串</a>字面量</p>
 <p>e) 运算符与标点（包括<a href="https://zh.cppreference.com/w/cpp/language/operator_alternative" target="_blank" rel="noopener">代用记号</a>），如 +、&lt;&lt;=、&lt;%、## 或 and</p>
 <p>f) 不属于任何其他类别的单独非空白字符</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -247,13 +244,11 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p>3) 以一个空格字符替换每段注释。</p>
 <p>保留换行符。未指明是否可将非换行空白字符序列缩减成单个空格字符。</p>
 <p>若一个给定字符前的输入已被解析为预处理记号，下一个预处理记号通常会由能构成预处理记号的最长字符序列够成，即使这样处理会导致后续分析失败。这常被称为<em>最大吞噬</em>。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int foo &#x3D; 1;</span><br><span class="line">int bar &#x3D; 0xE+foo;   &#x2F;&#x2F; 错误：非法的预处理数字 0xE+foo</span><br><span class="line">int baz &#x3D; 0xE + foo; &#x2F;&#x2F; OK</span><br><span class="line"> </span><br><span class="line">int quux &#x3D; bar+++++baz; &#x2F;&#x2F; 错误：bar++ ++ +baz，而非 bar++ + ++baz。</span><br></pre></td></tr></table></figure>
 <p>最大吞噬规则仅有的例外是：</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -267,7 +262,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 <ul>
 <li>头文件名预处理记号仅在 <code>#include</code> 指令中形成。</li>
 </ul>

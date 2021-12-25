@@ -43,7 +43,7 @@
     <!-- custom head -->
     
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -254,7 +254,7 @@
 </li>
 <li><p>forward_list:3204,15,2656(项目:100万随机数,find的时间,sort的时间) ，它也自带sort</p>
 </li>
-<li><p>slist:非标准库里面,#include<ext\slist>里面有;和forward_list使用差不多;</p>
+<li><p>slist:非标准库里面,#include&lt;ext\slist&gt;里面有;和forward_list使用差不多;</p>
 </li>
 <li><p>deque:2704,15,3110(项目:100万随机数push_back,find函数,使用全局sort)deque的连续是一种假象;它是分段连续,分成一个个buffer,由指针指着;如果buffer用完了就再申请一块buffer;</p>
 </li>
@@ -267,7 +267,7 @@
 </li>
 <li><p>multiset:6609,203,0(项目:100万随机数insert放进去和全局find和自己的find)关联式容器找东西非常快</p>
 </li>
-<li><p>multimap:4812,0(项目:<index,100万随机数> insert放进去和自己的find)</p>
+<li><p>multimap:4812,0(项目:&lt;index,100万随机数&gt; insert放进去和自己的find)</p>
 </li>
 <li><p>unordered_multiset:4406,109,0(项目:100万随机数insert进去和全局find和自带find) ;bucket_count()可以看出篮子的个数,篮子一定比元素多;load_factor()可以看出负载因子;</p>
 </li>
@@ -290,12 +290,12 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;typename_Tp,typename_Alloc=<span class="built_in">std</span>::allocator&lt;_Tp&gt;&gt;class <span class="built_in">vector</span>:protected_Vector_base&lt;_Tp,_Alloc&gt;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<ol>
+<ol start="2">
 <li><p>不同分配器的使用示例:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用std::allocator意外的allocator需要自行#include&lt;ext\....&gt;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;ext\array_allocator.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;ext\mt_allocator.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;ext\debug_allocator.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;ext\pool_allocator.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;ext\bitmap_allocator.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;ext\new_allocator.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">....</span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>,allocator&lt;<span class="built_in">string</span>&gt;&gt; c1;</span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>,__gnu_cxx::malloc_allocator&lt;<span class="built_in">string</span>&gt;&gt; c2;</span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>,__gnu_cxx::new_allocator&lt;<span class="built_in">string</span>&gt;&gt; c3;</span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>,__gnu_cxx::__pool_allocator&lt;<span class="built_in">string</span>&gt;&gt; c4;</span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>,__gnu_cxx::__mt_allocator&lt;<span class="built_in">string</span>&gt;&gt; c5;</span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>,__gnu_cxx::bitmap_allocator&lt;<span class="built_in">string</span>&gt;&gt; c6;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<ol>
+<ol start="3">
 <li><p>分配器可以分配内存，但是不如malloc/free;new/delete舒服，释放内存很麻烦;比如:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int*p;</span><br><span class="line">allocator&lt;int&gt;alloc1;</span><br><span class="line">p&#x3D;alloc1.allocate(1);</span><br><span class="line">alloc1.deallocate(p,1);</span><br></pre></td></tr></table></figure>
 </li>

@@ -49,7 +49,7 @@
     <!-- custom head -->
     
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
     <div id="loading" class="active"></div>
@@ -286,7 +286,7 @@
 <p>   结果如下图:</p>
 <p>   <img src="/picture/image-20210228215915163.png" alt="image-20210228215915163"></p>
 <p>   数据包在<code>h2</code>处接收。它由一个以太网报头、一个隧道报头、一个IP报头、一个TCP报头和消息组成。隧道报头就是那个###[MyTunnel]在IP报头上面;</p>
-<ol>
+<ol start="5">
 <li><p>在h1的界面输入:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;send.py 10.0.3.3 &quot;P4 is cool&quot; --dst_id 2</span><br></pre></td></tr></table></figure>
 <p>结果如下:</p>
@@ -294,7 +294,7 @@
 <p>即使IP地址是<code>h3</code>的地址，数据包也应该在<code>h2</code>处接收。这是因为当<code>MyTunnel</code>头在包中时，交换机不再使用IP头进行路由。</p>
 <p>一开始我也不理解上面这句话，后来我看了s1-runtime文件，这个文件规定了交换机的静态规则，将这个文件和basic里面的同名文件比较会发现里面多了:</p>
 <p><img src="/picture/image-20210228221250171.png" alt="image-20210228221250171"></p>
-<p>这部分内容结合刚刚./receive代码里面的—dst 2后缀可以得知刚刚那个包在进入交换机s1之后会因为p4的解包触发走myTunnel_forward的规则然后发给S1的2端口，结合拓扑图可以看出确实是发给h2的</p>
+<p>这部分内容结合刚刚./receive代码里面的–dst 2后缀可以得知刚刚那个包在进入交换机s1之后会因为p4的解包触发走myTunnel_forward的规则然后发给S1的2端口，结合拓扑图可以看出确实是发给h2的</p>
 </li>
 </ol>
 <h4 id="解析其他内容"><a href="#解析其他内容" class="headerlink" title="解析其他内容"></a>解析其他内容</h4><h5 id="my-tunnel-py"><a href="#my-tunnel-py" class="headerlink" title="my_tunnel.py"></a>my_tunnel.py</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> scapy.all <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> sys, os</span><br><span class="line"></span><br><span class="line">TYPE_MYTUNNEL = <span class="number">0x1212</span></span><br><span class="line">TYPE_IPV4 = <span class="number">0x0800</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyTunnel</span><span class="params">(Packet)</span>:</span></span><br><span class="line">    name = <span class="string">"MyTunnel"</span></span><br><span class="line">    fields_desc = [</span><br><span class="line">        ShortField(<span class="string">"pid"</span>, <span class="number">0</span>),</span><br><span class="line">        ShortField(<span class="string">"dst_id"</span>, <span class="number">0</span>)</span><br><span class="line">    ]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mysummary</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.sprintf(<span class="string">"pid=%pid%, dst_id=%dst_id%"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">bind_layers(Ether, MyTunnel, type=TYPE_MYTUNNEL)</span><br><span class="line">bind_layers(MyTunnel, IP, pid=TYPE_IPV4)</span><br></pre></td></tr></table></figure>
