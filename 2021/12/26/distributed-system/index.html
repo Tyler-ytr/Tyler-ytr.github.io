@@ -59,8 +59,10 @@
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20211228171012230.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20211228194256257.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20211228194433000.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20211229105045012.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/2021/12/26/distributed-system/picture/image-20211229104843788.png">
 <meta property="article:published_time" content="2021-12-26T03:35:38.000Z">
-<meta property="article:modified_time" content="2021-12-29T02:39:10.863Z">
+<meta property="article:modified_time" content="2021-12-29T02:55:38.230Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="分布式系统">
 <meta name="twitter:card" content="summary">
@@ -958,9 +960,30 @@
 </ul>
 <hr>
 <p><strong>PS 两阶段提交</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/image-20211229105045012.png" alt="二阶段提交" title="">
+                </div>
+                <div class="image-caption">二阶段提交</div>
+            </figure>
+<p>为什么两阶段提交叫做阻塞提交协议？</p>
+<p>当所有参与者都从协作者那里接收到信息变成READY状态的时候，并且同时协作者崩溃的时候就会发生阻塞</p>
 <hr>
 <h2 id="分布式一致性协议"><a href="#分布式一致性协议" class="headerlink" title="分布式一致性协议"></a>分布式一致性协议</h2><p>Paxos协议</p>
 <p>参考的<a href="https://zhuanlan.zhihu.com/p/29706905" target="_blank" rel="noopener">知乎</a></p>
+<p>Paxos 保证了：安全性 和 最终一致性（Eventual liveness）：</p>
+<ul>
+<li>安全性：只有被提议的值才可能会被选择，只有一个值会被选择，只有最终被选择的值才会被进程所保存。</li>
+<li>Eventual liveness, 如果系统正常运行下去，在未来的某一个点，最终会达成共识。</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="picture/image-20211229104843788.png" alt="通信实例" title="">
+                </div>
+                <div class="image-caption">通信实例</div>
+            </figure>
 <p>Raft协议</p>
 <ul>
 <li>用户选举</li>
@@ -1006,7 +1029,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-12-29T02:39:10.863Z" itemprop="dateUpdated">2021-12-29 10:39:10</time>
+    Last updated: <time datetime="2021-12-29T02:55:38.230Z" itemprop="dateUpdated">2021-12-29 10:55:38</time>
 </span><br>
 
 
