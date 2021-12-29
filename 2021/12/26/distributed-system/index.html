@@ -62,7 +62,7 @@
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20211229105045012.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/2021/12/26/distributed-system/picture/image-20211229104843788.png">
 <meta property="article:published_time" content="2021-12-26T03:35:38.000Z">
-<meta property="article:modified_time" content="2021-12-29T02:55:38.230Z">
+<meta property="article:modified_time" content="2021-12-29T02:57:52.490Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="分布式系统">
 <meta name="twitter:card" content="summary">
@@ -498,8 +498,8 @@
 <p>客户端在发送请求后，在收到服务器响应前故障，通讯是活跃的，但没有parent 在等待响应，形成孤儿</p>
 <ol>
 <li>消除 extermination: 在日志文件中纪录 RPC 请求 重启后清除孤儿 。</li>
-<li>再生 reincarnation: 按时间顺序编号不同的时间段。当客户端重启时，广播 一条消息宣布新的时间段开始，当广播到达时终止所有远程计算，无需日志。(服务端杀死所有的)</li>
-<li>温和再生 gentle reincarnation: 与再生相似，但是当广播到达时，每台机器会寻找远程计算的所<br>有者，仅当找不到所有者时，计算才会被终止 。（服务端杀死掉线的）</li>
+<li>再生 reincarnation: 按时间顺序编号不同的时间段。当客户端重启时，广播 一条消息宣布新的时间段开始，当广播到达时终止所有远程计算，无需日志。(服务端杀死所有的)（另一种说法：设置一个epoch,每个客户端进程重启为一个新的epoch。新epoch到达意味着之前的计算全部杀死）</li>
+<li>温和再生 gentle reincarnation: 与再生相似，但是当广播到达时，每台机器会寻找远程计算的所<br>有者，仅当找不到所有者时，计算才会被终止 。（服务端杀死掉线的）（另一种说法：设置一个epoch,每个客户端进程重启为一个新的epoch。新epoch 到达意味着将没有主的孤儿进程杀死 ）</li>
 <li>过期 expiration: 赋予每个RPC一个标准时间配额，未完成任务明确申请额外配额。</li>
 </ol>
 </li>
@@ -1029,7 +1029,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-12-29T02:55:38.230Z" itemprop="dateUpdated">2021-12-29 10:55:38</time>
+    Last updated: <time datetime="2021-12-29T02:57:52.490Z" itemprop="dateUpdated">2021-12-29 10:57:52</time>
 </span><br>
 
 
