@@ -60,7 +60,7 @@
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20211228194256257.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20211228194433000.png">
 <meta property="article:published_time" content="2021-12-26T03:35:38.000Z">
-<meta property="article:modified_time" content="2021-12-28T12:43:33.930Z">
+<meta property="article:modified_time" content="2021-12-29T02:39:10.863Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="分布式系统">
 <meta name="twitter:card" content="summary">
@@ -288,6 +288,8 @@
 </li>
 <li>分布式普适系统：新兴的下一代分布式系统，其中节点小，移动，并且经常嵌入在更大的系统中，其特<br>征在于系统自然地混合到用户环境中；</li>
 </ul>
+<p><strong>如何理解机制与策略</strong></p>
+<p>在开放的分布式系统中要获得灵活性，就要把系统组织成规模相对较小且容易修改和替换的组件，需要将策略和机制分离。</p>
 <p><strong>分布式操作系统、网络操作系统和基于中间件的系统</strong></p>
 <ul>
 <li>分布式操作系统：配置在分布式系统上的操作系统，能够直接对分布式系统中的各种资源进行动态分<br>配，并能有效地控制和协调分布式系统中各任务的并行执行，同时还向用户提供了一个方便的、透明的<br>使用整个分布式系统的界面。</li>
@@ -488,14 +490,14 @@
 </li>
 <li><p>服务器发给客户的应答消息丢失：设置一个计时器，对于不幂等的请求 为客户请求分配序号 服务器<br>区别不同的请求</p>
 </li>
-<li><p>服务器在收到消息后崩溃(接受后执行前崩溃或者执行后发送前崩溃)：等待服务器启动 然后重发请<br>求；或者立即放弃并报告失败；或者不做任何保证 ;</p>
+<li><p>服务器在收到消息后崩溃(接受后执行前崩溃或者执行后发送前崩溃)：等待服务器启动 然后重发请<br>求(至少一次)；或者立即放弃并报告失败(至多一次)；或者不做任何保证 ;</p>
 </li>
 <li><p>客户机在发送消息后崩溃：</p>
-<p>客户端在发送请求后，在收到服务器响应前故障，通讯是活跃的，但没有parent 在等<br>待响应，形成孤儿</p>
+<p>客户端在发送请求后，在收到服务器响应前故障，通讯是活跃的，但没有parent 在等待响应，形成孤儿</p>
 <ol>
 <li>消除 extermination: 在日志文件中纪录 RPC 请求 重启后清除孤儿 。</li>
-<li>再生 reincarnation: 按时间顺序编号不同的时间段。当客户端重启时，广播 一条消息宣布新的时<br>间段开始，当广播到达时终止所有远程计算，无需日志。</li>
-<li>温和再生 gentle reincarnation: 与再生相似，但是当广播到达时，每台机器会寻找远程计算的所<br>有者，仅当找不到所有者时，计算才会被终止 。</li>
+<li>再生 reincarnation: 按时间顺序编号不同的时间段。当客户端重启时，广播 一条消息宣布新的时间段开始，当广播到达时终止所有远程计算，无需日志。(服务端杀死所有的)</li>
+<li>温和再生 gentle reincarnation: 与再生相似，但是当广播到达时，每台机器会寻找远程计算的所<br>有者，仅当找不到所有者时，计算才会被终止 。（服务端杀死掉线的）</li>
 <li>过期 expiration: 赋予每个RPC一个标准时间配额，未完成任务明确申请额外配额。</li>
 </ol>
 </li>
@@ -652,13 +654,14 @@
 <li>性能瓶颈</li>
 <li>无法区分coordinator 失效or 权限拒绝</li>
 </ul>
+<p>PS: 非集中式 多个leader</p>
 </li>
 <li><p>分布式算法：基于时间戳；</p>
 <ol>
 <li>进程如果想进入临界区，那么构建含临界区名字、进程编号、当前时间的消息发给所有进程；</li>
 <li>进程收到请求消息：<ol>
 <li>如果接收方未在临界区<ol>
-<li>想进入临界区：对比消息的timestamp，如果接收消息的timestamp，返回<br>OK；否则缓存请求，返回空</li>
+<li>想进入临界区：对比消息的timestamp，如果接收消息的timestamp比较早，返回<br>OK；否则缓存请求，返回空</li>
 <li>不想进入临界区：返回OK</li>
 </ol>
 </li>
@@ -709,7 +712,7 @@
 </li>
 </ol>
 <hr>
-<h2 id="复制与一致性"><a href="#复制与一致性" class="headerlink" title="复制与一致性"></a>复制与一致性</h2><p><strong>复制的优势和不足</strong></p>
+<h2 id="复制与一致性"><a href="#复制与一致性" class="headerlink" title="复制与一致性"></a>复制与一致性</h2><p><strong>复制的优势和不足</strong>（分布式系统多副本的优点和缺点）</p>
 <ul>
 <li>优点：<ul>
 <li>可靠性：避免单点故障</li>
@@ -876,12 +879,13 @@
                 <div class="image-caption">image-20211228171012230</div>
             </figure>
 <hr>
-<h2 id="容错"><a href="#容错" class="headerlink" title="容错"></a>容错</h2><p><strong>可靠（Dependable System）的系统的特征</strong></p>
+<h2 id="容错"><a href="#容错" class="headerlink" title="容错"></a>容错</h2><p><strong>可靠（Dependable System）的系统的特征</strong> </p>
+<p>有群友总结为 ASMR</p>
 <ul>
-<li>可用性：在任意给定的时刻，系统都可以正确及时地工作，并执行用户的请求。</li>
-<li>可靠性：系统可以无故障持续运行；</li>
-<li>安全性：系统偶然出现故障时还能正确操作和执行。</li>
-<li>可维护性：表示发生故障后系统能被恢复到可用性的难易程度</li>
+<li>可用性：在任意给定的时刻，系统都可以正确及时地工作，并执行用户的请求。 A</li>
+<li>安全性：系统偶然出现故障时还能正确操作和执行。 S</li>
+<li>可维护性：表示发生故障后系统能被恢复到可用性的难易程度 M</li>
+<li>可靠性：系统可以无故障持续运行； R</li>
 </ul>
 <p>PS 基础定义：</p>
 <p>error → fault → failure</p>
@@ -946,19 +950,17 @@
 </li>
 </ul>
 </li>
-<li><p>一致的全局状态：</p>
+<li><p>协调的检查点：</p>
 <ul>
-<li>发送方不能回滚到发送前的状态</li>
-<li>接收方可以回滚到接受前的状态</li>
-</ul>
-</li>
-<li>协调的检查点：<ul>
 <li>所有进程同步地把各自状态写到本地稳定存储中</li>
 </ul>
 </li>
 </ul>
 <hr>
+<p><strong>PS 两阶段提交</strong></p>
+<hr>
 <h2 id="分布式一致性协议"><a href="#分布式一致性协议" class="headerlink" title="分布式一致性协议"></a>分布式一致性协议</h2><p>Paxos协议</p>
+<p>参考的<a href="https://zhuanlan.zhihu.com/p/29706905" target="_blank" rel="noopener">知乎</a></p>
 <p>Raft协议</p>
 <ul>
 <li>用户选举</li>
@@ -978,23 +980,24 @@
 <tr>
 <th></th>
 <th>容错</th>
-<th>一致</th>
+<th>拜占庭协定</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>沉默</td>
+<td>沉默错</td>
 <td>k+1</td>
 <td>2k+1</td>
 </tr>
 <tr>
-<td>拜占庭</td>
+<td>拜占庭错</td>
 <td>2k+1</td>
 <td>3k+1</td>
 </tr>
 </tbody>
 </table>
 <p>(所有挂k个，表格里面是总量)</p>
+<hr>
 
         </div>
 
@@ -1003,7 +1006,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2021-12-28T12:43:33.930Z" itemprop="dateUpdated">2021-12-28 20:43:33</time>
+    Last updated: <time datetime="2021-12-29T02:39:10.863Z" itemprop="dateUpdated">2021-12-29 10:39:10</time>
 </span><br>
 
 
