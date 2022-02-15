@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>分布式缓存1 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="分布式系统">
+    <meta name="description" content="分布式缓存1：CPU与分布式系统这部分主要参考博客https:&#x2F;&#x2F;xie.infoq.cn&#x2F;article&#x2F;fa1f0f9ac1cfee7845f7b29fe 中的内容 单个存储器读吞吐没有办法满足要求的情况下，往往会在存储器上面增加一个或者多个缓存，但是因为相同的数据被复制到同一个或者多个地方，就会产生数据一致性的问题。不一致的数据可能出现在同级 Cache 之间 (Cache Coherenc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式缓存1">
+<meta property="og:url" content="http://tyler-ytr.github.io/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="分布式缓存1：CPU与分布式系统这部分主要参考博客https:&#x2F;&#x2F;xie.infoq.cn&#x2F;article&#x2F;fa1f0f9ac1cfee7845f7b29fe 中的内容 单个存储器读吞吐没有办法满足要求的情况下，往往会在存储器上面增加一个或者多个缓存，但是因为相同的数据被复制到同一个或者多个地方，就会产生数据一致性的问题。不一致的数据可能出现在同级 Cache 之间 (Cache Coherenc">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-01-07T06:18:05.000Z">
+<meta property="article:modified_time" content="2022-01-07T06:22:48.142Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="分布式系统">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">分布式缓存1</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">分布式缓存1</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-01-07T06:18:05.000Z" itemprop="datePublished" class="page-time">
+  2022-01-07
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#分布式缓存1：CPU与分布式系统"><span class="post-toc-number">1.</span> <span class="post-toc-text">分布式缓存1：CPU与分布式系统</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#单核处理器中的Cache-policy"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">单核处理器中的Cache policy</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-分布式缓存1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">分布式缓存1</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-01-07 14:18:05" datetime="2022-01-07T06:18:05.000Z"  itemprop="datePublished">2022-01-07</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="分布式缓存1：CPU与分布式系统"><a href="#分布式缓存1：CPU与分布式系统" class="headerlink" title="分布式缓存1：CPU与分布式系统"></a>分布式缓存1：CPU与分布式系统</h1><p>这部分主要参考博客<a href="https://xie.infoq.cn/article/fa1f0f9ac1cfee7845f7b29fe" target="_blank" rel="noopener">https://xie.infoq.cn/article/fa1f0f9ac1cfee7845f7b29fe</a> 中的内容</p>
+<p>单个存储器读吞吐没有办法满足要求的情况下，往往会在存储器上面增加一个或者多个缓存，但是因为相同的数据被复制到同一个或者多个地方，就会产生数据一致性的问题。不一致的数据可能出现在<strong>同级 Cache 之间 (Cache Coherence)</strong> 和<strong>上下级 Cache 之间</strong>。解决这些数据一致性问题的方案可以统称为 Cache Policies。从本质上看，所有 Cache Policies 的设计目的都可以概括为：<strong>在增加一级缓存之后，系统看起来和没加缓存的行为一致，但得益于局部性原理，系统的读吞吐量提高、时延减少</strong>。</p>
+<p>考虑的缓存的位置，以下主要从：</p>
+<ul>
+<li>单核处理器</li>
+<li>多核处理器</li>
+<li>Cache/DB架构</li>
+</ul>
+<p>三个部分进行讨论。</p>
+<h2 id="单核处理器中的Cache-policy"><a href="#单核处理器中的Cache-policy" class="headerlink" title="单核处理器中的Cache policy"></a>单核处理器中的Cache policy</h2>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2022-01-07T06:22:48.142Z" itemprop="dateUpdated">2022-01-07 14:22:48</time>
+</span><br>
+
+
+        
+        Link：<a href="/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/" target="_blank" rel="external">http://tyler-ytr.github.io/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/" rel="tag">分布式系统</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/&title=《分布式缓存1》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/&title=《分布式缓存1》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《分布式缓存1》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/01/12/spark-learning/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">spark学习笔记</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2021/12/26/distributed-system/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">分布式系统</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/&title=《分布式缓存1》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/&title=《分布式缓存1》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《分布式缓存1》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2022/01/07/%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%981/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADNUlEQVR42u3a0W6bUBAE0Pz/T7uvkVrjmb24gsvhKWowcLCU7c7uz098vH4dv//l73Pyq7X3fXfH/Gr1gY2NjX0T9uvwaG/QXuEY9u5lHf98bMHGxsbelX3ubdoil3/2+FUmFmxsbGzsWdOSFLbjMpZ/DdjY2NjYLfu4zcjPz1uaSxQwbGxs7Iux86YibxhmoVLyEv9rloaNjY19eXY7mr3yz1+Zb2NjY2NfmP0qjzYGakOfJFRqS+A/royNjY29ETsvAG0MlFeN2fghia4+PBs2Njb2puyVGGhWcpIh8WyM8eGz2NjY2Fuw2/Yjbza+0dgcfypfHsLGxsbeiT0b3M6GwbMz20JVxFXY2NjYG7Hb+Ga2ppP8dhZRrV8NGxsbeyd2S8pbkXNfUB5IRd8zNjY29m3Zx6eetZqZPG67M9l+SW+zNGxsbOybs/MAaCWOP3cwvD6owMbGxt6JvRLNn9t+5EVxNjDAxsbGfg47Lzx52LQe/be/jZYvsbGxsbdgt5HNbCFmfaiQrBC1q0LY2NjYe7DzmOY4ap9F9t8eGBSDXmxsbOzbstvicQxbaQlmoVWOxMbGxn4yewZYL3hnFbCii8LGxsa+LTsP37+BnL3QdmD8wYWNjY29EXvlBrMRwixsmjUn2NjY2Luyk0vkxSbhzcrkyWtA2NjY2Bux27Apj+bbYUMb+revbFhvsbGxsS/PbgP6PELKi18+MDgeCeTDA2xsbOw92O1/8fNIKH/E2bLOrIBhY2Nj78fOe5SkzZgNa1fWg/IC/DZLw8bGxn4AOy9Cs6WZvLWYfQ1FqISNjY19c3Y+3G2bkHzo2w4ekvt+aEWwsbGxN2Ln6zv5o+RhUNuQtM+AjY2N/TT2+hJP3jbMXt9sfSebG2BjY2Pfif0qj3bFpw3uz3o1H0IlbGxs7I3Ys7/5bdOSrwTNRhQrI2FsbGzsPdjrgJUCtjLKbUtgUb2xsbGxb8iehU1nDV/zwXC71vP2fGxsbOwHs1eCm/xVzspqUfywsbGxH8xOzpw1EvkgYWUsjY2Njb0rO28Y8kuvtBnt4DY5HxsbG3tXdttC5AXsrPKTDwPaq2FjY2PfnP0Hc0qRzWvsEZkAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
