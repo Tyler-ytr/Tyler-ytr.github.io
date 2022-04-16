@@ -28,18 +28,18 @@
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
 <meta property="og:description" content="RDMA技术整理1 DMA技术概述RDMA全称是Remote Direct Memory Access，基本理念可以看成是远程的DMA技术，目的是为了解决网络传输中数据处理的延迟。因此首先了解一下DMA技术 DMA技术与零拷贝参考于该博客 该技术用于I&#x2F;O过程。众所周知，磁盘速度相对于内存以及CPU cache非常慢，因此有很多用于优化磁盘的技术比如零拷贝，异步I&#x2F;O等等。DMA也是其中的技术之一">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/04/16/RDMA-learning/picture/image-20220416154343317.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/04/16/RDMA-learning/picture/image-20220416160547943.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/04/16/RDMA-learning/picture/image-20220416163740770.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/04/16/RDMA-learning/picture/image-20220416164931279.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/04/16/RDMA-learning/picture/image-20220416165731481.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/04/16/RDMA-learning/picture/image-20220416171231492.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220416154343317.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220416160547943.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220416163740770.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220416164931279.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220416165731481.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220416171231492.png">
 <meta property="article:published_time" content="2022-04-16T07:35:20.000Z">
-<meta property="article:modified_time" content="2022-04-16T09:24:04.460Z">
+<meta property="article:modified_time" content="2022-04-16T09:26:21.849Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="RDMA">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://tyler-ytr.github.io/2022/04/16/RDMA-learning/picture/image-20220416154343317.png">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/image-20220416154343317.png">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
@@ -214,7 +214,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/image-20220416154343317.png" alt="image-20220416154343317" title="">
+                    <img src="/picture/image-20220416154343317.png" alt="image-20220416154343317" title="">
                 </div>
                 <div class="image-caption">image-20220416154343317</div>
             </figure>
@@ -227,7 +227,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/image-20220416160547943.png" alt="image-20220416160547943" title="">
+                    <img src="/picture/image-20220416160547943.png" alt="image-20220416160547943" title="">
                 </div>
                 <div class="image-caption">image-20220416160547943</div>
             </figure>
@@ -247,7 +247,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/image-20220416163740770.png" alt="image-20220416163740770" title="">
+                    <img src="/picture/image-20220416163740770.png" alt="image-20220416163740770" title="">
                 </div>
                 <div class="image-caption">image-20220416163740770</div>
             </figure>
@@ -272,7 +272,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/image-20220416164931279.png" alt="image-20220416164931279" title="">
+                    <img src="/picture/image-20220416164931279.png" alt="image-20220416164931279" title="">
                 </div>
                 <div class="image-caption">image-20220416164931279</div>
             </figure>
@@ -285,7 +285,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/image-20220416165731481.png" alt="image-20220416165731481" title="">
+                    <img src="/picture/image-20220416165731481.png" alt="image-20220416165731481" title="">
                 </div>
                 <div class="image-caption">image-20220416165731481</div>
             </figure>
@@ -301,7 +301,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/image-20220416171231492.png" alt="image-20220416171231492" title="">
+                    <img src="/picture/image-20220416171231492.png" alt="image-20220416171231492" title="">
                 </div>
                 <div class="image-caption">image-20220416171231492</div>
             </figure>
@@ -315,7 +315,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2022-04-16T09:24:04.460Z" itemprop="dateUpdated">2022-04-16 17:24:04</time>
+    Last updated: <time datetime="2022-04-16T09:26:21.849Z" itemprop="dateUpdated">2022-04-16 17:26:21</time>
 </span><br>
 
 
