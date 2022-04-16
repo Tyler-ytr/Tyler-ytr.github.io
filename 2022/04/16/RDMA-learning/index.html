@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220416165731481.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220416171231492.png">
 <meta property="article:published_time" content="2022-04-16T07:35:20.000Z">
-<meta property="article:modified_time" content="2022-04-16T09:26:21.849Z">
+<meta property="article:modified_time" content="2022-04-16T09:54:17.686Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="RDMA">
 <meta name="twitter:card" content="summary">
@@ -214,9 +214,9 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20220416154343317.png" alt="image-20220416154343317" title="">
+                    <img src="/picture/image-20220416154343317.png" alt="传统IO" title="">
                 </div>
-                <div class="image-caption">image-20220416154343317</div>
+                <div class="image-caption">传统IO</div>
             </figure>
 <ul>
 <li>CPU 发出对应的指令给磁盘控制器，然后返回；</li>
@@ -227,9 +227,9 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20220416160547943.png" alt="image-20220416160547943" title="">
+                    <img src="/picture/image-20220416160547943.png" alt="有DMA的IO" title="">
                 </div>
-                <div class="image-caption">image-20220416160547943</div>
+                <div class="image-caption">有DMA的IO</div>
             </figure>
 <ul>
 <li>用户进程调用 read 方法，向操作系统发出 I/O 请求，请求读取数据到自己的内存缓冲区中，进程进入阻塞状态；</li>
@@ -247,9 +247,9 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20220416163740770.png" alt="image-20220416163740770" title="">
+                    <img src="/picture/image-20220416163740770.png" alt="传统传输文件" title="">
                 </div>
-                <div class="image-caption">image-20220416163740770</div>
+                <div class="image-caption">传统传输文件</div>
             </figure>
 <p>如上图<strong>发生了 4 次用户态与内核态的上下文切换</strong>，因为发生了两次系统调用，每一次调用都意味着：用户态保留现场，转换到内核态处理，转换到用户态这样的过程，每一次切换都需要耗时几十纳秒到几微秒，高并发情况下会影响系统性能。</p>
 <p>另外发生了四次拷贝：</p>
@@ -272,9 +272,9 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20220416164931279.png" alt="image-20220416164931279" title="">
+                    <img src="/picture/image-20220416164931279.png" alt="mmap+write" title="">
                 </div>
-                <div class="image-caption">image-20220416164931279</div>
+                <div class="image-caption">mmap+write</div>
             </figure>
 <p>如上图：调用了mmap()之后，DMA就会把磁盘的数据拷贝到内核的缓冲区里。接着，应用进程跟操作系统内核「共享」这个缓冲区；然后使用write()会让系统直接把内核缓冲区的数据拷贝到socket缓冲区中，最后DMA把socket缓冲区的数据拷贝到网卡缓冲区中。</p>
 <p>因此mmap()代替read()可以减少一次数据拷贝。最后需要<strong>四次上下文切换，三次数据拷贝</strong>。</p>
@@ -285,9 +285,9 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20220416165731481.png" alt="image-20220416165731481" title="">
+                    <img src="/picture/image-20220416165731481.png" alt="sendfile1" title="">
                 </div>
-                <div class="image-caption">image-20220416165731481</div>
+                <div class="image-caption">sendfile1</div>
             </figure>
 <hr>
 <p>如果网卡支持SG-DMA(<em>The Scatter-Gather Direct Memory Access</em>)，那么可以进一步减少通过CPU把内核缓冲区拷贝到socket缓冲区的过程；</p>
@@ -301,9 +301,9 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20220416171231492.png" alt="image-20220416171231492" title="">
+                    <img src="/picture/image-20220416171231492.png" alt="sendfile2" title="">
                 </div>
-                <div class="image-caption">image-20220416171231492</div>
+                <div class="image-caption">sendfile2</div>
             </figure>
 <p>这就是零拷贝，因为没有通过CPU来进行数据搬运的过程；</p>
 <p>最后总共使用了两次上下文切换和两次数据拷贝，并且都不需要走CPU，都是DMA进行的拷贝；可以把传输文件的性能提高至少一倍以上。</p>
@@ -315,7 +315,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2022-04-16T09:26:21.849Z" itemprop="dateUpdated">2022-04-16 17:26:21</time>
+    Last updated: <time datetime="2022-04-16T09:54:17.686Z" itemprop="dateUpdated">2022-04-16 17:54:17</time>
 </span><br>
 
 
@@ -397,7 +397,7 @@
     <div class="waves-block waves-effect prev">
       <a href="/2022/04/16/RDMA-learning2/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">RDMA_learning2</h4>
+        <h4 class="title">RDMA技术整理2</h4>
       </a>
     </div>
   
