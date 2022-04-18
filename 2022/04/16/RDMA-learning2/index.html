@@ -21,22 +21,27 @@
     
     
     <meta name="keywords" content="RDMA">
-    <meta name="description" content="RDMA技术整理2 RDMA概述RDMA背景TCP&#x2F;IP通信使用传统的TCP&#x2F;IP通信，数据需要通过用户空间发送到远端的用户空间，就需要经历若干次内存拷贝。                                                                                              TCP&#x2F;IPvsRDMA               数">
+    <meta name="description" content="RDMA技术整理2 RDMA背景与部分架构RDMA背景TCP&#x2F;IP通信使用传统的TCP&#x2F;IP通信，数据需要通过用户空间发送到远端的用户空间，就需要经历若干次内存拷贝。                                                                                              TCP&#x2F;IPvsRDMA">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RDMA技术整理2">
 <meta property="og:url" content="http://tyler-ytr.github.io/2022/04/16/RDMA-learning2/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
-<meta property="og:description" content="RDMA技术整理2 RDMA概述RDMA背景TCP&#x2F;IP通信使用传统的TCP&#x2F;IP通信，数据需要通过用户空间发送到远端的用户空间，就需要经历若干次内存拷贝。                                                                                              TCP&#x2F;IPvsRDMA               数">
+<meta property="og:description" content="RDMA技术整理2 RDMA背景与部分架构RDMA背景TCP&#x2F;IP通信使用传统的TCP&#x2F;IP通信，数据需要通过用户空间发送到远端的用户空间，就需要经历若干次内存拷贝。                                                                                              TCP&#x2F;IPvsRDMA">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/04/16/RDMA-learning2/picture/image-20220416195905028.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/04/16/RDMA-learning2/picture/image-20220416200207230.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/04/16/RDMA-learning2/picture/image-20220416202541620.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220416195905028.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220416200207230.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220416202541620.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220418135934106.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220418140051181.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220418140528211.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220418141433546.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220418142238178.png">
 <meta property="article:published_time" content="2022-04-16T09:24:19.000Z">
-<meta property="article:modified_time" content="2022-04-16T13:15:18.682Z">
+<meta property="article:modified_time" content="2022-04-18T06:28:26.207Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="RDMA">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://tyler-ytr.github.io/2022/04/16/RDMA-learning2/picture/image-20220416195905028.png">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/image-20220416195905028.png">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
@@ -178,7 +183,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#RDMA技术整理2-RDMA概述"><span class="post-toc-number">1.</span> <span class="post-toc-text">RDMA技术整理2 RDMA概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RDMA背景"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">RDMA背景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TCP-IP通信"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">TCP&#x2F;IP通信</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TCP-offloading-engine"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">TCP offloading engine</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RDMA"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">RDMA</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RDMA实现"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">RDMA实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考博客"><span class="post-toc-number">1.2.0.1.</span> <span class="post-toc-text">参考博客</span></a></li></ol></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#RDMA技术整理2-RDMA背景与部分架构"><span class="post-toc-number">1.</span> <span class="post-toc-text">RDMA技术整理2 RDMA背景与部分架构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RDMA背景"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">RDMA背景</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TCP-IP通信"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">TCP&#x2F;IP通信</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TCP-offloading-engine"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">TCP offloading engine</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RDMA"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">RDMA</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RDMA实现"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">RDMA实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Infiniband分层与架构"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">Infiniband分层与架构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#物理层"><span class="post-toc-number">1.2.1.1.</span> <span class="post-toc-text">物理层</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#链路层"><span class="post-toc-number">1.2.1.2.</span> <span class="post-toc-text">链路层</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#网络层"><span class="post-toc-number">1.2.1.3.</span> <span class="post-toc-text">网络层</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#传输层"><span class="post-toc-number">1.2.1.4.</span> <span class="post-toc-text">传输层</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考博客"><span class="post-toc-number">1.2.1.5.</span> <span class="post-toc-text">参考博客</span></a></li></ol></li></ol></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -204,11 +209,11 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="RDMA技术整理2-RDMA概述"><a href="#RDMA技术整理2-RDMA概述" class="headerlink" title="RDMA技术整理2 RDMA概述"></a>RDMA技术整理2 RDMA概述</h1><h2 id="RDMA背景"><a href="#RDMA背景" class="headerlink" title="RDMA背景"></a>RDMA背景</h2><h3 id="TCP-IP通信"><a href="#TCP-IP通信" class="headerlink" title="TCP/IP通信"></a>TCP/IP通信</h3><p>使用传统的TCP/IP通信，数据需要通过用户空间发送到远端的用户空间，就需要经历若干次内存拷贝。</p>
+            <h1 id="RDMA技术整理2-RDMA背景与部分架构"><a href="#RDMA技术整理2-RDMA背景与部分架构" class="headerlink" title="RDMA技术整理2 RDMA背景与部分架构"></a>RDMA技术整理2 RDMA背景与部分架构</h1><h2 id="RDMA背景"><a href="#RDMA背景" class="headerlink" title="RDMA背景"></a>RDMA背景</h2><h3 id="TCP-IP通信"><a href="#TCP-IP通信" class="headerlink" title="TCP/IP通信"></a>TCP/IP通信</h3><p>使用传统的TCP/IP通信，数据需要通过用户空间发送到远端的用户空间，就需要经历若干次内存拷贝。</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/image-20220416195905028.png" alt="TCP/IPvsRDMA" title="">
+                    <img src="/picture/image-20220416195905028.png" alt="TCP/IPvsRDMA" title="">
                 </div>
                 <div class="image-caption">TCP/IPvsRDMA</div>
             </figure>
@@ -230,7 +235,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/image-20220416200207230.png" alt="TCP offloading engine" title="">
+                    <img src="/picture/image-20220416200207230.png" alt="TCP offloading engine" title="">
                 </div>
                 <div class="image-caption">TCP offloading engine</div>
             </figure>
@@ -243,7 +248,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/image-20220416202541620.png" alt="RDMA整体架构" title="">
+                    <img src="/picture/image-20220416202541620.png" alt="RDMA整体架构" title="">
                 </div>
                 <div class="image-caption">RDMA整体架构</div>
             </figure>
@@ -259,6 +264,74 @@
 <li><strong>iWARP：</strong>Internet Wide Area RDMA Protocal，基于 TCP/IP 协议的 RDMA 技术，由 IETF 标 准定义。iWARP 支持在标准以太网基础设施上使用 RDMA 技术，而不需要交换机支持无损以太网传输，但服务器需要使用支持iWARP 的网卡。与此同时，受 TCP 影响，性能稍差。</li>
 <li><strong>RoCE：</strong>基于以太网的 RDMA 技术，也是由 IBTA 提出。RoCE支持在标准以太网基础设施上使用RDMA技术，但是需要交换机支持无损以太网传输，需要服务器使用 RoCE 网卡，性能与 IB 相当。</li>
 </ol>
+<p>下面以Infiniband技术为例介绍它的分层架构：</p>
+<p>这部分来自于前面的<a href="https://houmin.cc/posts/454a90d3/" target="_blank" rel="noopener">博客</a>以及<a href="https://www.mellanox.com/pdf/whitepapers/IB_Intro_WP_190.pdf" target="_blank" rel="noopener">Introduction to InfiniBand</a></p>
+<h3 id="Infiniband分层与架构"><a href="#Infiniband分层与架构" class="headerlink" title="Infiniband分层与架构"></a>Infiniband分层与架构</h3><p>Inifiniband包含了多种设备，channel adapter、switch、router、subnet manager，它提供了一种基于通道的点对点消息队列转发模型，每个应用都可通过创建的虚拟通道直接获取本应用的数据消息，无需其他操作系统及协议栈的介入。Channel adapter是安装在主机或者其他任何系统(如存储设备)上的网络适配器，这种组件为数据包的始发地或者目的地；Switch包含了多个InfiniBand端口根据每个数据包 LRH 里面的 LID，负责将一个端口上收到的数据包发送到另一个端口。Router根据 L3 中的 GRH，负责将 Packet 从一个子网转发到另一个子网，当被转到到另一子网时，Router 会重建数据包中的 LID。Subnet Manager负责配置本地子网，使其保持工作。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/image-20220418135934106.png" alt="image-20220418135934106" title="">
+                </div>
+                <div class="image-caption">image-20220418135934106</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/image-20220418140051181.png" alt="image-20220418140051181" title="">
+                </div>
+                <div class="image-caption">image-20220418140051181</div>
+            </figure>
+<hr>
+<p>InfiniBand 有着自己的协议栈，从上到下依次包括传输层、网络层、数据链路层和物理层：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/image-20220418140528211.png" alt="image-20220418140528211" title="">
+                </div>
+                <div class="image-caption">image-20220418140528211</div>
+            </figure>
+<p>如上图是数据包的封装。</p>
+<h4 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h4><p>物理层支持光线和铜，绝大多数采用4 Link；</p>
+<h4 id="链路层"><a href="#链路层" class="headerlink" title="链路层"></a>链路层</h4><p>这部分是架构的核心，包含了如下部分：</p>
+<ul>
+<li>Packets：链路层由两种类型的Packets，Data Packet 和 Management Packet，数据包最大可以为 4KB，数据包传输的类型包括两种类型<ul>
+<li>Memory：RDMA read/write，atomic operation（其实就是内存操作）</li>
+<li>Channel：send/receive，multicast transmission</li>
+</ul>
+</li>
+<li>Switching：在子网中，Packet 的转发和交换是在链路层完成的<ul>
+<li>一个子网内的每个设备有一个由 subnet manager分配的 16 bit Local ID (<strong>LID</strong>)</li>
+<li>每个 Packet 中有一个 Local Route Header (LRH) 指定了要发送的目标 LID</li>
+<li>在一个子网中通过 LID 来负责寻址</li>
+</ul>
+</li>
+<li>Qos：链路层提供了 QoS 保证，不需要数据缓冲<ul>
+<li>Virtual Lanes：一种在一条物理链路上创建多条虚拟链路的机制。虚拟通道表示端口的一组用于收发数据包的缓冲区。支持的 VL 数是端口的一个属性。</li>
+<li>每个 Link 支持 15 个标准的 VL 和一个用于 Management 的 VL15，VL15 具有最高等级，VL0 具有最低等级</li>
+<li>Service Level：InfiniBand 支持多达 16 个服务等级，但是并没有指定每个等级的策略。InfiniBand 通过将 SL 和 VL 映射支持 QoS</li>
+</ul>
+</li>
+<li>Credit Based Flow Control：发送数据包之前，发送方和接收方需要协商数据量credit，接收方保证有足够的Buffer，之后传输才能进行。</li>
+<li>Data Integrity：链路层通过 Packet 中的 CRC 字段来进行数据完整性校验，其组成包括 ICRC 和 VCRC。</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/image-20220418141433546.png" alt="image-20220418141433546" title="">
+                </div>
+                <div class="image-caption">image-20220418141433546</div>
+            </figure>
+<h4 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h4><p>网络层负责将 Packet 从一个子网路由到另一个子网：</p>
+<p>在子网之间发送的数据包包含全局路由标头 （GRH）。GRH 包含数据包源和目标的 128 位 IPv6 地址。数据包通过基于每个设备的 64 位全局唯一 ID （GUID） 的路由器在子网之间转发。路由器在每个子网中使用正确的本地地址修改 LRH。因此，路径中的最后一个路由器将 LRH 中的 LID 替换为目标端口的 LID。</p>
+<p>下面是 GRH 报头的格式，长40字节，可选，用于组播数据包以及需要穿越多个子网的数据包。它使用 GID 描述了源端口和目标端口，其格式与 IPv6 报头相同。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/image-20220418142238178.png" alt="image-20220418142238178" title="">
+                </div>
+                <div class="image-caption">image-20220418142238178</div>
+            </figure>
+<h4 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h4><p>传输层负责 Packet 的按序传输、根据 MTU 分段和很多传输层的服务(reliable connection, reliable datagram, unreliable connection, unreliable datagram, raw datagram)。InfiniBand 的传输层提供了一个巨大的提升，因为所有的函数都是在硬件中实现的。</p>
 <h4 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h4><ul>
 <li><a href="https://houmin.cc/posts/454a90d3/" target="_blank" rel="noopener">https://houmin.cc/posts/454a90d3/</a></li>
 <li><a href="https://www.cnblogs.com/bandaoyu/p/15478210.html" target="_blank" rel="noopener">https://www.cnblogs.com/bandaoyu/p/15478210.html</a></li>
@@ -271,7 +344,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2022-04-16T13:15:18.682Z" itemprop="dateUpdated">2022-04-16 21:15:18</time>
+    Last updated: <time datetime="2022-04-18T06:28:26.207Z" itemprop="dateUpdated">2022-04-18 14:28:26</time>
 </span><br>
 
 
