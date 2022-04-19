@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Tyler-ytr.github.io/"/>
-  <updated>2022-04-18T07:01:48.499Z</updated>
+  <updated>2022-04-19T03:20:20.943Z</updated>
   <id>http://Tyler-ytr.github.io/</id>
   
   <author>
@@ -17,19 +17,46 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>RDMA-learning3</title>
-    <link href="http://Tyler-ytr.github.io/2022/04/18/RDMA-learning3/"/>
-    <id>http://Tyler-ytr.github.io/2022/04/18/RDMA-learning3/</id>
-    <published>2022-04-18T06:30:04.000Z</published>
-    <updated>2022-04-18T07:01:48.499Z</updated>
+    <title>项目开发记录</title>
+    <link href="http://Tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/"/>
+    <id>http://Tyler-ytr.github.io/2022/04/19/项目开发记录/</id>
+    <published>2022-04-19T03:16:27.000Z</published>
+    <updated>2022-04-19T03:20:20.943Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="RDMA技术整理3-RDMA编程入门1"><a href="#RDMA技术整理3-RDMA编程入门1" class="headerlink" title="RDMA技术整理3 RDMA编程入门1"></a>RDMA技术整理3 RDMA编程入门1</h1><h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><ul><li><a href="https://www.mellanox.com/related-docs/prod_software/RDMA_Aware_Programming_user_manual.pdf" target="_blank" rel="noopener">RDMA用户编程手册</a></li><li><a href="https://github.com/jcxue/RDMA-Tutorial/wiki" target="_blank" rel="noopener">RDMA tutorial</a></li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="院系项目开发记录"><a href="#院系项目开发记录" class="headerlink" title="院系项目开发记录"></a>院系项目开发记录</h1><p>参与院系项目开发，对开发过程中的一些配置进行记录；</p><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ol><li>Node需要大于16，采用了项目<a href="https://github.com/jasongin/nvs" target="_blank" rel="noopener">https://github.com/jasongin/nvs</a> 进行项目的配置；在win里面输入nvs就可以下载以及选择对应的node版本号；</li><li>yarn使用<code>npm i -g yarn</code></li><li></li></ol>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h1 id=&quot;RDMA技术整理3-RDMA编程入门1&quot;&gt;&lt;a href=&quot;#RDMA技术整理3-RDMA编程入门1&quot; class=&quot;headerlink&quot; title=&quot;RDMA技术整理3 RDMA编程入门1&quot;&gt;&lt;/a&gt;RDMA技术整理3 RDMA编程入门1&lt;/h1&gt;&lt;h4 i
+        &lt;h1 id=&quot;院系项目开发记录&quot;&gt;&lt;a href=&quot;#院系项目开发记录&quot; class=&quot;headerlink&quot; title=&quot;院系项目开发记录&quot;&gt;&lt;/a&gt;院系项目开发记录&lt;/h1&gt;&lt;p&gt;参与院系项目开发，对开发过程中的一些配置进行记录；&lt;/p&gt;
+&lt;h2 id=&quot;配置&quot;&gt;&lt;a h
+      
+    
+    </summary>
+    
+      <category term="备忘录" scheme="http://Tyler-ytr.github.io/categories/%E5%A4%87%E5%BF%98%E5%BD%95/"/>
+    
+    
+      <category term="杂谈" scheme="http://Tyler-ytr.github.io/tags/%E6%9D%82%E8%B0%88/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RDMA-learning3</title>
+    <link href="http://Tyler-ytr.github.io/2022/04/18/RDMA-learning3/"/>
+    <id>http://Tyler-ytr.github.io/2022/04/18/RDMA-learning3/</id>
+    <published>2022-04-18T06:30:04.000Z</published>
+    <updated>2022-04-19T13:25:36.684Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><h1 id="RDMA技术整理3-RDMA编程入门"><a href="#RDMA技术整理3-RDMA编程入门" class="headerlink" title="RDMA技术整理3 RDMA编程入门"></a>RDMA技术整理3 RDMA编程入门</h1><h2 id="RDMA基本元素"><a href="#RDMA基本元素" class="headerlink" title="RDMA基本元素"></a>RDMA基本元素</h2><p>参考于知乎<a href="https://zhuanlan.zhihu.com/p/141267386" target="_blank" rel="noopener">专栏</a></p><p>| 缩略语 | 全称                     | 含义                                                         |<br>| —— | ———————— | ———————————————————— |<br>| WQ     | Work Queue               | 储存工作请求的队列                                           |<br>| WQE    | Work Queue Element       | 工作队列里面的元素                                           |<br>| QP     | Queue Pair               | 一对WQ，包括了SQ,RQ；<strong>通信的基本单元</strong>                      |<br>| SQ     | Send Queue               | QP中的发送端队列                                             |<br>| RQ     | Receive Queue            | QP中的接受端队列                                             |<br>| SRQ    | Shared Receive Queue     | 共享接收队列，几个QP共享同一个RQ时，我们称其为SRQ            |<br>| CQ     | Completion Queue         | 完成队列，承载CQE的容器，一个先进先出的队列                  |<br>| CQE    | Completion Queue Element | 如果WQE是软件下发给硬件的“任务书”的话，那么CQE就是硬件完成任务之后返回给软件的“任务报告”。 |<br>| WR     | Work Request             | 工作请求，WQE和CQE在用户层的“映射”                           |<br>| WC     | Work Completion          | 工作完成，WQE和CQE在用户层的“映射”                           |</p><p><img src="/picture/image-20220419210626804.png" alt="RDMA基本元素"></p><h2 id="RMDA基本操作"><a href="#RMDA基本操作" class="headerlink" title="RMDA基本操作"></a>RMDA基本操作</h2></li></ul><h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><ul><li><a href="https://www.mellanox.com/related-docs/prod_software/RDMA_Aware_Programming_user_manual.pdf" target="_blank" rel="noopener">RDMA用户编程手册</a></li><li><a href="https://github.com/jcxue/RDMA-Tutorial/wiki" target="_blank" rel="noopener">RDMA tutorial</a></li><li>IB Specification Vol 1-Release-1.5-2021-08-06b.pdf</li><li><a href="https://www.zhihu.com/column/c_1231181516811390976" target="_blank" rel="noopener">RDMA杂谈</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;h1 id=&quot;RDMA技术整理3-RDMA编程入门&quot;&gt;&lt;a href=&quot;#RDMA技术整理3-RDMA编程入门&quot; class=&quot;headerlink&quot; title=&quot;RDMA技术整理3 RDMA编程入门&quot;&gt;&lt;/a&gt;RDMA技术整理3 RDMA编程入门&lt;/h1&gt;
       
     
     </summary>

@@ -14,27 +14,25 @@
     
     
     
-    <title>RDMA-learning3 | Tyler-yin&#39;s blog</title>
+    <title>项目开发记录 | Tyler-yin&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="RDMA">
-    <meta name="description" content="RDMA技术整理3 RDMA编程入门RDMA基本元素参考于知乎专栏 | 缩略语 | 全称                     | 含义                                                         || —— | ———————— | ———————————————————— || WQ     | Work Queue">
+    <meta name="keywords" content="杂谈">
+    <meta name="description" content="院系项目开发记录参与院系项目开发，对开发过程中的一些配置进行记录； 配置 Node需要大于16，采用了项目https:&#x2F;&#x2F;github.com&#x2F;jasongin&#x2F;nvs 进行项目的配置；在win里面输入nvs就可以下载以及选择对应的node版本号； yarn使用npm i -g yarn">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RDMA-learning3">
-<meta property="og:url" content="http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/index.html">
+<meta property="og:title" content="项目开发记录">
+<meta property="og:url" content="http://tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
-<meta property="og:description" content="RDMA技术整理3 RDMA编程入门RDMA基本元素参考于知乎专栏 | 缩略语 | 全称                     | 含义                                                         || —— | ———————— | ———————————————————— || WQ     | Work Queue">
+<meta property="og:description" content="院系项目开发记录参与院系项目开发，对开发过程中的一些配置进行记录； 配置 Node需要大于16，采用了项目https:&#x2F;&#x2F;github.com&#x2F;jasongin&#x2F;nvs 进行项目的配置；在win里面输入nvs就可以下载以及选择对应的node版本号； yarn使用npm i -g yarn">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220419210626804.png">
-<meta property="article:published_time" content="2022-04-18T06:30:04.000Z">
-<meta property="article:modified_time" content="2022-04-19T13:25:36.684Z">
+<meta property="article:published_time" content="2022-04-19T03:16:27.000Z">
+<meta property="article:modified_time" content="2022-04-19T03:20:20.943Z">
 <meta property="article:author" content="Tyler-yin">
-<meta property="article:tag" content="RDMA">
+<meta property="article:tag" content="杂谈">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/image-20220419210626804.png">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
@@ -129,7 +127,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">RDMA-learning3</div>
+        <div class="flex-col header-title ellipsis">项目开发记录</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -151,15 +149,15 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">RDMA-learning3</h1>
+        <h1 class="title">项目开发记录</h1>
         <h5 class="subtitle">
             
-                <time datetime="2022-04-18T06:30:04.000Z" itemprop="datePublished" class="page-time">
-  2022-04-18
+                <time datetime="2022-04-19T03:16:27.000Z" itemprop="datePublished" class="page-time">
+  2022-04-19
 </time>
 
 
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E5%A4%87%E5%BF%98%E5%BD%95/">备忘录</a></li></ul>
 
             
         </h5>
@@ -176,21 +174,21 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#RDMA技术整理3-RDMA编程入门"><span class="post-toc-number">1.</span> <span class="post-toc-text">RDMA技术整理3 RDMA编程入门</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RDMA基本元素"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">RDMA基本元素</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RMDA基本操作"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">RMDA基本操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">1.2.0.1.</span> <span class="post-toc-text">参考资料</span></a></li></ol></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#院系项目开发记录"><span class="post-toc-number">1.</span> <span class="post-toc-text">院系项目开发记录</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#配置"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">配置</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
 
-<article id="post-RDMA-learning3"
+<article id="post-项目开发记录"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">RDMA-learning3</h1>
+        <h1 class="post-card-title">项目开发记录</h1>
         <div class="post-meta">
-            <time class="post-time" title="2022-04-18 14:30:04" datetime="2022-04-18T06:30:04.000Z"  itemprop="datePublished">2022-04-18</time>
+            <time class="post-time" title="2022-04-19 11:16:27" datetime="2022-04-19T03:16:27.000Z"  itemprop="datePublished">2022-04-19</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E5%A4%87%E5%BF%98%E5%BD%95/">备忘录</a></li></ul>
 
 
 
@@ -202,18 +200,12 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <ul>
-<li><h1 id="RDMA技术整理3-RDMA编程入门"><a href="#RDMA技术整理3-RDMA编程入门" class="headerlink" title="RDMA技术整理3 RDMA编程入门"></a>RDMA技术整理3 RDMA编程入门</h1><h2 id="RDMA基本元素"><a href="#RDMA基本元素" class="headerlink" title="RDMA基本元素"></a>RDMA基本元素</h2><p>参考于知乎<a href="https://zhuanlan.zhihu.com/p/141267386" target="_blank" rel="noopener">专栏</a></p>
-<p>| 缩略语 | 全称                     | 含义                                                         |<br>| —— | ———————— | ———————————————————— |<br>| WQ     | Work Queue               | 储存工作请求的队列                                           |<br>| WQE    | Work Queue Element       | 工作队列里面的元素                                           |<br>| QP     | Queue Pair               | 一对WQ，包括了SQ,RQ；<strong>通信的基本单元</strong>                      |<br>| SQ     | Send Queue               | QP中的发送端队列                                             |<br>| RQ     | Receive Queue            | QP中的接受端队列                                             |<br>| SRQ    | Shared Receive Queue     | 共享接收队列，几个QP共享同一个RQ时，我们称其为SRQ            |<br>| CQ     | Completion Queue         | 完成队列，承载CQE的容器，一个先进先出的队列                  |<br>| CQE    | Completion Queue Element | 如果WQE是软件下发给硬件的“任务书”的话，那么CQE就是硬件完成任务之后返回给软件的“任务报告”。 |<br>| WR     | Work Request             | 工作请求，WQE和CQE在用户层的“映射”                           |<br>| WC     | Work Completion          | 工作完成，WQE和CQE在用户层的“映射”                           |</p>
-<p><img src="/picture/image-20220419210626804.png" alt="RDMA基本元素"></p>
-<h2 id="RMDA基本操作"><a href="#RMDA基本操作" class="headerlink" title="RMDA基本操作"></a>RMDA基本操作</h2></li>
-</ul>
-<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><ul>
-<li><a href="https://www.mellanox.com/related-docs/prod_software/RDMA_Aware_Programming_user_manual.pdf" target="_blank" rel="noopener">RDMA用户编程手册</a></li>
-<li><a href="https://github.com/jcxue/RDMA-Tutorial/wiki" target="_blank" rel="noopener">RDMA tutorial</a></li>
-<li>IB Specification Vol 1-Release-1.5-2021-08-06b.pdf</li>
-<li><a href="https://www.zhihu.com/column/c_1231181516811390976" target="_blank" rel="noopener">RDMA杂谈</a></li>
-</ul>
+            <h1 id="院系项目开发记录"><a href="#院系项目开发记录" class="headerlink" title="院系项目开发记录"></a>院系项目开发记录</h1><p>参与院系项目开发，对开发过程中的一些配置进行记录；</p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><ol>
+<li>Node需要大于16，采用了项目<a href="https://github.com/jasongin/nvs" target="_blank" rel="noopener">https://github.com/jasongin/nvs</a> 进行项目的配置；在win里面输入nvs就可以下载以及选择对应的node版本号；</li>
+<li>yarn使用<code>npm i -g yarn</code></li>
+<li></li>
+</ol>
 
         </div>
 
@@ -222,12 +214,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2022-04-19T13:25:36.684Z" itemprop="dateUpdated">2022-04-19 21:25:36</time>
+    Last updated: <time datetime="2022-04-19T03:20:20.943Z" itemprop="dateUpdated">2022-04-19 11:20:20</time>
 </span><br>
 
 
         
-        Link：<a href="/2022/04/18/RDMA-learning3/" target="_blank" rel="external">http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/</a>
+        Link：<a href="/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" target="_blank" rel="external">http://tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/</a>
         
     </div>
     
@@ -244,7 +236,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RDMA/" rel="tag">RDMA</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li></ul>
 
 
             
@@ -254,7 +246,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&title=《RDMA-learning3》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/&title=《项目开发记录》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -264,22 +256,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&title=《RDMA-learning3》 — Tyler-yin's blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/&title=《项目开发记录》 — Tyler-yin's blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《RDMA-learning3》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《项目开发记录》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -299,21 +291,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">项目开发记录</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2022/04/16/RDMA-learning2/" id="post-next" class="post-nav-link">
+      <a href="/2022/04/18/RDMA-learning3/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">RDMA技术整理2</h4>
+        <h4 class="title">RDMA-learning3</h4>
       </a>
     </div>
   
@@ -411,7 +396,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&title=《RDMA-learning3》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/&title=《项目开发记录》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -421,22 +406,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&title=《RDMA-learning3》 — Tyler-yin's blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/&title=《项目开发记录》 — Tyler-yin's blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《RDMA-learning3》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《项目开发记录》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2022/04/19/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -447,7 +432,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIklEQVR42u3aSXICMQwFUO5/6c4BgOZLNqlCfr1KhcF+LFSaHo/4uZ6ed+95fv/zq8kpj288GBgYP8u4bp97Rn71+x8iP/ctFQMD4wBGEkDvw2JyuR7j/m4YGBgYSehMwmWeAmJgYGDsYqwcmbMxMDAwqkVsXrj2ksJqcMfAwDiHkXfd///vr8w3MDAwfopxFZ9qEz9P+K6FBwMDYzZjfQ2i12LL222F+2BgYIxmVENecthSqbnyPRgYGOMYeRnZu9ZK4pi34TAwMGYzkqStGliTMUCvtRdluBgYGOMYKwtbvSN7If7Dz4SBgTGaUS1rq+sU1bC7ebUCAwNjBGPX8b20rzpgeHsfDAyM0Yxqdz1vk+VNut4o4sMIEwMDYxAjL2JXWnJ50dsrazEwMM5k5K23aottJXEsfAwDA2Mco7owujJOSNp2SRH7IjXEwMAYyqg25VcSx/UxQ3OagYGBMYJRbYrlBWoeoKtjTgwMDIxdCVzvWhuSQgwMjNGM8ofjcvcqPtXxKgYGxgmMPB3stdWqSWf5PxgYGMcw8qvkixHVdLO5roGBgTGU0UvXqgniehJZzm0xMDAGMXoDzt4X9Rpz60U1BgbGDEY1yO5qzCVpZSHgYmBgHMCoBr78mF3p5oc1DgwMDIziQlh1JNAbDCwFXAwMjAMYm1clWuPMDQEXAwPjpxi9RdXeqHJl4QwDA+NMxq6mWK+s/V7CioGBMYLxB75bQc/H0Xh5AAAAAElFTkSuQmCC" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADI0lEQVR42u3awU4jQQwEUP7/p9kr0opQZWdXiXlzQgnp6TeRKGz3x0d8fX65vr6SvPvdau19//7Ud68/7cLGxsZ+E/bnw+vxDXJesnKyWv4F/LAyNjY29jl2sulk6VnkJBE4+9S3r2NjY2P/YnZbnDy3jEm+EmxsbGzsGXvfompLlJcIMGxsbOyXYbeR094mKUKSMmZTJmFjY2NfZeeR8/o//5P5NjY2NvYLs2eN/rx51DaJ2sJjqMDGxsY+xN5vq23rJI8yj9LZ/rGxsbGvsvN4SGIsiZyWNDta9O362NjY2CfYmwFqssX91a4fRSY2Njb2Ifbj5fJwmr2b3H1WDkXtKmxsbOyj7Fk4RYcdy3Xyd2e/j42NjX2JnS+XN27ysuR/xiE2Njb2Pfbmn/tnHcdphwebYQY2Njb2PXa7rTy62lZ+Hpb50CIaD2BjY2O/OXvWgnlWgA3b+vsCCRsbG/sQOw+qvNmUwNoYm40lkt/HxsbGfnf2LKiSDc1a+S17VpxgY2Nj32P/C/CsFJm1nOoiBBsbG/s0u91i/mhmhzJnB4OiUgQbGxv7EDsZjs7aSZtQfDxs2DSnsLGxsS+x80OQSfDMkG3rP/liigeEjY2NfYg9w2+aSrPx8H6cgI2NjX2JnbeKnntMJyld2ijKh9bY2NjYv429GeJ+PLz2o9/kKnpp2NjY2G/Ibts67VBhE4qzr6ddGRsbG/sGO2+sJ+2eYTdr9EDbcS82Njb2PXa7rTyu8mNA7WBgcwwIGxsb+x67DaE85PZlxiYyi4YUNjY29gn27IhMfoxmX+ps7vtDUwkbGxv7HPtZkZM3fZJCYv/ohxUVNjY29huyNwduZiVKG5/5Dn8ot7CxsbFPsD/Lq30ESeuqDb9ZfEaJjY2Njf2G7PZP/2wAkATe7ChPG3X1I8DGxsZ+E3Z+mKZtCc0GtLNhQxts2NjY2PfYm5Z9spXkgeblRFv2YGNjY2PnA9RN2bB/ZHkkY2NjY2PXtynHA/moIG+EYWNjY99mJ1GRjAdmzaPNvdqRMDY2NvY9dj7o3RQb+afadlU7YMDGxsY+xP4DpcbF0TlfXSAAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
