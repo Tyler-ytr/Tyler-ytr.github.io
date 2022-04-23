@@ -14,23 +14,26 @@
     
     
     
-    <title>RDMA-learning3 | Tyler-yin&#39;s blog</title>
+    <title>RDMA技术整理3 | Tyler-yin&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
     <meta name="keywords" content="RDMA">
-    <meta name="description" content="RDMA技术整理3 RDMA编程入门RDMA基本元素参考于知乎专栏 | 缩略语 | 全称                     | 含义                                                         || —— | ———————— | ———————————————————— || WQ     | Work Queue">
+    <meta name="description" content="RDMA技术整理3 RDMA基本功能RDMA基本元素参考于知乎专栏 | 缩略语 | 全称                     | 含义                                                         || —— | ———————— | ———————————————————— || WQ     | Work Queue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RDMA-learning3">
+<meta property="og:title" content="RDMA技术整理3">
 <meta property="og:url" content="http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
-<meta property="og:description" content="RDMA技术整理3 RDMA编程入门RDMA基本元素参考于知乎专栏 | 缩略语 | 全称                     | 含义                                                         || —— | ———————— | ———————————————————— || WQ     | Work Queue">
+<meta property="og:description" content="RDMA技术整理3 RDMA基本功能RDMA基本元素参考于知乎专栏 | 缩略语 | 全称                     | 含义                                                         || —— | ———————— | ———————————————————— || WQ     | Work Queue">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220419210626804.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220423160249262.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220423200538298.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20220423201323814.png">
 <meta property="article:published_time" content="2022-04-18T06:30:04.000Z">
-<meta property="article:modified_time" content="2022-04-19T13:25:36.684Z">
+<meta property="article:modified_time" content="2022-04-23T12:51:26.767Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="RDMA">
 <meta name="twitter:card" content="summary">
@@ -129,7 +132,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">RDMA-learning3</div>
+        <div class="flex-col header-title ellipsis">RDMA技术整理3</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -151,7 +154,7 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">RDMA-learning3</h1>
+        <h1 class="title">RDMA技术整理3</h1>
         <h5 class="subtitle">
             
                 <time datetime="2022-04-18T06:30:04.000Z" itemprop="datePublished" class="page-time">
@@ -176,7 +179,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#RDMA技术整理3-RDMA编程入门"><span class="post-toc-number">1.</span> <span class="post-toc-text">RDMA技术整理3 RDMA编程入门</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RDMA基本元素"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">RDMA基本元素</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RMDA基本操作"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">RMDA基本操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">1.2.0.1.</span> <span class="post-toc-text">参考资料</span></a></li></ol></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#RDMA技术整理3-RDMA基本功能"><span class="post-toc-number">1.</span> <span class="post-toc-text">RDMA技术整理3 RDMA基本功能</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RDMA基本元素"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">RDMA基本元素</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RMDA基本操作"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">RMDA基本操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#RDMA双端操作-SEND-amp-RECV"><span class="post-toc-number">1.2.0.1.</span> <span class="post-toc-text">RDMA双端操作 SEND &amp; RECV</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#RDMA-one-sided-操作-WRITE-amp-READ"><span class="post-toc-number">1.2.0.2.</span> <span class="post-toc-text">RDMA one-sided 操作 WRITE &amp; READ</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">1.2.0.3.</span> <span class="post-toc-text">参考资料</span></a></li></ol></li></ol></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -185,7 +188,7 @@
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">RDMA-learning3</h1>
+        <h1 class="post-card-title">RDMA技术整理3</h1>
         <div class="post-meta">
             <time class="post-time" title="2022-04-18 14:30:04" datetime="2022-04-18T06:30:04.000Z"  itemprop="datePublished">2022-04-18</time>
 
@@ -203,14 +206,46 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             <ul>
-<li><h1 id="RDMA技术整理3-RDMA编程入门"><a href="#RDMA技术整理3-RDMA编程入门" class="headerlink" title="RDMA技术整理3 RDMA编程入门"></a>RDMA技术整理3 RDMA编程入门</h1><h2 id="RDMA基本元素"><a href="#RDMA基本元素" class="headerlink" title="RDMA基本元素"></a>RDMA基本元素</h2><p>参考于知乎<a href="https://zhuanlan.zhihu.com/p/141267386" target="_blank" rel="noopener">专栏</a></p>
+<li><h1 id="RDMA技术整理3-RDMA基本功能"><a href="#RDMA技术整理3-RDMA基本功能" class="headerlink" title="RDMA技术整理3 RDMA基本功能"></a>RDMA技术整理3 RDMA基本功能</h1><h2 id="RDMA基本元素"><a href="#RDMA基本元素" class="headerlink" title="RDMA基本元素"></a>RDMA基本元素</h2><p>参考于知乎<a href="https://zhuanlan.zhihu.com/p/141267386" target="_blank" rel="noopener">专栏</a></p>
 <p>| 缩略语 | 全称                     | 含义                                                         |<br>| —— | ———————— | ———————————————————— |<br>| WQ     | Work Queue               | 储存工作请求的队列                                           |<br>| WQE    | Work Queue Element       | 工作队列里面的元素                                           |<br>| QP     | Queue Pair               | 一对WQ，包括了SQ,RQ；<strong>通信的基本单元</strong>                      |<br>| SQ     | Send Queue               | QP中的发送端队列                                             |<br>| RQ     | Receive Queue            | QP中的接受端队列                                             |<br>| SRQ    | Shared Receive Queue     | 共享接收队列，几个QP共享同一个RQ时，我们称其为SRQ            |<br>| CQ     | Completion Queue         | 完成队列，承载CQE的容器，一个先进先出的队列                  |<br>| CQE    | Completion Queue Element | 如果WQE是软件下发给硬件的“任务书”的话，那么CQE就是硬件完成任务之后返回给软件的“任务报告”。 |<br>| WR     | Work Request             | 工作请求，WQE和CQE在用户层的“映射”                           |<br>| WC     | Work Completion          | 工作完成，WQE和CQE在用户层的“映射”                           |</p>
 <p><img src="/picture/image-20220419210626804.png" alt="RDMA基本元素"></p>
-<h2 id="RMDA基本操作"><a href="#RMDA基本操作" class="headerlink" title="RMDA基本操作"></a>RMDA基本操作</h2></li>
+<h2 id="RMDA基本操作"><a href="#RMDA基本操作" class="headerlink" title="RMDA基本操作"></a>RMDA基本操作</h2><p>RDMA有two-sided和one-sided的区别，一般情况下涉及大量数据的收发更多使用的是one-sided操作，另外在resource-disaggregation的场景中也一般使用one-sided的操作，因为memory节点在设计中往往不会给强力的CPU；</p>
+<h4 id="RDMA双端操作-SEND-amp-RECV"><a href="#RDMA双端操作-SEND-amp-RECV" class="headerlink" title="RDMA双端操作 SEND &amp; RECV"></a>RDMA双端操作 SEND &amp; RECV</h4><p>双端操作的含义是：完成一次通信过程需要两端CPU的参与，并且接收端需要提前显式下发WQE( Work Queue Element)；</p>
+<p><img src="/picture/image-20220423160249262.png" alt="SEND-RECV操作"></p>
+<p>在SEND-RECV操作中，不仅仅发送端需要下发WQE，接收端也需要下发WQE，目的是告诉硬件收到的数据要放到哪一个地址，发送端并不知道发送的数据会放到哪里，因此每一次发送数据的时候接收端需要提前准备好接受Buffer；具体如上图（另外执行顺序并不完全和上面的顺序一致，比如步骤<code>8</code> <code>11</code> <code>12</code>和步骤<code>9</code> <code>10</code>的先后是不一定的）</p>
+<p>这部分在下一篇博客中有具体的实现。</p>
+<h4 id="RDMA-one-sided-操作-WRITE-amp-READ"><a href="#RDMA-one-sided-操作-WRITE-amp-READ" class="headerlink" title="RDMA one-sided 操作 WRITE &amp; READ"></a>RDMA one-sided 操作 WRITE &amp; READ</h4><p>one-sided的含义在于，除了准备阶段，服务端的CPU都不需要参与，也不需要感知数据写入和结束接受的过程，因此称为是one-sided的。</p>
+<p>在进行WRITE和READ操作之前，首先会经历准备阶段，也就是请求端需要获得响应端某块内存的权限，具体而言：对于RDMA，响应者的buffer被描述成为一个<em>虚拟地址(VA,Virtual Address)</em>和一个<em>R-KEY</em>;在WRITE或者READ操作开始之前，响应方会把这个buffer的控制权传递给请求方，请求方会控制缓冲区，知道控制权传回到响应程序；这个准备过程通常可以用SEND/RECV来完成。完成了之后响应端的CPU就不会再参与数据收发的过程，解放了远端CPU，降低了通信时延。另外<em>虚拟地址</em>–物理地址的转换是通过RDMA网卡来完成的。</p>
+<p>接下来是WRITE操作的流程：</p>
+<p><img src="/picture/image-20220423200538298.png" alt="WRITE操作"></p>
+<ol>
+<li>请求端APP以WQE（WR）的形式下发一次WRITE任务。</li>
+<li>请求端硬件从SQ中取出WQE，解析信息。</li>
+<li>请求端网卡根据WQE中的虚拟地址，转换得到物理地址，然后从内存中拿到待发送数据，组装数据包。</li>
+<li>请求端网卡将数据包通过物理链路发送给响应端网卡。</li>
+<li>响应端收到数据包，解析目的虚拟地址，转换成本地物理地址，解析数据，将数据放置到指定内存区域。</li>
+<li>响应端回复ACK报文给请求端。</li>
+<li>请求端网卡收到ACK后，生成CQE，放置到CQ中。</li>
+<li>请求端APP取得任务完成信息。</li>
+</ol>
+<p>READ是WRITE相反的过程，是请求端主动读取响应端内存的行为，要注意到”读“这个动作的数据是附带在响应端回复的报文里面的，具体流程如下：</p>
+<p><img src="/picture/image-20220423201323814.png" alt="READ操作"></p>
+<ol>
+<li>请求端APP以WQE的形式下发一次READ任务。</li>
+<li>请求端网卡从SQ中取出WQE，解析信息。</li>
+<li>请求端网卡将READ请求包通过物理链路发送给响应端网卡。</li>
+<li>响应端收到数据包，解析目的虚拟地址，转换成本地物理地址，解析数据，从指定内存区域取出数据。</li>
+<li>响应端硬件将数据组装成回复数据包发送到物理链路。</li>
+<li>请求端硬件收到数据包，解析提取出数据后放到READ WQE指定的内存区域中。</li>
+<li>请求端网卡生成CQE，放置到CQ中。</li>
+<li>请求端APP取得任务完成信息。</li>
+</ol>
+<hr>
+<p>通过RDMA的READ,WRITE操作，其实可以发现这个和本地内存拷贝非常像，只不过一个是用RDMA网卡一个使用CPU来做罢了。</p>
+</li>
 </ul>
 <h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><ul>
 <li><a href="https://www.mellanox.com/related-docs/prod_software/RDMA_Aware_Programming_user_manual.pdf" target="_blank" rel="noopener">RDMA用户编程手册</a></li>
-<li><a href="https://github.com/jcxue/RDMA-Tutorial/wiki" target="_blank" rel="noopener">RDMA tutorial</a></li>
 <li>IB Specification Vol 1-Release-1.5-2021-08-06b.pdf</li>
 <li><a href="https://www.zhihu.com/column/c_1231181516811390976" target="_blank" rel="noopener">RDMA杂谈</a></li>
 </ul>
@@ -222,7 +257,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2022-04-19T13:25:36.684Z" itemprop="dateUpdated">2022-04-19 21:25:36</time>
+    Last updated: <time datetime="2022-04-23T12:51:26.767Z" itemprop="dateUpdated">2022-04-23 20:51:26</time>
 </span><br>
 
 
@@ -254,7 +289,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&title=《RDMA-learning3》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&title=《RDMA技术整理3》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -264,7 +299,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&title=《RDMA-learning3》 — Tyler-yin's blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&title=《RDMA技术整理3》 — Tyler-yin's blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -274,7 +309,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《RDMA-learning3》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《RDMA技术整理3》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
@@ -411,7 +446,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&title=《RDMA-learning3》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&title=《RDMA技术整理3》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -421,7 +456,7 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&title=《RDMA-learning3》 — Tyler-yin's blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&title=《RDMA技术整理3》 — Tyler-yin's blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -431,7 +466,7 @@
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《RDMA-learning3》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《RDMA技术整理3》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/04/18/RDMA-learning3/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
