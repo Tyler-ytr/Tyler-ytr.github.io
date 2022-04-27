@@ -192,11 +192,16 @@
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        RDMA技术整理4 RDMA编程入门这部分内容来自对于RDMA tutorial的学习
-RDMA send/recv使用参考资料
-RDMA tutorial
+        RDMA技术整理4 RDMA编程入门连通测试物理拓扑：服务器6和8之间有一根直连网线；两台服务器各有一张cx5网卡，支持RoCe
+
+使用ibdev2netdev查看设备：
 
 
+使用show_gids看看网卡支持的RoCe版本
+
+这里的IPv4地址是通过nmtui进行配置的
+
+服务器8根据如上的信息使用ib_send_bw -d mlx5_1 -x 2，作为信号的接收端；另一台服务器6使用su...
     
 
         <a href="/2022/04/23/RDMA-learning4/" class="post-more waves-effect waves-button">
