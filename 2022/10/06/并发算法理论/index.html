@@ -21,12 +21,12 @@
     
     
     <meta name="keywords" content="并发">
-    <meta name="description" content="并发算法理论内存模型Sequential Consistency model n个线程一个共享的内存memory，每一个读都是最近的写入的值；（交错，通过枚举行为得到所有可能的行为）                                                                                              image-202210051">
+    <meta name="description" content="并发算法理论[toc] 内存模型Sequential Consistency model n个线程一个共享的内存memory，每一个读都是最近的写入的值；（交错，通过枚举行为得到所有可能的行为）                                                                                              image-202">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发算法理论">
 <meta property="og:url" content="http://tyler-ytr.github.io/2022/10/06/%E5%B9%B6%E5%8F%91%E7%AE%97%E6%B3%95%E7%90%86%E8%AE%BA/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
-<meta property="og:description" content="并发算法理论内存模型Sequential Consistency model n个线程一个共享的内存memory，每一个读都是最近的写入的值；（交错，通过枚举行为得到所有可能的行为）                                                                                              image-202210051">
+<meta property="og:description" content="并发算法理论[toc] 内存模型Sequential Consistency model n个线程一个共享的内存memory，每一个读都是最近的写入的值；（交错，通过枚举行为得到所有可能的行为）                                                                                              image-202">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221005142819393.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221005164501388.png">
@@ -50,8 +50,18 @@
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221006152709317.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221006153604699.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221006154701915.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221007174308127.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221007174938655.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221008112842239.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221008112532721.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221008113102746.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221008125242436.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221008125346556.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221008155016396.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221008155231257.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221008155501848.png">
 <meta property="article:published_time" content="2022-10-06T09:38:37.000Z">
-<meta property="article:modified_time" content="2022-10-06T09:41:04.992Z">
+<meta property="article:modified_time" content="2022-10-09T05:43:39.396Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="并发">
 <meta name="twitter:card" content="summary">
@@ -197,7 +207,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#并发算法理论"><span class="post-toc-number">1.</span> <span class="post-toc-text">并发算法理论</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#内存模型"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">内存模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Sequential-Consistency-model"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">Sequential Consistency model</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#弱内存模型"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">弱内存模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#设计标准"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">设计标准</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#java-memory-model的核心——happen-before-memory-model-hmm"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">java memory model的核心——happen-before memory model(hmm)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Happen-before-order"><span class="post-toc-number">1.2.2.1.</span> <span class="post-toc-text">Happen before order</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#并发的基本操作语义"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">并发的基本操作语义</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#basic-domain"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">basic domain</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Expressions-and-commands"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">Expressions and commands</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Program"><span class="post-toc-number">1.3.3.</span> <span class="post-toc-text">Program</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#描述程序含义"><span class="post-toc-number">1.3.4.</span> <span class="post-toc-text">描述程序含义</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#线程子系统简述"><span class="post-toc-number">1.3.4.1.</span> <span class="post-toc-text">线程子系统简述</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#存储子系统简述"><span class="post-toc-number">1.3.4.2.</span> <span class="post-toc-text">存储子系统简述</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程子系统"><span class="post-toc-number">1.3.5.</span> <span class="post-toc-text">线程子系统</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#合成到并发程序级别"><span class="post-toc-number">1.3.5.1.</span> <span class="post-toc-text">合成到并发程序级别</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#存储子系统"><span class="post-toc-number">1.3.6.</span> <span class="post-toc-text">存储子系统</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Sequential-Consistency-model-存储子系统"><span class="post-toc-number">1.3.6.1.</span> <span class="post-toc-text">Sequential Consistency model 存储子系统</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TSO-存储子系统"><span class="post-toc-number">1.3.7.</span> <span class="post-toc-text">TSO 存储子系统</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#存储，线程合并起来"><span class="post-toc-number">1.3.8.</span> <span class="post-toc-text">存储，线程合并起来</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#SC-model"><span class="post-toc-number">1.3.8.1.</span> <span class="post-toc-text">SC model</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#TSO-model"><span class="post-toc-number">1.3.8.2.</span> <span class="post-toc-text">TSO model</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#并发的声明式语义-Declarative-semantics-for-concurrency"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">并发的声明式语义(Declarative semantics for concurrency)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#执行图的定义"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">执行图的定义</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#程序映射到执行图"><span class="post-toc-number">1.4.2.</span> <span class="post-toc-text">程序映射到执行图</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一致性谓词-consistency-predicate"><span class="post-toc-number">1.4.3.</span> <span class="post-toc-text">一致性谓词(consistency predicate)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Sequential-consistency"><span class="post-toc-number">1.4.3.1.</span> <span class="post-toc-text">Sequential consistency</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Sequential-consistency-另外的定义"><span class="post-toc-number">1.4.3.2.</span> <span class="post-toc-text">Sequential consistency 另外的定义</span></a></li></ol></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#并发算法理论"><span class="post-toc-number">1.</span> <span class="post-toc-text">并发算法理论</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#内存模型"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">内存模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Sequential-Consistency-model"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">Sequential Consistency model</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#弱内存模型"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">弱内存模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#设计标准"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">设计标准</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#java-memory-model的核心——happen-before-memory-model-hmm"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">java memory model的核心——happen-before memory model(hmm)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Happen-before-order"><span class="post-toc-number">1.2.2.1.</span> <span class="post-toc-text">Happen before order</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#并发的基本操作语义"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">并发的基本操作语义</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#basic-domain"><span class="post-toc-number">1.3.1.</span> <span class="post-toc-text">basic domain</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Expressions-and-commands"><span class="post-toc-number">1.3.2.</span> <span class="post-toc-text">Expressions and commands</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Program"><span class="post-toc-number">1.3.3.</span> <span class="post-toc-text">Program</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#描述程序含义"><span class="post-toc-number">1.3.4.</span> <span class="post-toc-text">描述程序含义</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#线程子系统简述"><span class="post-toc-number">1.3.4.1.</span> <span class="post-toc-text">线程子系统简述</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#存储子系统简述"><span class="post-toc-number">1.3.4.2.</span> <span class="post-toc-text">存储子系统简述</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程子系统"><span class="post-toc-number">1.3.5.</span> <span class="post-toc-text">线程子系统</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#合成到并发程序级别"><span class="post-toc-number">1.3.5.1.</span> <span class="post-toc-text">合成到并发程序级别</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#存储子系统"><span class="post-toc-number">1.3.6.</span> <span class="post-toc-text">存储子系统</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Sequential-Consistency-model-存储子系统"><span class="post-toc-number">1.3.6.1.</span> <span class="post-toc-text">Sequential Consistency model 存储子系统</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TSO-存储子系统"><span class="post-toc-number">1.3.7.</span> <span class="post-toc-text">TSO 存储子系统</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#存储，线程合并起来"><span class="post-toc-number">1.3.8.</span> <span class="post-toc-text">存储，线程合并起来</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#SC-model"><span class="post-toc-number">1.3.8.1.</span> <span class="post-toc-text">SC model</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#TSO-model"><span class="post-toc-number">1.3.8.2.</span> <span class="post-toc-text">TSO model</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#并发的声明式语义-Declarative-semantics-for-concurrency"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">并发的声明式语义(Declarative semantics for concurrency)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#执行图的定义"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">执行图的定义</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#程序映射到执行图"><span class="post-toc-number">1.4.2.</span> <span class="post-toc-text">程序映射到执行图</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一致性谓词-consistency-predicate"><span class="post-toc-number">1.4.3.</span> <span class="post-toc-text">一致性谓词(consistency predicate)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Sequential-consistency"><span class="post-toc-number">1.4.3.1.</span> <span class="post-toc-text">Sequential consistency</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Sequential-consistency-另外的定义"><span class="post-toc-number">1.4.3.2.</span> <span class="post-toc-text">Sequential consistency 另外的定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Relax-Sequential-consistency"><span class="post-toc-number">1.4.3.3.</span> <span class="post-toc-text">Relax Sequential consistency</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Release-acquire-RA-memory-model"><span class="post-toc-number">1.4.3.4.</span> <span class="post-toc-text">Release&#x2F;acquire (RA) memory model</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Access-model"><span class="post-toc-number">1.4.3.5.</span> <span class="post-toc-text">Access model</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Happen-before"><span class="post-toc-number">1.4.3.5.1.</span> <span class="post-toc-text">Happen before</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#C-C-11-memory-model-简介"><span class="post-toc-number">1.4.3.6.</span> <span class="post-toc-text">C&#x2F;C++11 memory model 简介</span></a></li></ol></li></ol></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -223,7 +233,8 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="并发算法理论"><a href="#并发算法理论" class="headerlink" title="并发算法理论"></a>并发算法理论</h1><h2 id="内存模型"><a href="#内存模型" class="headerlink" title="内存模型"></a>内存模型</h2><h3 id="Sequential-Consistency-model"><a href="#Sequential-Consistency-model" class="headerlink" title="Sequential Consistency model"></a>Sequential Consistency model</h3><p> n个线程一个共享的内存memory，每一个读都是最近的写入的值；（交错，通过枚举行为得到所有可能的行为）</p>
+            <h1 id="并发算法理论"><a href="#并发算法理论" class="headerlink" title="并发算法理论"></a>并发算法理论</h1><p>[toc]</p>
+<h2 id="内存模型"><a href="#内存模型" class="headerlink" title="内存模型"></a>内存模型</h2><h3 id="Sequential-Consistency-model"><a href="#Sequential-Consistency-model" class="headerlink" title="Sequential Consistency model"></a>Sequential Consistency model</h3><p> n个线程一个共享的内存memory，每一个读都是最近的写入的值；（交错，通过枚举行为得到所有可能的行为）</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
@@ -512,7 +523,7 @@
 <li><p>SC-consistent 定义：假设<strong>sc</strong>是G,E上面的全序；如果下列情况满足，则称G是关于<strong>sc</strong> SC -consistent的：</p>
 <ol>
 <li>If $&lt;a, b&gt; \in G.po$ then $&lt;a, b&gt;\in sc$. (program order 里的都满足sc)</li>
-<li>If $&lt;a, b&gt;  G.rf$ then $&lt;a, b&gt; \in sc $ and there does not exist $c \in G.W_{loc}(b)$ such that $&lt;a, c&gt; \in sc$ and $&lt;c, b&gt; \in sc$.  (不同线程之间读应该读上一次写，中间有write是不可能的)</li>
+<li>If $&lt;a, b&gt; \in G.rf$ then $&lt;a, b&gt; \in sc $ and there does not exist $c \in G.W_{loc}(b)$ such that $&lt;a, c&gt; \in sc$ and $&lt;c, b&gt; \in sc$.  (不同线程之间读应该读上一次写，中间有write是不可能的)</li>
 </ol>
 </li>
 <li><p>一个执行图如果满足下列条件那么是SC-consistent的：</p>
@@ -547,6 +558,126 @@
                 </div>
                 <div class="image-caption">image-20221006154701915</div>
             </figure>
+<h4 id="Relax-Sequential-consistency"><a href="#Relax-Sequential-consistency" class="headerlink" title="Relax Sequential consistency"></a><span id="Relax_model">Relax Sequential consistency</span></h4><p>原因：在硬件里面实现SC非常昂贵，并且SC禁止了许多对于顺序代码的优化</p>
+<ol>
+<li><p>大多数硬件保证<strong>SC-per-location</strong>，又称作coherence；如果一个执行图是coherent的那么有如下性质：</p>
+<ol>
+<li><p>G is complete</p>
+</li>
+<li><p>对于所有的位置x，在所有对x的访问上存在一个全序关系$sc_x$:</p>
+<ol>
+<li><p>if $&lt;a,b&gt;\in [RW_x];G.po;[RW_x]$,then $&lt;a,b&gt;\in sc_x$</p>
+<p>$Rw_X$表示对x的读写操作;</p>
+<p>$&lt;a,b&gt;\in A;B$:</p>
+<p><img src="/picture/image-20221007174308127.png" alt="image-20221007174308127"></p>
+<p>这条的意思是a,b是和x的读写有关的，如果它们之间是program order的关系，那么它们要属于$sc_x$</p>
+</li>
+<li><p>If $&lt;a, b&gt; \in [W_x];G.rf; [Rx]$ , then $&lt;a, b&gt; \in sc_x$ and there does not exist $c \in G.W_x$ such that $&lt;a, c&gt; \in sc_x$ and<br>$&lt;c, b&gt; \in sc_x$ .</p>
+<p>与前面的定义相似，主要区别是对于x的位置限定</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>另外一个版本的定义：</p>
+<p><img src="/picture/image-20221007174938655.png" alt="image-20221007174938655"></p>
+<p>主要区别是在同一个location上面不能成环；</p>
+<blockquote>
+<p> 个人总结：所有的对于同一个loc的write之间有一个全序mo，在某一个loc的read一定有rf关系（先写再write），然后所有的R,W之间有一个全序关系（program order）;取rf的反向边为fr，那么rb=fr+mo（类似于向量运算）；上面这些不能成环；</p>
+</blockquote>
+<p>反例：</p>
+<ol>
+<li><p>no-future-read,rmw-1：</p>
+<p><img src="/picture/image-20221008112842239.png" alt="image-20221008112842239"></p>
+</li>
+<li><p>coherence-ww,coherence-rw,coherence-wr,coherence-rr:</p>
+<p>下面程序对应于最后一个执行图，是不行的（有环）</p>
+<p><img src="/picture/image-20221008112532721.png" alt="image-20221008112532721"></p>
+</li>
+<li><p>rmw-2,atomicity</p>
+<p><img src="/picture/image-20221008113102746.png" alt="image-20221008113102746"></p>
+</li>
+</ol>
+</li>
+<li><p>另外一个版本的定义（对应于上面这些图）：</p>
+<p>假设mo是执行图G的modification order，那么G关于mo是coherent的当且仅当以下性质成立：</p>
+<ol>
+<li>rf; po is irreflexive. (no-future-read)</li>
+<li>mo; po is irreflexive. (coherence-ww)</li>
+<li>mo; rf; po is irreflexive. (coherence-rw)</li>
+<li>rf−1; mo; po is irreflexive. (coherence-wr)</li>
+<li>rf−1; mo; rf; po is irreflexive. (coherence-rr)</li>
+<li>rf is irreflexive. (rmw-1)</li>
+<li>mo; rf is irreflexive. (rmw-2)</li>
+<li>rf−1; mo; mo is irreflexive. (rmw-atomicity)</li>
+</ol>
+<blockquote>
+<p>实际操作的时候，首先根据程序得到po，然后根据read的值得到rf关系，最后嵌入mo（多种嵌入方式分开讨论验证）</p>
+</blockquote>
+</li>
+<li><p>coherence相对还是太弱了，没有办法让锁真正应用（因为lock之后对于其他地方的修改其实该一致性不做限制）</p>
+</li>
+</ol>
+<h4 id="Release-acquire-RA-memory-model"><a href="#Release-acquire-RA-memory-model" class="headerlink" title="Release/acquire (RA) memory model"></a><span id="RA_model">Release/acquire (RA) memory model</span></h4><ol>
+<li><p>注：$(a,b)\in (po\cup rf)^+$ 后者表示闭包，也就是a,b之间po,rf边出现一次或者多次；实际上比po要延续更长的距离，让model更强</p>
+</li>
+<li><p>RA实际上就是把coherence的po换成了$(a,b)\in (po\cup rf)^+$:</p>
+<p><img src="/picture/image-20221008125242436.png" alt="image-20221008125242436"></p>
+</li>
+<li><p>具体定义：</p>
+<p><img src="/picture/image-20221008125346556.png" alt="image-20221008125346556"></p>
+</li>
+<li><p>另一种定义：</p>
+<ol>
+<li>$(po \cup rf)^+$ is irreflexive. (no-future-read) 也就是po,rf无环；不会是某一个事件a开始经过若干个po,rf然后回到a；</li>
+<li>$mo; (po \cup rf)^+$ is irreflexive. (coherence-ww) 不会是某一个事件a开始首先经过mo然后经过若干个po,rf然后回到a；</li>
+<li>$rf^{−1}; mo; (po \cup rf)^+$ is irreflexive. (coherence-wr)</li>
+<li>$rf^{−1}; mo; mo$ is irreflexive. (rmw-atomicity)</li>
+</ol>
+</li>
+</ol>
+<h4 id="Access-model"><a href="#Access-model" class="headerlink" title="Access model"></a>Access model</h4><p>大致思想是混合coherence model和RA memory model；</p>
+<ol>
+<li><p>每一个内存访问都有一个模式：</p>
+<ol>
+<li>Reads: rlx or acq</li>
+<li>Writes: rlx or rel</li>
+<li>RMWs: rlx, acq, rel or acq-rel</li>
+</ol>
+<blockquote>
+<p>PS: rl 是 relax的缩写，指的是满足<a href="#Relax_model">coherence model</a>一致性；rel,release缩写，acq,acquire缩写，满足<a href="#RA_model">RA memory model</a>一致性</p>
+</blockquote>
+</li>
+<li><p>强度顺序,$\sqsubset$定义：</p>
+<p><img src="/picture/image-20221008155016396.png" alt="image-20221008155016396"></p>
+<p>中间的表示读是rlx然后写不一样</p>
+</li>
+</ol>
+<h5 id="Happen-before"><a href="#Happen-before" class="headerlink" title="Happen before"></a>Happen before</h5><ol>
+<li><p>同步(Synchronization)：<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/picture/image-20221008155231257.png" alt="image-20221008155231257" title="">
+                </div>
+                <div class="image-caption">image-20221008155231257</div>
+            </figure></p>
+<p>表示的是W要么是release要么比release更强；R同理</p>
+</li>
+<li><p>Happen-before: $G.hb = (G.po \cup G.sw)^+$</p>
+</li>
+</ol>
+<h4 id="C-C-11-memory-model-简介"><a href="#C-C-11-memory-model-简介" class="headerlink" title="C/C++11 memory model 简介"></a>C/C++11 memory model 简介</h4><ol>
+<li><p>定义：实际上是把<a href="#Relax_model">coherence model</a>的po用hb进行了”增强”：</p>
+<p><img src="/picture/image-20221008155501848.png" alt="image-20221008155501848"></p>
+</li>
+<li><p>C/C++11 memory model 下面的强度关系：(比access model 更多一点类型)</p>
+<p>$non-atomic\sqsubset relaxed\sqsubset release/acquire\sqsubset sc$</p>
+<ol>
+<li>non-atomic用于没有数据竞争的代码（默认）</li>
+<li>fence也有以上四种类型</li>
+</ol>
+</li>
+</ol>
 
         </div>
 
@@ -555,7 +686,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2022-10-06T09:41:04.992Z" itemprop="dateUpdated">2022-10-06 17:41:04</time>
+    Last updated: <time datetime="2022-10-09T05:43:39.396Z" itemprop="dateUpdated">2022-10-09 13:43:39</time>
 </span><br>
 
 
