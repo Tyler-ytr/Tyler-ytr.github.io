@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://tyler-ytr.github.io/2022/10/19/hexo%25E8%25A1%25A8%25E6%25A0%25BC%25E7%2594%259F%25E6%2588%2590%25E9%2597%25AE%25E9%25A2%2598/</loc>
+    
+    <lastmod>2022-10-19T15:19:39.834Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/</loc>
+    
+    <lastmod>2022-10-19T15:09:03.345Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tyler-ytr.github.io/2022/10/19/socket-learning/</loc>
     
-    <lastmod>2022-10-19T14:47:47.182Z</lastmod>
+    <lastmod>2022-10-19T15:06:56.766Z</lastmod>
     
   </url>
   
@@ -117,13 +131,6 @@
     <loc>http://tyler-ytr.github.io/2021/11/10/shell-collect/</loc>
     
     <lastmod>2021-11-11T09:22:28.205Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tyler-ytr.github.io/2021/11/08/vscode-latex-setting/</loc>
-    
-    <lastmod>2021-11-08T05:38:51.085Z</lastmod>
     
   </url>
   

@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/05234946-b80841921eae4d2ab983f26ed9023768.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/1300168-20190303212729929-378974572.jpg">
 <meta property="article:published_time" content="2022-10-19T11:34:55.000Z">
-<meta property="article:modified_time" content="2022-10-19T14:47:47.182Z">
+<meta property="article:modified_time" content="2022-10-19T15:06:56.766Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -245,7 +245,9 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    * _domain 套接字使用的协议族信息</span></span><br><span class="line"><span class="comment">    * _type 套接字的传输类型</span></span><br><span class="line"><span class="comment">    * __protocol 通信协议</span></span><br><span class="line"><span class="comment">    * */</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">socket</span> <span class="params">(<span class="keyword">int</span> __domain, <span class="keyword">int</span> __type, <span class="keyword">int</span> __protocol)</span> __THROW</span>;</span><br></pre></td></tr></table></figure>
 <p>参数：</p>
 <ol>
-<li>第一个参数，协议族信息可选如下：</li>
+<li><p>第一个参数，协议族信息可选如下：</p>
+<p>(在<em>Linux</em>系统中<code>AF_</code>和<code>PF_</code>是等价的。在内核源码中<em>net</em>目录下面有<em>Af_</em>开头的一系列文件<em>(</em>如<em>:Af_inet.c</em>、<em>Af_inet6.c</em>、<em>Af_unix.c</em>等<em>)</em>，每一个文件分别代表了一种协议族。)</p>
+</li>
 </ol>
 </li>
 </ol>
@@ -266,13 +268,21 @@
 <td>IPv6网络协议中采用的地址族</td>
 </tr>
 <tr>
-<td>AF_LOCAL</td>
+<td>AF_UNIX, AF_LOCAL</td>
 <td>本地通信中采用的UNIX协议的地址族（用的少）</td>
+</tr>
+<tr>
+<td>AF_PACKET</td>
+<td>链路层通信</td>
 </tr>
 </tbody>
 </table>
+<p>​    </p>
 <ol start="2">
-<li>第二个参数：套接字类型：</li>
+<li><p>第二个参数：套接字类型：</p>
+<p>参考<a href="https://github.com/spotify/linux/blob/6eb782fc88d11b9f40f3d1d714531f22c57b39f9/include/linux/net.h" target="_blank" rel="noopener">内核源码</a>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * enum sock_type - Socket types</span></span><br><span class="line"><span class="comment"> * @SOCK_STREAM: stream (connection) socket</span></span><br><span class="line"><span class="comment"> * @SOCK_DGRAM: datagram (conn.less) socket</span></span><br><span class="line"><span class="comment"> * @SOCK_RAW: raw socket</span></span><br><span class="line"><span class="comment"> * @SOCK_RDM: reliably-delivered message</span></span><br><span class="line"><span class="comment"> * @SOCK_SEQPACKET: sequential packet socket</span></span><br><span class="line"><span class="comment"> * @SOCK_DCCP: Datagram Congestion Control Protocol socket</span></span><br><span class="line"><span class="comment"> * @SOCK_PACKET: linux specific way of getting packets at the dev level.</span></span><br><span class="line"><span class="comment"> *		  For writing rarp and other similar things on the user level.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * When adding some new socket type please</span></span><br><span class="line"><span class="comment"> * grep ARCH_HAS_SOCKET_TYPE include/asm-* /socket.h, at least MIPS</span></span><br><span class="line"><span class="comment"> * overrides this enum for binary compat reasons.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">enum</span> sock_type &#123;</span><br><span class="line">	SOCK_STREAM	= <span class="number">1</span>,</span><br><span class="line">	SOCK_DGRAM	= <span class="number">2</span>,</span><br><span class="line">	SOCK_RAW	= <span class="number">3</span>,</span><br><span class="line">	SOCK_RDM	= <span class="number">4</span>,</span><br><span class="line">	SOCK_SEQPACKET	= <span class="number">5</span>,</span><br><span class="line">	SOCK_DCCP	= <span class="number">6</span>,</span><br><span class="line">	SOCK_PACKET	= <span class="number">10</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
 <table>
 <thead>
@@ -430,6 +440,7 @@
 <li><a href="https://www.cnblogs.com/dolphinX/p/3460545.html" target="_blank" rel="noopener">简单理解Socket</a></li>
 <li><a href="https://cloud.tencent.com/developer/article/1686406" target="_blank" rel="noopener">setsockopt与getsockopt</a></li>
 <li>unix网络编程</li>
+<li><a href="https://blog.csdn.net/liuxingen/article/details/44995467" target="_blank" rel="noopener">socket函数的domain、type、protocol解析</a></li>
 </ol>
 
         </div>
@@ -439,7 +450,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2022-10-19T14:47:47.182Z" itemprop="dateUpdated">2022-10-19 22:47:47</time>
+    Last updated: <time datetime="2022-10-19T15:06:56.766Z" itemprop="dateUpdated">2022-10-19 23:06:56</time>
 </span><br>
 
 
@@ -516,7 +527,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/10/19/hexo%E8%A1%A8%E6%A0%BC%E7%94%9F%E6%88%90%E9%97%AE%E9%A2%98/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">hexo表格生成问题</h4>
+      </a>
+    </div>
   
 
   
