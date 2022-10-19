@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://tyler-ytr.github.io/2022/10/19/CPU%25E7%25BC%2593%25E5%25AD%2598%25E4%25B8%2580%25E8%2587%25B4%25E6%2580%25A7%25E7%25AC%2594%25E8%25AE%25B0/</loc>
+    
+    <lastmod>2022-10-19T07:06:02.547Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tyler-ytr.github.io/2022/01/12/spark-learning/</loc>
+    
+    <lastmod>2022-10-09T05:51:40.360Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tyler-ytr.github.io/2022/04/23/RDMA-learning4/</loc>
     
     <lastmod>2022-10-09T05:47:47.163Z</lastmod>
@@ -54,13 +68,6 @@
     <loc>http://tyler-ytr.github.io/2021/02/23/%25E6%259C%25BA%25E5%2599%25A8%25E5%25AD%25A6%25E4%25B9%25A0/</loc>
     
     <lastmod>2022-02-16T06:24:32.842Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tyler-ytr.github.io/2022/01/12/spark-learning/</loc>
-    
-    <lastmod>2022-01-20T13:41:13.527Z</lastmod>
     
   </url>
   
