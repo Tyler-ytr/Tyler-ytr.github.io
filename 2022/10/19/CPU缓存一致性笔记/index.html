@@ -28,19 +28,19 @@
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
 <meta property="og:description" content="CPU缓存一致性存储体系结构 计算机存储分了很多层次，扬长避短，有寄存器、L1 cache、L2 cache、L3 cache、主存（内存）和硬盘等。   缓存工作原理：  cache line（缓存行）是缓存进行管理的最小存储单元，也叫缓存块，每个 cache line 包含 Flag、Tag 和 Data ，通常 Data 大小是 64 字节，但不同型号 CPU 的 Flag 和 Tag 可能">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/10/19/CPU%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E7%AC%94%E8%AE%B0/picture/image-20221019141719436.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/10/19/CPU%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E7%AC%94%E8%AE%B0/picture/20201019641">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/10/19/CPU%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E7%AC%94%E8%AE%B0/picture/image-20221019142535798.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/10/19/CPU%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E7%AC%94%E8%AE%B0/picture/image-20221019145117675.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/10/19/CPU%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E7%AC%94%E8%AE%B0/picture/image-20221019145117675.png">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/10/19/CPU%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E7%AC%94%E8%AE%B0/picture/640.gif">
-<meta property="og:image" content="http://tyler-ytr.github.io/2022/10/19/CPU%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E7%AC%94%E8%AE%B0/picture/image-20221019150424979.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221019141719436.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/20201019641">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221019142535798.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221019145117675.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221019145117675.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/640.gif">
+<meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221019150424979.png">
 <meta property="article:published_time" content="2022-10-19T06:09:09.000Z">
-<meta property="article:modified_time" content="2022-10-19T07:06:02.547Z">
+<meta property="article:modified_time" content="2022-10-19T07:07:53.241Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="并发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://tyler-ytr.github.io/2022/10/19/CPU%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E7%AC%94%E8%AE%B0/picture/image-20221019141719436.png">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/picture/image-20221019141719436.png">
     
         <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
     
@@ -210,10 +210,10 @@
         <div class="post-content" id="post-content" itemprop="postContent">
             <h1 id="CPU缓存一致性"><a href="#CPU缓存一致性" class="headerlink" title="CPU缓存一致性"></a>CPU缓存一致性</h1><h2 id="存储体系结构"><a href="#存储体系结构" class="headerlink" title="存储体系结构"></a>存储体系结构</h2><ol>
 <li><p>计算机存储分了很多层次，扬长避短，有<strong>寄存器</strong>、<strong>L1 cache</strong>、<strong>L2 cache</strong>、<strong>L3 cache</strong>、<strong>主存</strong>（内存）和<strong>硬盘</strong>等。</p>
-<p><img src="picture/image-20221019141719436.png" alt="image-20221019141719436"></p>
+<p><img src="/picture/image-20221019141719436.png" alt="image-20221019141719436"></p>
 </li>
 <li><p>缓存工作原理：</p>
-<p><img src="picture/20201019641" alt="img"></p>
+<p><img src="/picture/20201019641" alt="img"></p>
 <p>cache line（缓存行）是缓存进行管理的最小存储单元，也叫缓存块，每个 cache line 包含 Flag、Tag 和 Data ，通常 Data 大小是 64 字节，但不同型号 CPU 的 Flag 和 Tag 可能不相同。从内存向缓存加载数据是按整个缓存行加载的，一个缓存行和一个相同大小的内存块对应。在图中横向是<strong>组(Set)</strong>，纵向是<strong>路(Way)</strong>。每一个元素是缓存行(cache line)。</p>
 <p>给定addr定位缓存的方式：</p>
 <ol>
@@ -229,7 +229,7 @@
 </ol>
 </li>
 <li><p>缓存行替换策略，一般是LRU，可以通过位矩阵实现：</p>
-<p><img src="picture/image-20221019142535798.png" alt="image-20221019142535798"></p>
+<p><img src="/picture/image-20221019142535798.png" alt="image-20221019142535798"></p>
 <p>算法：首先初始化行列与缓存相同的矩阵，当访问某一个路对应的缓存行的时候，首先把该路对应的所有行置为1，然后把该路对应的所有列置为0；最近最少使用的缓存行对应的矩阵行中1的个数最少最先被替换出去；</p>
 <p>例子里面首先是3，因此D3那一行首先都是1，然后把D3那一列变成0；然后是1，那么就把D1那一行都变成1然后把D1那一列都变成0…… </p>
 </li>
@@ -308,7 +308,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/image-20221019145117675.png" alt="image-20221019145117675" title="">
+                    <img src="/picture/image-20221019145117675.png" alt="image-20221019145117675" title="">
                 </div>
                 <div class="image-caption">image-20221019145117675</div>
             </figure>
@@ -406,14 +406,14 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/image-20221019145117675.png" alt="image-20221019145117675" title="">
+                    <img src="/picture/image-20221019145117675.png" alt="image-20221019145117675" title="">
                 </div>
                 <div class="image-caption">image-20221019145117675</div>
             </figure>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="picture/640.gif" alt="状态机动图" title="">
+                    <img src="/picture/640.gif" alt="状态机动图" title="">
                 </div>
                 <div class="image-caption">状态机动图</div>
             </figure>
@@ -434,7 +434,7 @@
 <p>指令 <strong>Store1; StoreLoad; Load2</strong> 保证了 Store1 的数据对其他处理器可见（刷新数据到内存）先于 Load2 及后续的 load 指令加载数据。StoreLoad 屏障可以防止后续的读操作错误地使用了 Store1 写的数据，而不是使用来自另一个处理器的更近的对同一位置的写。因此只有需要将对同一个位置的写操作（stores）和随后的读操作（loads）分开时，才严格需要 StoreLoad 屏障。StoreLoad 屏障通常是开销最大的屏障，几乎所有的现代处理器都需要该屏障。之所以开销大，部分原因是它需要禁用绕过缓存（cache）从写缓冲区（Store Buffer）读取数据的机制。这可以通过让缓冲区完全刷新，外加暂停其他操作来实现，这就是 <strong>Fence</strong> 的效果。一般用 <strong>Fence</strong> 代替 StoreLoad Barrier ，所以事实上，执行 StoreLoad 指令同时也获得了其他三个屏障的效果，但是通过组合其他屏障通常不能获得与 StoreLoad Barrier 相同的效果。</p>
 </li>
 <li><p>各处理器支持的内存屏障和原子操作：</p>
-<p><img src="picture/image-20221019150424979.png" alt="image-20221019150424979"></p>
+<p><img src="/picture/image-20221019150424979.png" alt="image-20221019150424979"></p>
 </li>
 <li><p>另外原文中还有写屏障，读屏障读写屏障等详细说明这里不加赘述</p>
 </li>
@@ -460,7 +460,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2022-10-19T07:06:02.547Z" itemprop="dateUpdated">2022-10-19 15:06:02</time>
+    Last updated: <time datetime="2022-10-19T07:07:53.241Z" itemprop="dateUpdated">2022-10-19 15:07:53</time>
 </span><br>
 
 
