@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Tyler-ytr.github.io/"/>
-  <updated>2022-10-19T15:22:42.533Z</updated>
+  <updated>2022-10-19T15:23:17.990Z</updated>
   <id>http://Tyler-ytr.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://Tyler-ytr.github.io/2022/10/19/hexo%E8%A1%A8%E6%A0%BC%E7%94%9F%E6%88%90%E9%97%AE%E9%A2%98/"/>
     <id>http://Tyler-ytr.github.io/2022/10/19/hexo表格生成问题/</id>
     <published>2022-10-19T15:08:23.000Z</published>
-    <updated>2022-10-19T15:22:42.533Z</updated>
+    <updated>2022-10-19T15:23:17.990Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>hexo对于表格的解析存在几种问题：</p><p>表格前后需要空一行不然无法渲染(typora可以渲染)<br>| a    | b    |<br>| —- | —- |<br>| c    | d    |<br>另外在缩进的情况下也无法渲染表格</p><ol><li><p>测试：</p><p>表格如下：</p><p>| a    | b    |<br>| —- | —- |<br>| c    | d    |</p></li></ol><h2 id="正常的表格"><a href="#正常的表格" class="headerlink" title="正常的表格"></a>正常的表格</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">文字：</span><br><span class="line"><span class="bullet">1. </span>测试</span><br><span class="line"></span><br><span class="line">| a    | b    |</span><br><span class="line">| ---- | ---- |</span><br><span class="line">| c    | d    |</span><br><span class="line"></span><br><span class="line">文字</span><br></pre></td></tr></table></figure><p>效果：<br>文字：</p><ol><li>测试</li></ol><table><thead><tr><th>a</th><th>b</th></tr></thead><tbody><tr><td>c</td><td>d</td></tr></tbody></table><p>文字</p><p>另外如果要左对齐的话要每一列都加上<code>:</code>才行，也就是：</p><p>|:—- |:—- |</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>hexo对于表格的解析存在几种问题：</p><p>表格前后需要空一行不然无法渲染(typora可以渲染)<br>| a    | b    |<br>| —- | —- |<br>| c    | d    |<br>另外在缩进的情况下也无法渲染表格</p><ol><li><p>测试：</p><p>表格如下：</p><p>| a    | b    |<br>| —- | —- |<br>| c    | d    |</p></li></ol><h2 id="正常的表格"><a href="#正常的表格" class="headerlink" title="正常的表格"></a>正常的表格</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">文字：</span><br><span class="line"><span class="bullet">1. </span>测试</span><br><span class="line"></span><br><span class="line">| a    | b    |</span><br><span class="line">| ---- | ---- |</span><br><span class="line">| c    | d    |</span><br><span class="line"></span><br><span class="line">文字</span><br></pre></td></tr></table></figure><p>效果：<br>文字：</p><ol><li>测试</li></ol><table><thead><tr><th>a</th><th>b</th></tr></thead><tbody><tr><td>c</td><td>d</td></tr></tbody></table><p>文字</p><p>另外如果要左对齐的话要每一列都加上<code>:</code>才行，也就是：</p><p>|:—- |:—- |</p><p>效果：</p><p>文字：</p><ol><li>测试</li></ol><table><thead><tr><th style="text-align:left">a</th><th style="text-align:left">b</th></tr></thead><tbody><tr><td style="text-align:left">c</td><td style="text-align:left">d</td></tr></tbody></table><p>文字</p>]]></content>
     
     <summary type="html">
     
