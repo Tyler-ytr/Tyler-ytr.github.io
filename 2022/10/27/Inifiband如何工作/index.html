@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Inifiband如何工作 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="RDMA">
+    <meta name="description" content="概括本文介绍了发生在CPU和网卡之间通过PCIe来传输信息和基于Inifiniband互联发送完成信号的一系列协调事件 正文在Inifiband上面发送信息的传统方法是通过Verb API. libibverbs是这个API的标准实现，目前由Linux-RDMA社区维护。 Verbs可以分为两类：慢速和快速函数( slow-path and fast-path functions) Slow-pa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Inifiband如何工作">
+<meta property="og:url" content="http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="概括本文介绍了发生在CPU和网卡之间通过PCIe来传输信息和基于Inifiniband互联发送完成信号的一系列协调事件 正文在Inifiband上面发送信息的传统方法是通过Verb API. libibverbs是这个API的标准实现，目前由Linux-RDMA社区维护。 Verbs可以分为两类：慢速和快速函数( slow-path and fast-path functions) Slow-pa">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/picture/image-20221027141010823.png">
+<meta property="og:image" content="http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/picture/image-20221027141923607.png">
+<meta property="article:published_time" content="2022-10-27T05:54:43.000Z">
+<meta property="article:modified_time" content="2022-10-27T06:43:26.917Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="RDMA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/picture/image-20221027141010823.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Inifiband如何工作</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Inifiband如何工作</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-10-27T05:54:43.000Z" itemprop="datePublished" class="page-time">
+  2022-10-27
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#概括"><span class="post-toc-number">1.</span> <span class="post-toc-text">概括</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#正文"><span class="post-toc-number">2.</span> <span class="post-toc-text">正文</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#PCIe的简要背景"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">PCIe的简要背景</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基本机制"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">基本机制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Operational-features"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">Operational features</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Inifiband如何工作"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Inifiband如何工作</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-10-27 13:54:43" datetime="2022-10-27T05:54:43.000Z"  itemprop="datePublished">2022-10-27</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="概括"><a href="#概括" class="headerlink" title="概括"></a>概括</h1><p>本文介绍了发生在CPU和网卡之间通过PCIe来传输信息和基于Inifiniband互联发送完成信号的一系列协调事件</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>在Inifiband上面发送信息的传统方法是通过Verb API. <a href="https://github.com/linux-rdma/rdma-core/tree/master/libibverbs" target="_blank" rel="noopener">libibverbs</a>是这个API的标准实现，目前由Linux-RDMA社区维护。</p>
+<p>Verbs可以分为两类：慢速和快速函数( slow-path and fast-path functions)</p>
+<p>Slow-path 函数比如<code>ibv_open_device</code>, <code>ibv_alloc_pd</code>等等与创建或者配置资源（比如Context, Protection Domain, and Memory Region）有关，他们慢的原因是因为这部分涉及内核，因此会产生昂贵的上下文开销。</p>
+<p>Fast-path函数比如<code>ibv_post_send</code>, <code>ibv_poll_cq</code>处理操作的初始化或者完成，他们快的原因是因为他们绕过了内核，因此相对于slow-path的那些函数要快。</p>
+<p>通信的关键路径由fast-path函数构成，偶尔包括slow-pathhanshu ,比如用<code>ibv_reg_mr</code>来动态注册内存（取决于通信中间件）。</p>
+<p>这篇文章主要介绍程序员执行<code>ibv_post_send</code>之后的机制</p>
+<h2 id="PCIe的简要背景"><a href="#PCIe的简要背景" class="headerlink" title="PCIe的简要背景"></a>PCIe的简要背景</h2><p>网卡通过PCIe(PCI Express)插槽连接到服务器。Root Complex 简称RC，是CPU和PCIe总线之间的接口，他把处理器和内存连接到PCIe。连接到PCIe末端结构的外围设备成为PCIe端点。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="picture/image-20221027141010823.png" alt="PCIe结构" title="">
+                </div>
+                <div class="image-caption">PCIe结构</div>
+            </figure>
+<p>PCIe协议由三层组成：事务层，数据链路层和物理层(the Transaction layer, the Data Link layer, and the Physical layer);</p>
+<p>最上层也就是事务层描述事务发生的类型；对于本文而言两种类型的事务层包(Transaction Layer Packets (TLPs))是相关的：MemoryWrite (MWr), and Memory Read (MRd). 与独立的MWr TLP不同，MRd TLP与来自目标 PCIe端点的数据完成事务耦合，完成事务包含了发起方请求的数据；</p>
+<p>数据链路层保证了所有事务的成功执行，主要是基于数据链路层包确认(Data Link Layer Packet (DLLP) acknowledgements (ACK/NACK)) 以及基于信用的流控机制(a credit-based flow-control mechanism)；只要发起方有足够的信用额度就可以发送事务，当它从邻居收到更新的流控制的数据链路层包(DLLP)的时候就会补充信用；这种流控机制允许PCIe协议具有多个未完成的事务。</p>
+<h2 id="基本机制"><a href="#基本机制" class="headerlink" title="基本机制"></a>基本机制</h2><p>首先，本文描述如何使用完全卸载(completely offloaded)的方法来发送消息，也就是CPU只通知网卡有信息要发送，网卡会执行其他所有操作来传输数据。在这种方法中，CPU对于计算活动更加可用，然而这种方法不利于小消息传输的性能，为了提高这种情况下的通信性能，Infiniband提供了一些下一节讲描述的操作特性。</p>
+<p>从CPU程序员的角度来看，存在一个传输队列(the send queue in Verbs is the Queue Pair (QP))以及一个完成队列(long for CQ in Verbs)。用户发布消息描述符(MD;Verbs里面的工作队列元素WQE)到传输队列，之后他们在CQ上面轮询来确认已经发布的消息的完成。用户还可以请求收到有关完成的终端通知。但是轮询的方法是延迟导向的( latency-oriented)，因为在关键路径上没有到内核的上下文切换。</p>
+<p>如下图，通过网络传输信息是通过处理器和网卡之间的协调进行的，使用内存映射I/O(MMIO)和直接内存访问(DMA)读取和写入。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="picture/image-20221027141923607.png" alt="基本机制" title="">
+                </div>
+                <div class="image-caption">基本机制</div>
+            </figure>
+<p>步骤如下：</p>
+<ol>
+<li>用户首先把MD排队进入TxQ，然后网络驱动程序准备特定于设备的MD，其中包含网卡的头以及指向有效负载的指针</li>
+<li>CPU（网络驱动程序）使用8字节的原子写入内存映射位置，通知网卡消息已经准备好发送，这成为doorbell。RC使用MWr PCIe事务来执行doorbell。</li>
+<li>doorbell响起之后，网卡通过DMA读来获取MD。主要通过MRd PCIe事务 来执行DMA读取。</li>
+<li>然后网卡使用另一个DMA读取(另外一个MRd TLP)来从注册的内存区域里面获得有效负载。注意必须先将虚拟地址转换成物理地址，网卡才能够执行DMA读取。</li>
+<li>一旦网卡接收到负载，他会通过网络传输读取的数据，成功传输之后网卡会接受目标网卡的确认ACK。</li>
+<li>收到ACK之后，网卡用DMA写(使用MWr TLP)写入完全队列条目(CQE,在Mellanox InfiniBand中为64字节)到与TxQ关联的CQ。然后CPU将轮询到此完成。</li>
+</ol>
+<p>总而言之，每一个post的关键路径需要一次MMIO写入，两次DMA读取和一次DMA写入。DMA读取实际上是往返的PCIe延迟比较昂贵，比如ThunderX2机器上的往返PCIe是125 纳秒。</p>
+<h2 id="Operational-features"><a href="#Operational-features" class="headerlink" title="Operational features"></a>Operational features</h2><p>Postlist，内联(inlining)，无信号完成(unsignaled completions)以及可编程I/O( Programmed I/O )是IB的操作功能(operational features)，有助于减少上述开销。下面描述中假设QP的深度为n。</p>
+<ol>
+<li><strong>Postlist</strong>: IB不是每一个<code>ibv_post_send</code>只发布一个WQE，而是允许应用程序发布WQE的链接列表，这只需要调用一次<code>ibv_post_send</code>，从而把n次Doorbell的开销降低到1.</li>
+<li><strong>Inlining</strong>: CPU（网络驱动程序）将数据复制到 WQE 中。因此，通过对 WQE 的第一次 DMA 读取，NIC 也获得了有效负载，从而消除了对有效负载的第二次 DMA 读取。</li>
+<li><strong>Unsignaled completions</strong>: 如果每n个WQE至少有一个是发出信号的，IB就允许应用程序关闭WQE的完成，而不是为每一个WQE发送完成信号。关闭完成操作可以减少网卡的CQE的DMA写入。另外，应用程序轮询的CQE更少，这减少了开销。</li>
+<li><strong>BlueFlame</strong>: BlueFlame是Mellanox对编程I / O的术语 - 它将WQE与门铃一起写入，切断WQE本身的DMA读取。请注意，BlueFlame 仅在没有 Postlist 的情况下使用。使用Postlist，NIC将对链表中的WQE进行DMA读取。</li>
+</ol>
+<p>为了减少PCIe往返延迟的开销，开发者一般对小的消息使用<strong>inlining</strong>和<strong>blueflame</strong>，它可以消除两个PCIe往返延迟。<strong>Postlist</strong>和<strong>unsignaled completions</strong>的使用主要依赖于用户的程序设计选择和应用程序的语义。</p>
+<p>参考：</p>
+<ol>
+<li><a href="https://www.rohitzambre.com/blog/2019/4/27/how-are-messages-transmitted-on-infiniband" target="_blank" rel="noopener">Rohit Zambre的How does InfiniBand work?</a></li>
+<li><a href="https://blog.csdn.net/u013253075/article/details/119045277" target="_blank" rel="noopener">【精讲】PCIe基础篇——Switch/Bridge/Root Complex/EndPoint</a></li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2022-10-27T06:43:26.917Z" itemprop="dateUpdated">2022-10-27 14:43:26</time>
+</span><br>
+
+
+        
+        Link：<a href="/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/" target="_blank" rel="external">http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RDMA/" rel="tag">RDMA</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/&title=《Inifiband如何工作》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/&title=《Inifiband如何工作》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Inifiband如何工作》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/10/19/hexo%E8%A1%A8%E6%A0%BC%E7%94%9F%E6%88%90%E9%97%AE%E9%A2%98/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">hexo表格生成问题</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/&title=《Inifiband如何工作》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/&title=《Inifiband如何工作》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Inifiband如何工作》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACqUlEQVR42u3awW7rQAgF0Pz/T+dJXVXqi32BIU2lM6sqdWzOLMwEeDzi9fxa158/v62fn/z8b/7E6nfLCw8PD68V+nUorz65DuVVWM9g9Z7yny3Aw8PDW+P1Xvqv7pBs0OS7Scx4eHh4n8BLrk/SwCTZ4OHh4f1F3qmtyYMexYOHh4e3xsuLAslROC/v5ndbr7Xg4eHhxbxeO+p3/17s7+Hh4eENuup5Uyov107SRjlaPDw8vAVe8uDqUFT1gHt9WK/eJ/rFgIeHh3eIV/1aNQFUt+ZYORgPDw/vKK83SnVqXyfJIzqO4+Hh4a3xqk36PCXkbbM86LzwgYeHh7fBK/+wD3pMvZGsBFM9uOPh4eFt8PKX8hyTv9YnW3lzpMbDw8M7yqsWEXrgXrur+kQ8PDy8bV4eel7k7R3f82N0lFrw8PDwFnjzQu2ksFtttvUSDx4eHt57eDm1+uLupZPrO9zkAjw8PLw1Xq9wME8M1TJuuUiBh4eHt8xLVt7umiSYY0dtPDw8vKO86mTWs7Xye86Hrl42wPDw8PDeyOsdnfNQehXXqFGHh4eHt8A71XBKgq6mjWqquClw4OHh4b2Rl7+IJ4MC1S3Dw8PD+11eLwHMh7QmB+5CsRgPDw9vjVdt7edjBNX0UC12lEcH8PDw8Aa83uF1MkZwdvjg5ho8PDy8ZV7vRZ+kkPnRvLeteHh4eBu8fPUGCybH8Wrp9jFZeHh4eDFv0sqaDAH0CrXlNIaHh4e3wJskhkkTKy8cV7cGDw8P7z28jWTQSw/X928+HQ8PD2+NlweUv+h77F5DDg8PD+8zedUSQHn+qxh6tBF4eHh4H8brlWLPNttuosLDw8Nb4/UKrHlDq8pLooqegoeHh7fAm5QM8oJsdRy2WtIdTZbh4eHhpdf8AywBu2D/5DDQAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
