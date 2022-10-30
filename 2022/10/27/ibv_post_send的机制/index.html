@@ -14,7 +14,7 @@
     
     
     
-    <title>Inifiband如何工作 | Tyler-yin&#39;s blog</title>
+    <title>ibv_post_send的机制 | Tyler-yin&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
@@ -23,15 +23,15 @@
     <meta name="keywords" content="RDMA">
     <meta name="description" content="概括本文介绍了发生在CPU和网卡之间通过PCIe来传输信息和基于Inifiniband互联发送完成信号的一系列协调事件 正文在Inifiband上面发送信息的传统方法是通过Verb API. libibverbs是这个API的标准实现，目前由Linux-RDMA社区维护。 Verbs可以分为两类：慢速和快速函数( slow-path and fast-path functions) Slow-pa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Inifiband如何工作">
-<meta property="og:url" content="http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/index.html">
+<meta property="og:title" content="ibv_post_send的机制">
+<meta property="og:url" content="http://tyler-ytr.github.io/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
 <meta property="og:description" content="概括本文介绍了发生在CPU和网卡之间通过PCIe来传输信息和基于Inifiniband互联发送完成信号的一系列协调事件 正文在Inifiband上面发送信息的传统方法是通过Verb API. libibverbs是这个API的标准实现，目前由Linux-RDMA社区维护。 Verbs可以分为两类：慢速和快速函数( slow-path and fast-path functions) Slow-pa">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221027141010823.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221027141923607.png">
 <meta property="article:published_time" content="2022-10-27T05:54:43.000Z">
-<meta property="article:modified_time" content="2022-10-27T06:44:07.023Z">
+<meta property="article:modified_time" content="2022-10-30T11:17:48.752Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="RDMA">
 <meta name="twitter:card" content="summary">
@@ -130,7 +130,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">Inifiband如何工作</div>
+        <div class="flex-col header-title ellipsis">ibv_post_send的机制</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -152,7 +152,7 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">Inifiband如何工作</h1>
+        <h1 class="title">ibv_post_send的机制</h1>
         <h5 class="subtitle">
             
                 <time datetime="2022-10-27T05:54:43.000Z" itemprop="datePublished" class="page-time">
@@ -182,11 +182,11 @@
     </aside>
 
 
-<article id="post-Inifiband如何工作"
+<article id="post-ibv_post_send的机制"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">Inifiband如何工作</h1>
+        <h1 class="post-card-title">ibv_post_send的机制</h1>
         <div class="post-meta">
             <time class="post-time" title="2022-10-27 13:54:43" datetime="2022-10-27T05:54:43.000Z"  itemprop="datePublished">2022-10-27</time>
 
@@ -262,12 +262,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2022-10-27T06:44:07.023Z" itemprop="dateUpdated">2022-10-27 14:44:07</time>
+    Last updated: <time datetime="2022-10-30T11:17:48.752Z" itemprop="dateUpdated">2022-10-30 19:17:48</time>
 </span><br>
 
 
         
-        Link：<a href="/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/" target="_blank" rel="external">http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/</a>
+        Link：<a href="/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">http://tyler-ytr.github.io/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/</a>
         
     </div>
     
@@ -294,7 +294,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/&title=《Inifiband如何工作》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/&title=《ibv_post_send的机制》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -304,22 +304,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/&title=《Inifiband如何工作》 — Tyler-yin's blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/&title=《ibv_post_send的机制》 — Tyler-yin's blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Inifiband如何工作》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ibv_post_send的机制》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -444,7 +444,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/&title=《Inifiband如何工作》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/&title=《ibv_post_send的机制》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -454,22 +454,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/&title=《Inifiband如何工作》 — Tyler-yin's blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/&title=《ibv_post_send的机制》 — Tyler-yin's blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Inifiband如何工作》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ibv_post_send的机制》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2022/10/27/Inifiband%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -480,7 +480,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACqUlEQVR42u3awW7rQAgF0Pz/T+dJXVXqi32BIU2lM6sqdWzOLMwEeDzi9fxa158/v62fn/z8b/7E6nfLCw8PD68V+nUorz65DuVVWM9g9Z7yny3Aw8PDW+P1Xvqv7pBs0OS7Scx4eHh4n8BLrk/SwCTZ4OHh4f1F3qmtyYMexYOHh4e3xsuLAslROC/v5ndbr7Xg4eHhxbxeO+p3/17s7+Hh4eENuup5Uyov107SRjlaPDw8vAVe8uDqUFT1gHt9WK/eJ/rFgIeHh3eIV/1aNQFUt+ZYORgPDw/vKK83SnVqXyfJIzqO4+Hh4a3xqk36PCXkbbM86LzwgYeHh7fBK/+wD3pMvZGsBFM9uOPh4eFt8PKX8hyTv9YnW3lzpMbDw8M7yqsWEXrgXrur+kQ8PDy8bV4eel7k7R3f82N0lFrw8PDwFnjzQu2ksFtttvUSDx4eHt57eDm1+uLupZPrO9zkAjw8PLw1Xq9wME8M1TJuuUiBh4eHt8xLVt7umiSYY0dtPDw8vKO86mTWs7Xye86Hrl42wPDw8PDeyOsdnfNQehXXqFGHh4eHt8A71XBKgq6mjWqquClw4OHh4b2Rl7+IJ4MC1S3Dw8PD+11eLwHMh7QmB+5CsRgPDw9vjVdt7edjBNX0UC12lEcH8PDw8Aa83uF1MkZwdvjg5ho8PDy8ZV7vRZ+kkPnRvLeteHh4eBu8fPUGCybH8Wrp9jFZeHh4eDFv0sqaDAH0CrXlNIaHh4e3wJskhkkTKy8cV7cGDw8P7z28jWTQSw/X928+HQ8PD2+NlweUv+h77F5DDg8PD+8zedUSQHn+qxh6tBF4eHh4H8brlWLPNttuosLDw8Nb4/UKrHlDq8pLooqegoeHh7fAm5QM8oJsdRy2WtIdTZbh4eHhpdf8AywBu2D/5DDQAAAAAElFTkSuQmCC" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACvElEQVR42u3awYobMRAEUP//T28glyQsmVR1S2QOb06LsbV6Mkjtan0+8fP180le+f15Hu15zO/veR5z9eDh4eGNpv63J39PPnKyHM+8Yj54eHh413jPh0E+dIJ/Hjk5SJKR8fDw8N7ASyadLEr+2dlC4OHh4b2Nl0QDSdyQBBnPr+Ph4eH9X14SHOTldX4wzAr0K1kLHh4e3iR3jRpgb/j7Yn8PDw8Pb9FV32y+bew7K6//MSYeHh7eBV4b185K2za2OBX14uHh4d3g5aFqey0gIe2vDkQpCx4eHt413mz7bqPedtLJPItiGg8PD2/Nm227Sdm9L9n3rTg8PDy8e7zZtPKDpJhEeQgVs8LDw8M7xBv+yA9Ch1kRvD9yTmQYeHh4eB1vNqFZCDu7fJB/Cg8PD+8GL48e8h//SVybL2I7n+LSKh4eHt6IVxephy5Fzcrxejnw8PDwLvA2DbA28M0vFiRRxfDcw8PDwzvK+wTPpuyeLeusfMfDw8O7x8u37CRi+Bo9LSxZrD9+MeDh4eEd5bUhQjRc3PrKl3V1yQAPDw/vKG8TqhbN+9GFrU3DrP4G8PDw8GJe29zKJ9di2lAjXwI8PDy8s7y2ldVu9G2QkV8XiI4HPDw8vAu8fPueNcCS42cWIrdfAB4eHt4p3mzb3ZfgsysIefmOh4eHd483Y8wmuklKNlcc8PDw8M7y8mtV9wrodvxiJnh4eHgXeG0YMWvzz+LdfCbHYlw8PDy8uAGWP3mZe+ryQXuQRG48PDy8Ba89APKtv21izQKI/cGGh4eHN+Mlh8E+qD3VEstDYTw8PLzbvLwIzqPbK4FsHEng4eHhvZN36iBpF+V5Dnh4eHjv4Z26DtVeOFi1zfDw8PCu8WZhRPLPNsfDcyFelNR4eHh4R3n7BtgsmMgPm3zhrvT38PDw8H698gNopn7jTNpaAAAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 
