@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://tyler-ytr.github.io/2022/10/19/socket-learning/</loc>
+    <loc>http://tyler-ytr.github.io/2022/11/17/C-%25E5%2590%2584%25E7%25B1%25BB%25E9%25A2%2598%25E7%259B%25AE%25E6%2595%25B4%25E7%2590%2586/</loc>
     
-    <lastmod>2022-10-30T11:45:22.322Z</lastmod>
+    <lastmod>2022-11-17T08:45:43.459Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://tyler-ytr.github.io/2022/10/27/ibv_post_send%25E7%259A%2584%25E6%259C%25BA%25E5%2588%25B6/</loc>
     
-    <lastmod>2022-10-30T11:17:48.752Z</lastmod>
+    <lastmod>2022-11-04T13:37:30.648Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tyler-ytr.github.io/2022/10/19/socket-learning/</loc>
+    
+    <lastmod>2022-10-30T11:45:22.322Z</lastmod>
     
   </url>
   
