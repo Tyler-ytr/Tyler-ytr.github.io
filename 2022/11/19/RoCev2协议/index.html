@@ -50,7 +50,7 @@
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221119201022846.png">
 <meta property="og:image" content="http://tyler-ytr.github.io/picture/image-20221119202229290.png">
 <meta property="article:published_time" content="2022-11-19T11:01:45.000Z">
-<meta property="article:modified_time" content="2022-11-20T08:40:12.846Z">
+<meta property="article:modified_time" content="2022-11-20T08:43:41.853Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="RDMA">
 <meta name="twitter:card" content="summary">
@@ -226,17 +226,17 @@
 <h1 id="CHAPTER-5：数据包格式"><a href="#CHAPTER-5：数据包格式" class="headerlink" title="CHAPTER 5：数据包格式"></a>CHAPTER 5：数据包格式</h1><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20221119205620311.png" alt="image-20221119205620311" title="">
+                    <img src="/picture/image-20221119205620311.png" alt="IBA communication Stack" title="">
                 </div>
-                <div class="image-caption">image-20221119205620311</div>
+                <div class="image-caption">IBA communication Stack</div>
             </figure>
 <p>在IB协议中，message被分段成数据包然后在Fabric中传输；</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20221119205946201.png" alt="image-20221119205946201" title="">
+                    <img src="/picture/image-20221119205946201.png" alt="IBA messages to packets" title="">
                 </div>
-                <div class="image-caption">image-20221119205946201</div>
+                <div class="image-caption">IBA messages to packets</div>
             </figure>
 <h2 id="数据包类型"><a href="#数据包类型" class="headerlink" title="数据包类型"></a>数据包类型</h2><p>数据包有以下类型：</p>
 <ol>
@@ -327,9 +327,9 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20221120155521892.png" alt="image-20221120155521892" title="">
+                    <img src="/picture/image-20221120155521892.png" alt="AtomicETH" title="">
                 </div>
-                <div class="image-caption">image-20221120155521892</div>
+                <div class="image-caption">AtomicETH</div>
             </figure>
 <p>细节见9.3.4</p>
 <h3 id="XRC-Extended-Transport-Header-XRCETH"><a href="#XRC-Extended-Transport-Header-XRCETH" class="headerlink" title="XRC Extended Transport Header(XRCETH)"></a>XRC Extended Transport Header(XRCETH)</h3><p>XRC Extended Transport Header (XRCETH) contains the Destination XRC SRQ identifier.</p>
@@ -407,9 +407,9 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20221119204506174.png" alt="image-20221119204506174" title="">
+                    <img src="/picture/image-20221119204506174.png" alt="RoCE数据包格式" title="">
                 </div>
-                <div class="image-caption">image-20221119204506174</div>
+                <div class="image-caption">RoCE数据包格式</div>
             </figure>
 <p>另外：</p>
 <ol>
@@ -421,25 +421,25 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20221119200915736.png" alt="image-20221119200915736" title="">
+                    <img src="/picture/image-20221119200915736.png" alt="协议栈比较" title="">
                 </div>
-                <div class="image-caption">image-20221119200915736</div>
+                <div class="image-caption">协议栈比较</div>
             </figure>
 <p>RoCE的包格式如下图所示，它的问题在于没有包含以太网头，因此只能在以太网L2域内提供RDMA服务。</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20221119201022846.png" alt="image-20221119201022846" title="">
+                    <img src="/picture/image-20221119201022846.png" alt="RoCE包格式" title="">
                 </div>
-                <div class="image-caption">image-20221119201022846</div>
+                <div class="image-caption">RoCE包格式</div>
             </figure>
 <h2 id="RoCEv2（IP-Routable-RoCE）"><a href="#RoCEv2（IP-Routable-RoCE）" class="headerlink" title="RoCEv2（IP Routable RoCE）"></a>RoCEv2（IP Routable RoCE）</h2><p>RoCEv2是RoCE协议的拓展版本，主要是对RoCE数据包格式进行了修改：</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="/picture/image-20221119202229290.png" alt="image-20221119202229290" title="">
+                    <img src="/picture/image-20221119202229290.png" alt="RoCEv2包格式" title="">
                 </div>
-                <div class="image-caption">image-20221119202229290</div>
+                <div class="image-caption">RoCEv2包格式</div>
             </figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
 <li>IB Specification Vol 1-Release-1.5-2021-08-06b</li>
@@ -452,7 +452,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2022-11-20T08:40:12.846Z" itemprop="dateUpdated">2022-11-20 16:40:12</time>
+    Last updated: <time datetime="2022-11-20T08:43:41.853Z" itemprop="dateUpdated">2022-11-20 16:43:41</time>
 </span><br>
 
 
