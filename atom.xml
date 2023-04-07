@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Tyler-ytr.github.io/"/>
-  <updated>2023-02-09T12:16:15.270Z</updated>
+  <updated>2023-04-07T08:15:25.090Z</updated>
   <id>http://Tyler-ytr.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++多线程</title>
+    <link href="http://Tyler-ytr.github.io/2023/04/07/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    <id>http://Tyler-ytr.github.io/2023/04/07/C-多线程/</id>
+    <published>2023-04-07T08:13:34.000Z</published>
+    <updated>2023-04-07T08:15:25.090Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="C-多线程"><a href="#C-多线程" class="headerlink" title="C++多线程"></a>C++多线程</h1><h2 id="C-内存模型"><a href="#C-内存模型" class="headerlink" title="C++内存模型"></a>C++内存模型</h2><h3 id="关系术语"><a href="#关系术语" class="headerlink" title="关系术语"></a>关系术语</h3><h4 id="sequenced-before"><a href="#sequenced-before" class="headerlink" title="sequenced-before"></a>sequenced-before</h4><p>sequenced-before用于表示单线程之间，两个操作上的先后顺序，这个顺序是非对称、可以进行传递的关系。</p><p>它不仅仅表示两个操作之间的先后顺序，还表示了操作结果之间的可见性关系。两个操作A和操作B，如果有A sequenced-before B，除了表示操作A的顺序在B之前，还表示了操作A的结果操作B可见。</p><h4 id="happens-before"><a href="#happens-before" class="headerlink" title="happens-before"></a>happens-before</h4><p>与sequenced-before不同的是，happens-before关系表示的不同线程之间的操作先后顺序，同样的也是非对称、可传递的关系。</p><p>如果A happens-before B，则A的内存状态将在B操作执行之前就可见。在上一篇文章中，某些情况下一个写操作只是简单的写入内存就返回了，其他核心上的操作不一定能马上见到操作的结果，这样的关系是不满足happens-before的。</p><h4 id="synchronizes-with"><a href="#synchronizes-with" class="headerlink" title="synchronizes-with"></a>synchronizes-with</h4><p>synchronizes-with关系强调的是变量被修改之后的传播关系（propagate），即如果一个线程修改某变量的之后的结果能被其它线程可见，那么就是满足synchronizes-with关系的。</p><p>显然，满足synchronizes-with关系的操作一定满足happens-before关系。</p><h3 id="C-11-内存模型"><a href="#C-11-内存模型" class="headerlink" title="C++ 11 内存模型"></a>C++ 11 内存模型</h3><ol><li>支持以下内存模型:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">   enum memory_order &#123;</span><br><span class="line">    memory_order_relaxed,</span><br><span class="line">    memory_order_consume,</span><br><span class="line">    memory_order_acquire,</span><br><span class="line">    memory_order_release,</span><br><span class="line">    memory_order_acq_rel,</span><br><span class="line">    memory_order_seq_cst</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li><li>上述一致性模型可以分为四类，从一致性约束强到一致性约束弱的顺序为:<ol><li>顺序一致性:memory_order_seq_cst</li><li>Acquire-Release:memory_order_acquire, memory_order_release, memory_order_acq_rel</li><li>Release-Consume:memory_order_consume</li><li>Relaxed:memory_order_relaxed</li></ol></li><li>顺序一致性:<ul><li>每个处理器的执行顺序和代码中的顺序（program order）一样。</li><li>所有处理器都只能看到一个单一的操作执行顺序。</li></ul></li><li>Acquire-Release: 假设store()使用memory_order_release，而load()使用memory_order_acquire。这种模型有两种效果：<ul><li>第一种是可以限制 CPU 指令的重排：在store()之前的所有读写操作，不允许被移动到这个store()的后面；在load()之后的所有读写操作，不允许被移动到这个load()的前面。</li><li>假设 Thread-1 store()的那个值，成功被 Thread-2 load()到了，那么 Thread-1 在store()之前对内存的所有写入操作，此时对 Thread-2 来说，都是可见的。</li></ul></li><li>Release-Consume:<ul><li>carry-a-dependency:   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">b &#x3D; *a;</span><br><span class="line">c &#x3D; *b;</span><br></pre></td></tr></table></figure>  其中第二行代码的执行结果依赖于第一行代码的执行结果，此时称这两行代码之间的关系为“carry-a-dependency ”。</li><li>C++中引入的memory_order_consume内存模型就针对这类代码间有明确的依赖关系的语句限制其先后顺序。相当于对于有依赖关系的部分是有先后顺序的(如同acquire)，但是对于没有依赖关系的部分是不保证先后顺序的。</li></ul></li><li>Relaxed:允许乱序，只保证操作原子性；</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;C-多线程&quot;&gt;&lt;a href=&quot;#C-多线程&quot; class=&quot;headerlink&quot; title=&quot;C++多线程&quot;&gt;&lt;/a&gt;C++多线程&lt;/h1&gt;&lt;h2 id=&quot;C-内存模型&quot;&gt;&lt;a href=&quot;#C-内存模型&quot; class=&quot;headerlink&quot; title=
+      
+    
+    </summary>
+    
+      <category term="个人总结" scheme="http://Tyler-ytr.github.io/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/"/>
+    
+    
+      <category term="C++" scheme="http://Tyler-ytr.github.io/tags/C/"/>
+    
+      <category term="并发" scheme="http://Tyler-ytr.github.io/tags/%E5%B9%B6%E5%8F%91/"/>
+    
+  </entry>
   
   <entry>
     <title>Infiniband Network Architecture 阅读笔记</title>
