@@ -123,20 +123,6 @@
   </entry>
   
   <entry>
-    <title>深入理解Linux网络技术内幕</title>
-    <link href="http://Tyler-ytr.github.io/2022/12/11/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF%E5%86%85%E5%B9%95/"/>
-    <id>http://Tyler-ytr.github.io/2022/12/11/深入理解Linux网络技术内幕/</id>
-    <published>2022-12-11T08:48:57.000Z</published>
-    <updated>2022-12-11T08:48:57.111Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>InfiniBand 数据包格式，ROCE 以及ROCEV2 (IP ROUTABLE ROCE)</title>
     <link href="http://Tyler-ytr.github.io/2022/11/19/InifiniBand%E6%95%B0%E6%8D%AE%E5%8C%85%E6%A0%BC%E5%BC%8F/"/>
     <id>http://Tyler-ytr.github.io/2022/11/19/InifiniBand数据包格式/</id>
