@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Tyler-ytr.github.io/"/>
-  <updated>2023-05-01T07:34:05.148Z</updated>
+  <updated>2023-07-23T15:55:57.479Z</updated>
   <id>http://Tyler-ytr.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>拷问</title>
+    <link href="http://Tyler-ytr.github.io/2023/07/23/%E6%8B%B7%E9%97%AE/"/>
+    <id>http://Tyler-ytr.github.io/2023/07/23/拷问/</id>
+    <published>2023-07-23T14:48:52.000Z</published>
+    <updated>2023-07-23T15:55:57.479Z</updated>
+    
+    <content type="html"><![CDATA[<p>针对C++后端/鸡架面试题汇总，感谢贡献面经的大家；数据库我不太熟可能搜集的是偏内核的题目</p><h1 id="系统-并行-并发"><a href="#系统-并行-并发" class="headerlink" title="系统/并行/并发"></a>系统/并行/并发</h1><ol><li>操作系统页面置换算法</li><li>缺页中断，为什么有页表</li><li>进程和线程区别和联系</li><li>python里面的线程和java里面的线程有什么不一样？（与C++线程有啥不一样？）</li><li>什么是线程安全？</li><li>时间片是什么</li><li>死锁产生的条件；设计一种通用性算法，怎么检测一个死锁；</li><li>增加CPU的数量，会对CPU密集型或IO密集型的任务性能处理有提升吗</li><li>消息队列作用、为什么要引入；MQ消息丢失问题 </li><li>说说ThreadLocal</li><li>多线程wait notify join</li><li>操作系统里面分配内存和管理内存，怎么做的</li><li>用户态和内核态 切换的主要开销在哪里</li><li>零拷贝</li><li>缓存穿透\击穿\雪崩场景解释，缓存穿透解决方法</li><li>同步IO和异步IO的区别，阻塞IO和非阻塞IO的区别，是否存在同步非阻塞IO</li><li>线程切换的时候上下文保存哪些东西</li><li>协程、线程、进程切换的开销分别是什么</li><li>write的用户态内核态操作，数据要拷贝到内核态吗，如果突然宕机了会有没写的吗？怎么刷新缓冲区呢？这块系统调用是什么呢？</li><li>进程通信方式</li><li>服务器多线程如何防止数据冲突</li><li>用户态和内核态是什么？区别</li><li>CPU多级缓存，为什么这么设计</li><li>分页机制</li></ol><h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><ol><li>根据关键字在日志里查找，用cat和grep</li><li>grep查找前边的十行，用什么参数</li><li>Linux 句柄文件</li><li>内存泄漏，用过哪些调试工具，怎么定位内存泄漏，设置静态变量怎么保证线程安全</li><li>git底层</li><li>是否用过linux，常用命令</li><li>讲讲 fork() 函数</li></ol><h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><ol><li>负载均衡机制，负载均衡算法</li><li>计网分层模型</li><li>介绍一下IP/TCP的每一层，以及每一层常见的协议</li><li>当我在浏览器上输入美团的招聘网站，直到页面出现，中间的流程是怎么样的</li><li>讲一讲RDMA技术的优势<br>讲一讲RDMA WRITE操作的细节<br>RDMA为什么要注册一块内存<br>RDMA相对于TCP/UDP的集中类型（四种）<br>RDMA相对于TCP/UDP的性能有没有测过（这个需要测？）<br>这块内存会swap到磁盘上吗（这个我不会 我回答的是我们一般开大页）</li><li>了解哪些开源的rpc框架，grpc的特点，http2跟http1的区别，udp和tcp的区别，队头阻塞是什么</li><li>zookeeper的作用，怎么做负载均衡基于什么理论，部署zookeeper集群对网络和机房的要求</li><li>kafka：如果leader挂了，怎么恢复任务，怎么保证数据最终一致性</li><li>DNS 协议的详细流程</li><li>物理层有什么协议</li><li>数据链路层 CSMA/CD 协议</li><li>讲讲 ping</li><li>网络层有什么协议？IP/ARP/ICMP</li><li>在同一个子网里头，如何获取主机的 MAC 地址（或者说不知道 MAC 地址，是怎么转发的）</li><li>写 socket 的时候，用到了哪些函数？</li><li>epoll 的数据结构</li><li>traceroute 的原理</li><li>tcpdump</li><li>服务器与客户端为什么不是同时断开连接</li></ol><h2 id="Http"><a href="#Http" class="headerlink" title="Http"></a>Http</h2><ol><li>https和http，https加密的过程；https为什么不是只用非对称加密，非对称加密如何实现</li><li>CLOSE_WAIT是什么？你说服务器上出现closewait，那么客户端上会出现closewait吗</li><li>协程 HTTP长连接、短连接</li><li>对于文件上传问了挺多问题的<ul><li>WebSocket 底层应该是 TCP (具体了解)</li><li>当时有没有调研和对比其他方案，很可能已经有类似的实现了（并不是多么特有的功能）</li><li>对象存储这边能不能断点续传？应该是支持的，拿到 TOS 这边已经上传的分片信息；前端拿到文件的元信息，然后重新上传，并跳过已经上传的分片</li></ul></li><li>讲讲HTTP 3</li><li>cookie 和 session 的对比</li></ol><h2 id="TCP-UDP-QUIC"><a href="#TCP-UDP-QUIC" class="headerlink" title="TCP/UDP/QUIC"></a>TCP/UDP/QUIC</h2><ol><li>三次握手；为什么需要第三次的ACK应答；</li><li>四次挥手，各个状态，time_wait和close_wait在挥手的哪个阶段；四次挥手大量的time_wait状态是有哪些可能的原因</li><li>tcp/udp区别</li><li>UDP的包有大小限制，是UDP协议自己的限制的吗？（是下层的IP协议的IP包大小限制）TCP没有限制吗？</li><li>TCP、UDP中的报文头有哪些字段</li><li>UDP怎么在应用层做一些可靠性保证</li><li>TCP拥塞控制</li><li>TCP流量控制</li><li>TCP为啥是可靠的？咋保证的呢？</li><li>第三次握手没有了会发生什么问题</li><li>心跳探测</li><li>TCP 为什么要三次握手，而不是两次握手</li><li>四次挥手为什么多一次</li></ol><h1 id="C-STL-算法"><a href="#C-STL-算法" class="headerlink" title="C++/STL/算法"></a>C++/STL/算法</h1><ol><li>哈希如何实现的；哈希的时间空间复杂度，解决冲突的方式</li><li>hash表原理，扩容，什么时候扩容，扩多大；开链法如果链表很长，你有什么解决方法</li><li>说下hashmap插入一个节点的过程 ；</li><li>concurrent hashmap C++怎么实现；</li><li>加锁导致性能下降，有什么解决办法？ 加了读写锁性能还是不够，有什么方法？读写公平锁怎么做的？</li><li>哈希算法有几种、一次性哈希、如何判断这个哈希算法优秀</li><li>map unordered_map底层实现<br>怎么删除map里面index是偶数的kv<br>unordered_map 哈希表 具体实现;<br>unordered_map怎么扩容？以及vector 怎么扩容 vector初始化的时候预备空间(就是reserve指定的玩意)大小</li><li>多态、重载（编译时还是运行时）、重写、泛型</li><li>继承封装多态是什么？</li><li>快速排序的特点 什么情况下复杂度高；什么是稳定排序 什么是不稳定排序</li><li>数组和链表的区别</li><li>JVM 内存划分—&gt;C++ 程序的内存划分和生命周期（类的成员变量和方法是放在哪里的）</li><li>LSM vs. B+Tree；为什么B+树要把数据都放在叶子节点；这种存储相对于B树有啥优点</li><li>反射机制以及应用；泛型机制以及应用</li><li>类的双亲委派模型</li><li>怎么看区别一个类和别的类（类加载器+全类名）</li><li>ACID解释一下</li><li>线程池参数；线程池的关闭；线程的关闭；wait/sleep的区别；核心线程数一般是多少？线程池任务调度是怎么样的</li><li>如果用红黑树，红黑树适合什么场景，他的复杂度是多少</li><li>C++20的协程了解过吗</li><li>如果让你在C++写一个线程池，你会怎么写； 线程池里的线程执行任务之后直接就退出了，怎么保证还能持续从任务队列里面拿任务</li><li>什么是 CAS，什么是自旋；</li><li>C++内存屏障<br>C++ mutex lock需要陷入内核态吗<br>讲一讲shared_ptr unique_ptr<br>哪一个快，shared_ptr是线程安全的吗；</li><li>dfs和bfs的区别；一棵瘦高的树用dfs还是bfs</li><li>LRU怎么实现</li><li>内存2g 磁盘500g 文件大小20g 每行一个数字 怎么对文件排序</li><li>悲观锁和乐观锁</li><li>类加载过程</li></ol><h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><ol><li>说一说mysql的索引，为什么使用B+树（跟B树和hash比）</li><li>redis的数据结构</li><li>redis的string怎么实现的，二进制的结构是什么样子的（没回答上来）</li><li>介绍下ES，ES是做什么的，ES为什么能从doc中快速查找</li><li>mysql主键和非主键区别</li><li>2pc提交</li><li>MapReduce原理；怎么手写</li><li>mysql的火山模型</li><li>mysql左连接 内连接</li><li>两个表，A左连接B，建立索引怎么高效</li><li>ACID解释一下；各个隔离性级别和实现；事务的隔离级别，哪一个隔离级别解决了脏读、幻读</li><li>二级索引解释一下；主索引/辅助索引；</li><li>Mysql有哪些存储引擎；InnoDB和MyIsam的区别</li><li>聚簇索引</li><li>表有字段姓名 性别 年龄 班级 该怎么建立索引提高查找效率</li><li>mvcc机制</li><li>写个sql,今日消费最多的前10个人</li><li>说说 MySQL 索引（B-Tree索引、哈希索引、R-Tree索引、全文索引等等）</li><li>数据一致性检验</li></ol><h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><ol><li>了解的设计模式，有哪些讲下策略模式</li><li>单例</li><li>懒汉饿汉模式讲一下</li></ol><h1 id="算法题"><a href="#算法题" class="headerlink" title="算法题"></a>算法题</h1><ol><li>二叉树的右视图</li><li>岛屿数量</li><li>k个一组反转链表，自己处理输入输出</li><li>输出有效括号对</li><li>两个大整数相加；字符串给出的两个大整数相加 返回字符串</li><li>0或1组成的数组，最多允许你把k个0变成1，求变换后数组最长连续1的个数<br>nums = [0 1 1 0 0 0 1] k = 2</li><li>一堆工作1-5-3-2-1 k工人 最短完成时间</li><li>m * n的二维矩阵，行列有序，找到第k个大的数。</li><li>小顶堆插入数字的调整，用数组实现一下</li><li>归并排序</li><li>走格子，上下左右走，14,23=1+4+2+3=10超过阈值k=8的走不到，问能走到多少格子</li><li>topk</li><li>一个字符串找出里面出现最多的一个字符</li><li>约瑟夫环，报数123</li><li>合并区间</li><li>实现对一个数开平方</li><li>反转链表<br>反转k个链表</li><li>给二叉树的中序序列和后序序列，求前序序列</li><li>有向图找环</li><li>去除数组中的重复数字</li><li>下一个更大元素 II</li><li>将点分十进制表示的IPv4地址（本质上是一个32位二进制数）转化为一个十进制数（难崩 实操中我是用chatgpt+python做的）</li><li>二叉树的层序遍历</li><li>最大子数组和</li><li>跳台阶，可以跳 1-n 级</li><li>有序链表合并</li><li>一亿个浮点数，找到最大的10000个</li><li>算法: 实现一个能够完成定时任务的类<pre><code>- 使用优先级队列存储这些定时任务    - tick() 是一个时钟函数    - 优化: remove_task() 的复杂度是 O(n), 如何优化？    - 不能直接用优先级队列了，得用堆；堆是用数组存储的，构造堆的时候，维护一个 Task 到数组下标的 HashMap, 那么查找 Task 的复杂度是 O(m), m 为桶长度；    - 移除元素时，swap(i, length-1); length--; 然后swim(i)</code></pre></li><li>链表的区间反转</li><li>白板写整型转8进制，需要运行，只能使用char数组，不能使用任何库函数，得到char数组后最后返回值可以转string</li><li>快乐数</li><li>|x!*y-y-n|最小<br>输入n，输出x，y</li></ol><h1 id="智力题-数学题"><a href="#智力题-数学题" class="headerlink" title="智力题/数学题"></a>智力题/数学题</h1><ol><li>找硬币 9个，有一个不知道轻重，最多几次</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;针对C++后端/鸡架面试题汇总，感谢贡献面经的大家；数据库我不太熟可能搜集的是偏内核的题目&lt;/p&gt;
+&lt;h1 id=&quot;系统-并行-并发&quot;&gt;&lt;a href=&quot;#系统-并行-并发&quot; class=&quot;headerlink&quot; title=&quot;系统/并行/并发&quot;&gt;&lt;/a&gt;系统/并行/并发&lt;
+      
+    
+    </summary>
+    
+      <category term="面经" scheme="http://Tyler-ytr.github.io/categories/%E9%9D%A2%E7%BB%8F/"/>
+    
+    
+      <category term="个人总结" scheme="http://Tyler-ytr.github.io/tags/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
   
   <entry>
     <title>linux文件系统</title>
