@@ -768,9 +768,9 @@
     
       <category term="计算机网络" scheme="http://Tyler-ytr.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
-      <category term="ns3" scheme="http://Tyler-ytr.github.io/tags/ns3/"/>
-    
       <category term="实验基础" scheme="http://Tyler-ytr.github.io/tags/%E5%AE%9E%E9%AA%8C%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="ns3" scheme="http://Tyler-ytr.github.io/tags/ns3/"/>
     
   </entry>
   
@@ -797,9 +797,9 @@
     
       <category term="计算机网络" scheme="http://Tyler-ytr.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
-      <category term="实验基础" scheme="http://Tyler-ytr.github.io/tags/%E5%AE%9E%E9%AA%8C%E5%9F%BA%E7%A1%80/"/>
-    
       <category term="mininet" scheme="http://Tyler-ytr.github.io/tags/mininet/"/>
+    
+      <category term="实验基础" scheme="http://Tyler-ytr.github.io/tags/%E5%AE%9E%E9%AA%8C%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
