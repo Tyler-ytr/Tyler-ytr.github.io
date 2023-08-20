@@ -164,6 +164,60 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-hexo部署bug"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2023-08-20 23:11:43" datetime="2023-08-20T15:11:43.000Z"  itemprop="datePublished">2023-08-20</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2023/08/20/hexo%E9%83%A8%E7%BD%B2bug/">hexo部署bug</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        问题
+hexo在部署的时候使用hexo -d可能会出现如下报错
+ 1git-ssh: connect to host github.com port 22: Connection timed out
+
+
+排查与解决问题A
+一个排查方向是git连不上了，使用的命令是ssh -T -p 443 git@ssh.github.com；如果成功的话输出应该类似如下:
+ 1Hi Tyler-ytr! ...
+    
+
+        <a href="/2023/08/20/hexo%E9%83%A8%E7%BD%B2bug/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/windows%E9%85%8D%E7%BD%AE/" rel="tag">windows配置</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-拷问"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -631,59 +685,6 @@ Slow...
     <div class="post-footer">
         
 	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-CPU缓存一致性笔记"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-10-19 14:09:09" datetime="2022-10-19T06:09:09.000Z"  itemprop="datePublished">2022-10-19</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2022/10/19/CPU%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E7%AC%94%E8%AE%B0/">CPU缓存一致性笔记</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        CPU缓存一致性存储体系结构
-计算机存储分了很多层次，扬长避短，有寄存器、L1 cache、L2 cache、L3 cache、主存（内存）和硬盘等。
-
-
-缓存工作原理：
-
-cache line（缓存行）是缓存进行管理的最小存储单元，也叫缓存块，每个 cache line 包含 Flag、Tag 和 Data ，通常 Data 大小是 64 字节，但不同型号 CPU 的 Flag 和 Tag...
-    
-
-        <a href="/2022/10/19/CPU%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7%E7%AC%94%E8%AE%B0/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li></ul>
 
     </div>
     

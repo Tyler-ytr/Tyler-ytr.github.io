@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Tyler-ytr.github.io/"/>
-  <updated>2023-08-07T15:37:11.763Z</updated>
+  <updated>2023-08-20T15:19:19.426Z</updated>
   <id>http://Tyler-ytr.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo部署bug</title>
+    <link href="http://Tyler-ytr.github.io/2023/08/20/hexo%E9%83%A8%E7%BD%B2bug/"/>
+    <id>http://Tyler-ytr.github.io/2023/08/20/hexo部署bug/</id>
+    <published>2023-08-20T15:11:43.000Z</published>
+    <updated>2023-08-20T15:19:19.426Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ol><li><p>hexo在部署的时候使用<code>hexo -d</code>可能会出现如下报错</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git-ssh: connect to host github.com port 22: Connection timed out</span><br></pre></td></tr></table></figure></li></ol><h1 id="排查与解决"><a href="#排查与解决" class="headerlink" title="排查与解决"></a>排查与解决</h1><h2 id="问题A"><a href="#问题A" class="headerlink" title="问题A"></a>问题A</h2><ol><li><p>一个排查方向是git连不上了，使用的命令是<code>ssh -T -p 443 git@ssh.github.com</code>；如果成功的话输出应该类似如下:</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hi Tyler-ytr! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure><p> 如果失败的话，输出类似如下:</p> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh: connect to host github.com port 22: Connection timed out</span><br><span class="line"># 或者</span><br><span class="line">ssh: connect to host github.com port 443: Connection timed out</span><br></pre></td></tr></table></figure></li><li><p>解决: </p><ol><li><p>创建密钥，并保证在GitHub上配置了该密钥的公钥</p></li><li><p>在<code>C:\Users\你的用户名\.ssh\config</code>这个文件中添加类似如下的配置:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  HostName ssh.github.com</span><br><span class="line">  PreferredAuthentications publickey</span><br><span class="line">  IdentityFile ~&#x2F;.ssh&#x2F;你的密钥</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure></li><li><p>如果成功的话再次使用<code>ssh -T -p 443 git@ssh.github.com</code>可以成功输出; </p></li></ol></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;hexo在部署的时候使用&lt;code&gt;hexo -d&lt;/code&gt;可能会出现如下报错&lt;/p&gt;
+ &lt;figure class=
+      
+    
+    </summary>
+    
+      <category term="个人总结" scheme="http://Tyler-ytr.github.io/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/"/>
+    
+    
+      <category term="windows配置" scheme="http://Tyler-ytr.github.io/tags/windows%E9%85%8D%E7%BD%AE/"/>
+    
+  </entry>
   
   <entry>
     <title>拷问</title>
