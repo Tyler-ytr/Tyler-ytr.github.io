@@ -21,15 +21,15 @@
     
     
     <meta name="keywords" content="面经">
-    <meta name="description" content="针对C++后端&#x2F;鸡架面试题汇总，感谢贡献面经的大家；数据库我不太熟可能搜集的是偏内核的题目；博客与github仓库同步更新。欢迎在仓库贡献答案发起pull request。 系统 增加CPU的数量，会对CPU密集型或IO密集型的任务性能处理有提升吗？ CPU多级缓存，为什么这么设计？ 用户态和内核态区别是什么？ 用户态和内核态切换的主要开销在哪里 什么是零拷贝？ 同步IO和异步IO的区别，阻塞IO">
+    <meta name="description" content="针对C++后端&#x2F;鸡架面试题汇总，感谢贡献面经的大家；数据库我不太熟可能搜集的是偏内核的题目；博客与github仓库同步更新。欢迎在仓库贡献答案发起pull request。 系统体系结构 增加CPU的数量，会对CPU密集型或IO密集型的任务性能处理有提升吗？ CPU多级缓存，为什么这么设计？ 用户态和内核态区别是什么？ 用户态和内核态切换的主要开销在哪里 同步IO和异步IO的区别，阻塞IO和非阻塞">
 <meta property="og:type" content="article">
 <meta property="og:title" content="拷问">
 <meta property="og:url" content="http://tyler-ytr.github.io/2023/07/23/%E6%8B%B7%E9%97%AE/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
-<meta property="og:description" content="针对C++后端&#x2F;鸡架面试题汇总，感谢贡献面经的大家；数据库我不太熟可能搜集的是偏内核的题目；博客与github仓库同步更新。欢迎在仓库贡献答案发起pull request。 系统 增加CPU的数量，会对CPU密集型或IO密集型的任务性能处理有提升吗？ CPU多级缓存，为什么这么设计？ 用户态和内核态区别是什么？ 用户态和内核态切换的主要开销在哪里 什么是零拷贝？ 同步IO和异步IO的区别，阻塞IO">
+<meta property="og:description" content="针对C++后端&#x2F;鸡架面试题汇总，感谢贡献面经的大家；数据库我不太熟可能搜集的是偏内核的题目；博客与github仓库同步更新。欢迎在仓库贡献答案发起pull request。 系统体系结构 增加CPU的数量，会对CPU密集型或IO密集型的任务性能处理有提升吗？ CPU多级缓存，为什么这么设计？ 用户态和内核态区别是什么？ 用户态和内核态切换的主要开销在哪里 同步IO和异步IO的区别，阻塞IO和非阻塞">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-07-23T14:48:52.000Z">
-<meta property="article:modified_time" content="2023-08-20T15:29:08.693Z">
+<meta property="article:modified_time" content="2023-08-23T04:25:02.957Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="面经">
 <meta name="twitter:card" content="summary">
@@ -174,7 +174,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#系统"><span class="post-toc-number">1.</span> <span class="post-toc-text">系统</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#进程管理"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">进程管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#内存管理"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">内存管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#文件系统"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">文件系统</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#并发"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">并发</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Linux-使用"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">Linux 使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#网络"><span class="post-toc-number">2.</span> <span class="post-toc-text">网络</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Http"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Http</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TCP-UDP-QUIC"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">TCP&#x2F;UDP&#x2F;QUIC</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#C-STL-算法"><span class="post-toc-number">3.</span> <span class="post-toc-text">C++&#x2F;STL&#x2F;算法</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#数据库"><span class="post-toc-number">4.</span> <span class="post-toc-text">数据库</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#中间件、微服务"><span class="post-toc-number">5.</span> <span class="post-toc-text">中间件、微服务</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#设计模式"><span class="post-toc-number">6.</span> <span class="post-toc-text">设计模式</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#算法题"><span class="post-toc-number">7.</span> <span class="post-toc-text">算法题</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#智力题-数学题"><span class="post-toc-number">8.</span> <span class="post-toc-text">智力题&#x2F;数学题</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#系统"><span class="post-toc-number">1.</span> <span class="post-toc-text">系统</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#体系结构"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">体系结构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#操作系统"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">操作系统</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#进程管理"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">进程管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#内存管理"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">内存管理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#文件系统"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">文件系统</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#并发"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">并发</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Linux-使用"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">Linux 使用</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#网络"><span class="post-toc-number">2.</span> <span class="post-toc-text">网络</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#架构"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">架构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#低两层"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">低两层</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#网络层"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">网络层</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#传输层-TCP-UDP-QUIC"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">传输层 TCP&#x2F;UDP&#x2F;QUIC</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#应用层"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">应用层</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Linux内核网络"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">Linux内核网络</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RDMA"><span class="post-toc-number">2.7.</span> <span class="post-toc-text">RDMA</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#DPDK"><span class="post-toc-number">2.8.</span> <span class="post-toc-text">DPDK</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#C-STL-算法"><span class="post-toc-number">3.</span> <span class="post-toc-text">C++&#x2F;STL&#x2F;算法</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#数据库"><span class="post-toc-number">4.</span> <span class="post-toc-text">数据库</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#中间件、微服务"><span class="post-toc-number">5.</span> <span class="post-toc-text">中间件、微服务</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#设计模式"><span class="post-toc-number">6.</span> <span class="post-toc-text">设计模式</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#算法题"><span class="post-toc-number">7.</span> <span class="post-toc-text">算法题</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#智力题-数学题"><span class="post-toc-number">8.</span> <span class="post-toc-text">智力题&#x2F;数学题</span></a></li></ol>
         </nav>
     </aside>
 
@@ -201,85 +201,112 @@
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
             <p>针对C++后端/鸡架面试题汇总，感谢贡献面经的大家；数据库我不太熟可能搜集的是偏内核的题目；<br><a href="https://tyler-ytr.github.io/2023/07/23/%E6%8B%B7%E9%97%AE/">博客</a>与<a href="https://github.com/Tyler-ytr/Interview_experience" target="_blank" rel="noopener">github仓库</a>同步更新。欢迎在仓库贡献答案发起pull request。</p>
-<h1 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h1><ol>
+<h1 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h1><h2 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h2><ol>
 <li>增加CPU的数量，会对CPU密集型或IO密集型的任务性能处理有提升吗？</li>
 <li>CPU多级缓存，为什么这么设计？</li>
 <li>用户态和内核态区别是什么？</li>
 <li>用户态和内核态切换的主要开销在哪里</li>
-<li>什么是零拷贝？</li>
 <li>同步IO和异步IO的区别，阻塞IO和非阻塞IO的区别，是否存在同步非阻塞IO？</li>
+<li>物理地址在cache中的映射关系<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2></li>
 <li>操作系统有哪些主要功能？</li>
-<li>物理地址在cache中的映射关系</li>
-</ol>
-<h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><ol>
-<li>进程和线程区别和联系</li>
+<li>常见的系统调用？</li>
+<li><p>什么是零拷贝？</p>
+<h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2></li>
+<li><p>进程和线程区别和联系</p>
+</li>
 <li>Python/Java/C++里面的线程有什么不一样？</li>
 <li>时间片是什么</li>
 <li>进程、线程、协程切换的开销分别是什么</li>
 <li>进程通信方式</li>
 <li>讲讲 fork() 函数</li>
 <li>Linux 杀死进程的过程</li>
+<li>知道哪些信号，什么时候产生？</li>
 <li>什么是协程？</li>
 <li>讲一讲调度算法。调度算法调度的是什么？目前Linux使用的是哪一个呢？</li>
 </ol>
 <h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><ol>
 <li>操作系统页面置换算法</li>
-<li>分页机制、缺页中断、为什么有页表</li>
+<li>分段机制、分页机制，缺页中断、为什么有页表</li>
 <li>操作系统里面分配内存和管理内存，怎么做的？如果是多核的情况应该怎么优化呢？</li>
 <li>为什么需要虚拟内存？</li>
-<li>mmap和brk的区别</li>
-</ol>
-<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><ol>
-<li>write操作发生了什么</li>
+<li><p>malloc()底层涉及了什么系统调用？mmap和brk的区别？</p>
+<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2></li>
+<li><p>write操作发生了什么</p>
+</li>
 <li>write的用户态内核态操作，数据要拷贝到内核态吗，如果突然宕机了会有没写的吗？怎么刷新缓冲区呢？这块系统调用是什么呢？</li>
 <li>讲一讲怎么看文件权限？文件权限是怎么实现的？</li>
 <li>Linux 文件描述符 vs. 文件句柄</li>
 <li>基本的IO模型有哪些</li>
-</ol>
-<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><ol>
+<li>文件描述符有哪些种类？<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2></li>
+<li>什么是线程安全？</li>
 <li>服务器多线程如何防止数据冲突</li>
-<li>什么是线程安全？设置静态变量怎么保证线程安全？</li>
 <li>死锁产生的条件；设计一种通用性算法，怎么检测一个死锁；</li>
-<li>(Java) 说说ThreadLocal</li>
+<li>说说(Java)ThreadLocal或(C++)thread_local</li>
 <li>(Java) 多线程wait notify join</li>
 </ol>
 <h2 id="Linux-使用"><a href="#Linux-使用" class="headerlink" title="Linux 使用"></a>Linux 使用</h2><ol>
-<li>用 cat 和 grep 根据关键字查找日志</li>
-<li>grep 查找前边的十行，用什么参数</li>
+<li>用 cat 和 grep 根据关键字查找日志2. grep 查找前边的十行，用什么参数</li>
 <li>用什么工具调试内存泄漏，怎么定位？</li>
 <li>Git 底层</li>
 <li>是否用过 Linux，常用命令</li>
 <li>你觉得linux操作系统可以怎么改进</li>
+<li>linux里netfilter的原理是什么?</li>
+<li>linux启动gui还是文本框是怎么区分的？</li>
+<li>linux中sudo提权的原理是什么？</li>
+<li>linux实现软路由的原理是什么？</li>
+<li>linux login之后的程序是什么？</li>
 </ol>
-<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><ol>
-<li>负载均衡机制，负载均衡算法</li>
+<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><ol>
 <li>计网分层模型</li>
 <li>介绍一下IP/TCP的每一层，以及每一层常见的协议</li>
 <li>当我在浏览器上输入美团的招聘网站，直到页面出现，中间的流程是怎么样的</li>
-<li>讲一讲RDMA技术的优势<br>讲一讲RDMA WRITE操作的细节<br>RDMA为什么要注册一块内存<br>RDMA相对于TCP/UDP的集中类型（四种）<br>RDMA相对于TCP/UDP的性能有没有测过（这个需要测？）<br>这块内存会swap到磁盘上吗（这个我不会 我回答的是我们一般开大页）<br>RDMA和TCP协议栈有哪些不同</li>
-<li>了解哪些开源的rpc框架，grpc的特点，http2跟http1的区别，udp和tcp的区别，队头阻塞是什么</li>
-<li>zookeeper的作用，怎么做负载均衡基于什么理论，部署zookeeper集群对网络和机房的要求</li>
-<li>kafka：如果leader挂了，怎么恢复任务，怎么保证数据最终一致性</li>
-<li>DNS 协议的详细流程</li>
-<li>物理层有什么协议</li>
-<li>数据链路层 CSMA/CD 协议</li>
-<li>讲讲 ping</li>
-<li>网络层有什么协议？IP/ARP/ICMP</li>
-<li>在同一个子网里头，如何获取主机的 MAC 地址（或者说不知道 MAC 地址，是怎么转发的）</li>
-<li>写 socket 的时候，用到了哪些函数？</li>
-<li>使用socket()开发时，客户端服务端分别会调哪些系统调用？追问如果服务端一直不accept()会发生什么情况？</li>
-<li>epoll 的数据结构</li>
-<li>traceroute 的原理</li>
-<li>tcpdump</li>
-<li>服务器与客户端为什么不是同时断开连接</li>
-<li>MPI用过吗？</li>
-<li>常用的IO多路复用技术</li>
-<li>描述一下ARP协议</li>
+<li>raft可以怎么优化</li>
 </ol>
-<h2 id="Http"><a href="#Http" class="headerlink" title="Http"></a>Http</h2><ol>
-<li>https和http，https加密的过程；https为什么不是只用非对称加密，非对称加密如何实现</li>
+<h2 id="低两层"><a href="#低两层" class="headerlink" title="低两层"></a>低两层</h2><ol>
+<li>介绍数据链路层 CSMA/CD 协议</li>
+<li>描述一下ARP协议 / 在同一个子网里头，如何获取主机的 MAC 地址 / 不知道 MAC 地址，是怎么转发的</li>
+</ol>
+<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><ol>
+<li>ping 的原理</li>
+<li>traceroute 的原理</li>
+<li>常见路由算法</li>
+</ol>
+<h2 id="传输层-TCP-UDP-QUIC"><a href="#传输层-TCP-UDP-QUIC" class="headerlink" title="传输层 TCP/UDP/QUIC"></a>传输层 TCP/UDP/QUIC</h2><ol>
+<li>UDP 和 TCP 的区别，谁有队头阻塞</li>
+<li>包格式<ol>
+<li>TCP、UDP中的报文头有哪些字段</li>
+<li>UDP的包有大小限制，是UDP协议自己的限制的吗？（是下层的IP协议的IP包大小限制）TCP没有限制吗？</li>
+<li>讲一讲TCP的flag字段有哪些？rst字段作用是什么？</li>
+</ol>
+</li>
+<li>TCP 连接管理<ol>
+<li>三次握手；为什么需要第三次的ACK应答；</li>
+<li>四次挥手，各个状态，time_wait和close_wait在挥手的哪个阶段；四次挥手大量的time_wait状态是有哪些可能的原因</li>
+<li>第三次握手没有了会发生什么问题</li>
+<li>TCP 为什么要三次握手，而不是两次握手</li>
+<li>四次挥手为什么多一次</li>
+<li>心跳探测</li>
 <li>CLOSE_WAIT是什么？你说服务器上出现closewait，那么客户端上会出现closewait吗</li>
-<li>协程 HTTP长连接、短连接</li>
+<li>SYN Flood 会怎么样，如何解决？</li>
+</ol>
+</li>
+<li>可靠数据传输<ol>
+<li>TCP为啥是可靠的？咋保证的呢？</li>
+<li>UDP怎么在应用层做一些可靠性保证</li>
+</ol>
+</li>
+<li>拥塞控制、流量控制<ol>
+<li>TCP拥塞控制过程</li>
+<li>TCP流量控制</li>
+</ol>
+</li>
+</ol>
+<h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h2><ol>
+<li>DNS 协议的详细流程</li>
+<li>HTTP2 跟 HTTP1 的区别，谁有队头阻塞</li>
+<li>了解哪些开源的 RPC 框架，gRPC 的特点</li>
+<li>https和http，https加密的过程；https为什么不是只用非对称加密，非对称加密如何实现</li>
+<li>HTTP长连接、短连接</li>
 <li>对于文件上传问了挺多问题的<ul>
 <li>WebSocket 底层应该是 TCP (具体了解)</li>
 <li>当时有没有调研和对比其他方案，很可能已经有类似的实现了（并不是多么特有的功能）</li>
@@ -288,22 +315,37 @@
 </li>
 <li>讲讲HTTP 3</li>
 <li>cookie 和 session 的对比</li>
+<li>MPI用过吗？</li>
 </ol>
-<h2 id="TCP-UDP-QUIC"><a href="#TCP-UDP-QUIC" class="headerlink" title="TCP/UDP/QUIC"></a>TCP/UDP/QUIC</h2><ol>
-<li>三次握手；为什么需要第三次的ACK应答；</li>
-<li>四次挥手，各个状态，time_wait和close_wait在挥手的哪个阶段；四次挥手大量的time_wait状态是有哪些可能的原因</li>
-<li>tcp/udp区别</li>
-<li>UDP的包有大小限制，是UDP协议自己的限制的吗？（是下层的IP协议的IP包大小限制）TCP没有限制吗？</li>
-<li>TCP、UDP中的报文头有哪些字段</li>
-<li>UDP怎么在应用层做一些可靠性保证</li>
-<li>TCP拥塞控制过程</li>
-<li>TCP流量控制</li>
-<li>TCP为啥是可靠的？咋保证的呢？</li>
-<li>第三次握手没有了会发生什么问题</li>
-<li>心跳探测</li>
-<li>TCP 为什么要三次握手，而不是两次握手</li>
-<li>四次挥手为什么多一次</li>
-<li>讲一讲TCP的flag字段有哪些？rst字段作用是什么？</li>
+<h2 id="Linux内核网络"><a href="#Linux内核网络" class="headerlink" title="Linux内核网络"></a>Linux内核网络</h2><ol>
+<li>使用socket()开发时，客户端服务端分别会调哪些系统调用？追问如果服务端一直不accept()会发生什么情况？</li>
+<li>常用的IO多路复用技术</li>
+<li>epoll 的数据结构</li>
+<li>tcpdump 的原理</li>
+<li>netfilter 的原理</li>
+<li>如何在 Linux 上实现软路由</li>
+<li>eBPF 的原理？编译完的eBPF跨内核版本/跨机器能不能通用？</li>
+<li>Linux内核网络中，从socket()发送数据到出网卡的流程（包括四层处理、三层路由、二层ARP、驱动）<ol>
+<li>追问三层路由：ping本地网络中的另一台主机，查询到一条/16的linklocal路由以后要干什么？回答：用ARP解析对端MAC，但是面试官不满意</li>
+<li>继续追问：发出ping的ICMP包后，内核是否会把/32路由插入本地路由表？回答：不会，只会插入二层neighbor表，面试官表示你确定？</li>
+</ol>
+</li>
+<li>Linux NAPI 机制<h2 id="RDMA"><a href="#RDMA" class="headerlink" title="RDMA"></a>RDMA</h2></li>
+<li>讲一讲RDMA技术的优势</li>
+<li>讲一讲RDMA WRITE操作的细节</li>
+<li>RDMA为什么要注册一块内存</li>
+<li>RDMA相对于TCP/UDP的集中类型（四种）</li>
+<li>RDMA相对于TCP/UDP的性能有没有测过（这个需要测？）</li>
+<li>这块内存会swap到磁盘上吗（这个我不会 我回答的是我们一般开大页）</li>
+<li>RDMA和TCP协议栈有哪些不同</li>
+<li>RDMA 真实场景下延迟大概多少</li>
+<li>PFC 机制、PFC 风暴、 PFC 死锁</li>
+</ol>
+<h2 id="DPDK"><a href="#DPDK" class="headerlink" title="DPDK"></a>DPDK</h2><ol>
+<li>介绍一下DPDK的原理；介绍一下DPDK转发数据包（从网卡进到网卡出）的完整流程<ol>
+<li>追问：DPDK驱动使用了用户态轮询的机制，和中断相比好处是什么</li>
+</ol>
+</li>
 </ol>
 <h1 id="C-STL-算法"><a href="#C-STL-算法" class="headerlink" title="C++/STL/算法"></a>C++/STL/算法</h1><ol>
 <li>哈希如何实现的；哈希的时间空间复杂度，解决冲突的方式</li>
@@ -347,6 +389,10 @@
 <li>动态链接静态链接区别是什么？</li>
 <li>cpp为什么开源库的结构体要对齐成128kb</li>
 <li>什么是好的并发算法</li>
+<li>讲一讲完美转发</li>
+<li>segment fault 错误的原因、有用gdb 调试coredump吗</li>
+<li>char <em>s = (char </em>)malloc(100);  s[100] = ‘a’    内存实际分配在什么时候，如果物理内存不够，第一行出错还是第二行</li>
+<li>CPP为什么开源库的结构体要对齐成128Kb</li>
 </ol>
 <h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><ol>
 <li>说一说mysql的索引，为什么使用B+树（跟B树和hash比）</li>
@@ -420,12 +466,18 @@
 <li>到来一个序列找中位数</li>
 <li>二叉树最大宽度 <a href="https://leetcode.cn/problems/maximum-width-of-binary-tree/" target="_blank" rel="noopener">https://leetcode.cn/problems/maximum-width-of-binary-tree/</a></li>
 <li>两个有序数组找中位数</li>
-</ol>
-<h1 id="智力题-数学题"><a href="#智力题-数学题" class="headerlink" title="智力题/数学题"></a>智力题/数学题</h1><ol>
-<li>找硬币 9个，有一个不知道轻重，最多几次</li>
+<li>累加数 leetcode306</li>
+<li>实现 memmove 库函数</li>
+<li>实现atoi</li>
+<li>实现inet_ntop</li>
+<li><p>有一副手牌，只能打同花和顺子，输出如果能打完手牌，打出的牌的系列</p>
+<h1 id="智力题-数学题"><a href="#智力题-数学题" class="headerlink" title="智力题/数学题"></a>智力题/数学题</h1></li>
+<li><p>找硬币 9个，有一个不知道轻重，最多几次</p>
+</li>
 <li>四个球中有一个是假货，只有一个天平，没有砝码，有供比较的标准球;问怎么找到假货以及知道假货是偏轻还是偏重</li>
 <li>连续扔一枚硬币，直到连续两次正面超上，问你期望投掷次数</li>
 <li>m 枚正品硬币，n枚次品硬币，次品硬币两面都是国徽。随手掏出一枚硬币，连续投掷r次都是国徽，问你是正品硬币的概率是多少</li>
+<li>九辆赛车，有一条跑道可以同时比较三辆赛车；目标是找到速度前两名；请问需要几次</li>
 </ol>
 
         </div>
@@ -435,7 +487,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2023-08-20T15:29:08.693Z" itemprop="dateUpdated">2023-08-20 23:29:08</time>
+    Last updated: <time datetime="2023-08-23T04:25:02.957Z" itemprop="dateUpdated">2023-08-23 12:25:02</time>
 </span><br>
 
 
