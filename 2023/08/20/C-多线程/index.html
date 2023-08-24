@@ -21,15 +21,15 @@
     
     
     <meta name="keywords" content="并发,C++">
-    <meta name="description" content="C++多线程代码仓库位于multithread_example中;里面包含了一些案例 C++内存模型关系术语sequenced-beforesequenced-before用于表示单线程之间，两个操作上的先后顺序，这个顺序是非对称、可以进行传递的关系。 它不仅仅表示两个操作之间的先后顺序，还表示了操作结果之间的可见性关系。两个操作A和操作B，如果有A sequenced-before B，除了表示">
+    <meta name="description" content="C++多线程代码仓库位于multithread_example中;里面包含了一些案例:  mempool_example: 包含了线程池的实现 multithread_example: 包含了C++ 多线程库的案例实现 model_example: 包含了多线程模型的实现(TOBEDONE)  C++内存模型关系术语sequenced-beforesequenced-before用于表示单线程之间">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++多线程">
 <meta property="og:url" content="http://tyler-ytr.github.io/2023/08/20/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Tyler-yin&#39;s blog">
-<meta property="og:description" content="C++多线程代码仓库位于multithread_example中;里面包含了一些案例 C++内存模型关系术语sequenced-beforesequenced-before用于表示单线程之间，两个操作上的先后顺序，这个顺序是非对称、可以进行传递的关系。 它不仅仅表示两个操作之间的先后顺序，还表示了操作结果之间的可见性关系。两个操作A和操作B，如果有A sequenced-before B，除了表示">
+<meta property="og:description" content="C++多线程代码仓库位于multithread_example中;里面包含了一些案例:  mempool_example: 包含了线程池的实现 multithread_example: 包含了C++ 多线程库的案例实现 model_example: 包含了多线程模型的实现(TOBEDONE)  C++内存模型关系术语sequenced-beforesequenced-before用于表示单线程之间">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-08-20T15:23:34.000Z">
-<meta property="article:modified_time" content="2023-08-20T16:07:56.145Z">
+<meta property="article:modified_time" content="2023-08-24T03:39:24.852Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="并发">
 <meta property="article:tag" content="C++">
@@ -175,7 +175,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#C-多线程"><span class="post-toc-number">1.</span> <span class="post-toc-text">C++多线程</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#C-内存模型"><span class="post-toc-number">2.</span> <span class="post-toc-text">C++内存模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#关系术语"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">关系术语</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sequenced-before"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">sequenced-before</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#happens-before"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">happens-before</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#synchronizes-with"><span class="post-toc-number">2.1.3.</span> <span class="post-toc-text">synchronizes-with</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#C-11-内存模型"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">C++ 11 内存模型</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#C-多线程使用"><span class="post-toc-number">3.</span> <span class="post-toc-text">C++多线程使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#C-多线程相关头文件"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">C++多线程相关头文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Thread库"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">Thread库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#join与detach"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">join与detach</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程管理"><span class="post-toc-number">3.2.2.</span> <span class="post-toc-text">线程管理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一次调用"><span class="post-toc-number">3.2.3.</span> <span class="post-toc-text">一次调用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#竞争条件和临界区"><span class="post-toc-number">3.2.4.</span> <span class="post-toc-text">竞争条件和临界区</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#mutex库"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">mutex库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#mutex"><span class="post-toc-number">3.3.1.</span> <span class="post-toc-text">mutex</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通用互斥管理"><span class="post-toc-number">3.3.2.</span> <span class="post-toc-text">通用互斥管理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RAII"><span class="post-toc-number">3.3.3.</span> <span class="post-toc-text">RAII</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#condition-variable-库"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">condition_variable 库</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#future-库"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">future 库</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用注意点"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">使用注意点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程传参"><span class="post-toc-number">3.6.1.</span> <span class="post-toc-text">线程传参</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#shared-ptr-线程安全"><span class="post-toc-number">3.6.2.</span> <span class="post-toc-text">shared_ptr 线程安全</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#互斥锁vs自旋锁"><span class="post-toc-number">3.6.3.</span> <span class="post-toc-text">互斥锁vs自旋锁</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#多线程基本模型"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">多线程基本模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#生产者消费者模型"><span class="post-toc-number">3.7.1.</span> <span class="post-toc-text">生产者消费者模型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#读者写者问题"><span class="post-toc-number">3.7.2.</span> <span class="post-toc-text">读者写者问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#银行家算法"><span class="post-toc-number">3.7.3.</span> <span class="post-toc-text">银行家算法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#哲学家就餐问题"><span class="post-toc-number">3.7.4.</span> <span class="post-toc-text">哲学家就餐问题</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#C-多线程"><span class="post-toc-number">1.</span> <span class="post-toc-text">C++多线程</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#C-内存模型"><span class="post-toc-number">2.</span> <span class="post-toc-text">C++内存模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#关系术语"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">关系术语</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sequenced-before"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">sequenced-before</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#happens-before"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">happens-before</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#synchronizes-with"><span class="post-toc-number">2.1.3.</span> <span class="post-toc-text">synchronizes-with</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#C-11-内存模型"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">C++ 11 内存模型</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#C-多线程使用"><span class="post-toc-number">3.</span> <span class="post-toc-text">C++多线程使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#C-多线程相关头文件"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">C++多线程相关头文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Thread库"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">Thread库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#join与detach"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">join与detach</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程管理"><span class="post-toc-number">3.2.2.</span> <span class="post-toc-text">线程管理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一次调用"><span class="post-toc-number">3.2.3.</span> <span class="post-toc-text">一次调用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#竞争条件和临界区"><span class="post-toc-number">3.2.4.</span> <span class="post-toc-text">竞争条件和临界区</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#mutex库"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">mutex库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#mutex"><span class="post-toc-number">3.3.1.</span> <span class="post-toc-text">mutex</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#通用互斥管理"><span class="post-toc-number">3.3.2.</span> <span class="post-toc-text">通用互斥管理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RAII"><span class="post-toc-number">3.3.3.</span> <span class="post-toc-text">RAII</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#condition-variable-库"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">condition_variable 库</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#future-库"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">future 库</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用注意点"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">使用注意点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程传参"><span class="post-toc-number">3.6.1.</span> <span class="post-toc-text">线程传参</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#shared-ptr-线程安全"><span class="post-toc-number">3.6.2.</span> <span class="post-toc-text">shared_ptr 线程安全</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#互斥锁vs自旋锁"><span class="post-toc-number">3.6.3.</span> <span class="post-toc-text">互斥锁vs自旋锁</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#死锁"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">死锁</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定义"><span class="post-toc-number">3.7.1.</span> <span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#产生死锁的必要条件"><span class="post-toc-number">3.7.2.</span> <span class="post-toc-text">产生死锁的必要条件</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#死锁的处理"><span class="post-toc-number">3.8.</span> <span class="post-toc-text">死锁的处理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#多线程基本模型"><span class="post-toc-number">3.9.</span> <span class="post-toc-text">多线程基本模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#生产者消费者模型"><span class="post-toc-number">3.9.1.</span> <span class="post-toc-text">生产者消费者模型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#读者写者问题"><span class="post-toc-number">3.9.2.</span> <span class="post-toc-text">读者写者问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#银行家算法"><span class="post-toc-number">3.9.3.</span> <span class="post-toc-text">银行家算法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#哲学家就餐问题"><span class="post-toc-number">3.9.4.</span> <span class="post-toc-text">哲学家就餐问题</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#线程安全相关"><span class="post-toc-number">3.10.</span> <span class="post-toc-text">线程安全相关</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程安全"><span class="post-toc-number">3.10.1.</span> <span class="post-toc-text">线程安全</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#可重入函数"><span class="post-toc-number">3.10.2.</span> <span class="post-toc-text">可重入函数</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考资料"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考资料</span></a></li></ol>
         </nav>
     </aside>
 
@@ -201,7 +201,12 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="C-多线程"><a href="#C-多线程" class="headerlink" title="C++多线程"></a>C++多线程</h1><p>代码仓库位于<a href="https://github.com/Tyler-ytr/CPP_example/tree/main/multithread_example" target="_blank" rel="noopener">multithread_example</a>中;里面包含了一些案例</p>
+            <h1 id="C-多线程"><a href="#C-多线程" class="headerlink" title="C++多线程"></a>C++多线程</h1><p>代码仓库位于<a href="https://github.com/Tyler-ytr/CPP_example/tree/main/multithread_example" target="_blank" rel="noopener">multithread_example</a>中;里面包含了一些案例:</p>
+<ol>
+<li>mempool_example: 包含了线程池的实现</li>
+<li>multithread_example: 包含了C++ 多线程库的案例实现</li>
+<li>model_example: 包含了多线程模型的实现(TOBEDONE)</li>
+</ol>
 <h1 id="C-内存模型"><a href="#C-内存模型" class="headerlink" title="C++内存模型"></a>C++内存模型</h1><h2 id="关系术语"><a href="#关系术语" class="headerlink" title="关系术语"></a>关系术语</h2><h3 id="sequenced-before"><a href="#sequenced-before" class="headerlink" title="sequenced-before"></a>sequenced-before</h3><p>sequenced-before用于表示单线程之间，两个操作上的先后顺序，这个顺序是非对称、可以进行传递的关系。</p>
 <p>它不仅仅表示两个操作之间的先后顺序，还表示了操作结果之间的可见性关系。两个操作A和操作B，如果有A sequenced-before B，除了表示操作A的顺序在B之前，还表示了操作A的结果操作B可见。</p>
 <h3 id="happens-before"><a href="#happens-before" class="headerlink" title="happens-before"></a>happens-before</h3><p>与sequenced-before不同的是，happens-before关系表示的不同线程之间的操作先后顺序，同样的也是非对称、可传递的关系。</p>
@@ -228,7 +233,7 @@
 </ul>
 </li>
 <li>Release-Consume:<ul>
-<li>carry-a-dependency:   <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">b = *a;</span><br><span class="line">c = *b;</span><br></pre></td></tr></table></figure>
+<li>carry-a-dependency:   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">b &#x3D; *a;</span><br><span class="line">c &#x3D; *b;</span><br></pre></td></tr></table></figure>
   其中第二行代码的执行结果依赖于第一行代码的执行结果，此时称这两行代码之间的关系为“carry-a-dependency ”。</li>
 <li>C++中引入的memory_order_consume内存模型就针对这类代码间有明确的依赖关系的语句限制其先后顺序。相当于对于有依赖关系的部分是有先后顺序的(如同acquire)，但是对于没有依赖关系的部分是不保证先后顺序的。</li>
 </ul>
@@ -247,13 +252,17 @@
 </ol>
 <h2 id="Thread库"><a href="#Thread库" class="headerlink" title="Thread库"></a>Thread库</h2><p>下文所述，如无另外标记，默认为C++11特性</p>
 <ol>
-<li>thread: 创建线程，可以传入(带参)函数，lambda表达式<h3 id="join与detach"><a href="#join与detach" class="headerlink" title="join与detach"></a>join与detach</h3></li>
+<li>thread: 创建线程，可以传入(带参)函数，lambda表达式</li>
+</ol>
+<h3 id="join与detach"><a href="#join与detach" class="headerlink" title="join与detach"></a>join与detach</h3><ol>
 <li>thread类调用join()函数后，原始线程会等待新线程执行完毕之后再去销毁线程对象。<br>thread::join()还会在进程结束后清理子线程相关的内存空间，此后该thread对象不再与该子线程相关，即thread::joinable() = false ,故join对一个线程而言只能调用一次</li>
 <li>thread::detach将线程从thread对象分离出来，运行线程独立执行。当主线程结束时，由运行时库负责清理与子线程相关的资源。通常称分离线程为守护线程(daemon threads),UNIX中守护线程是指，没有任何显式的用户接口，并在后台运行的线程。(经过测试，当main()结束的时候，派生的子线程也不在运行)<br>由于detach不像join一样会等待子线程与主线程汇聚，故要注意以下几点:<ol>
 <li>如果传递int这种简单类型，推荐使用值传递，不要用引用</li>
-<li>如果传递类对象，避免使用隐式类型转换，全部都在创建线程这一行就创建出临时对象，然后在函数参数里，用引用来接，否则还会创建出一个对象。<h3 id="线程管理"><a href="#线程管理" class="headerlink" title="线程管理"></a>线程管理</h3></li>
+<li>如果传递类对象，避免使用隐式类型转换，全部都在创建线程这一行就创建出临时对象，然后在函数参数里，用引用来接，否则还会创建出一个对象。</li>
 </ol>
 </li>
+</ol>
+<h3 id="线程管理"><a href="#线程管理" class="headerlink" title="线程管理"></a>线程管理</h3><ol>
 <li>yield：让出处理器，重新调度各执行线程;通常用在自己的主要任务已经完成的时候，此时希望让出处理器给其他任务使用。</li>
 <li>get_id: 返回当前线程的线程 id;可以以此来标识不同的线程。</li>
 <li>sleep_for: 是让当前线程停止一段时间。</li>
@@ -413,7 +422,61 @@ y=x操作涉及到两个成员的操作，也就是<code>shared_ptr</code>中裸
 </ol>
 </li>
 </ol>
-<h2 id="多线程基本模型"><a href="#多线程基本模型" class="headerlink" title="多线程基本模型"></a>多线程基本模型</h2><h3 id="生产者消费者模型"><a href="#生产者消费者模型" class="headerlink" title="生产者消费者模型"></a>生产者消费者模型</h3><h3 id="读者写者问题"><a href="#读者写者问题" class="headerlink" title="读者写者问题"></a>读者写者问题</h3><h3 id="银行家算法"><a href="#银行家算法" class="headerlink" title="银行家算法"></a>银行家算法</h3><h3 id="哲学家就餐问题"><a href="#哲学家就餐问题" class="headerlink" title="哲学家就餐问题"></a>哲学家就餐问题</h3><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><ol>
+<li>死锁：指两个或两个以上的进程在执行过程中，因争夺资源而造成的一种互相等待的现象，若无外力作用，它们都将无法推进下去。称此时系统处于死锁状态或系统产生了死锁。操作系统分配策略不合理导致</li>
+<li>饥饿：由于长时间得不到想要的资源，导致各个进程阻塞，无法向前推进；操作系统分配策略不合理导致</li>
+<li>死循环：代码逻辑错误导致；<h3 id="产生死锁的必要条件"><a href="#产生死锁的必要条件" class="headerlink" title="产生死锁的必要条件"></a>产生死锁的必要条件</h3></li>
+<li><strong>互斥条件</strong>: 只有对必须互斥使用的资源的争抢才会导致死锁；比如下面问题中的哲学家的餐叉；</li>
+<li><strong>不可剥夺条件</strong>：进程所获得的资源在未使用完之前，<strong>不能由其他进程强行夺走</strong>，只能主动释放。</li>
+<li><strong>请求和保持条件</strong>：进程已经<strong>保持了至少一个资源</strong>，但又提出了新的资源<strong>请求</strong>，而该资源又被其他进程占有，此时请求进程被阻塞，但又对自己已有的资源<strong>保持</strong>不放。</li>
+<li><strong>循环等待条件</strong>：循环等待条件:存在一种进程资源的<strong>循环等待链</strong>，链中的每一个进程已获得的资源同时被下一个进程所请求。<br>###　产生死锁的原因<br>竞争临界资源和进程推进顺序不当。<h2 id="死锁的处理"><a href="#死锁的处理" class="headerlink" title="死锁的处理"></a>死锁的处理</h2></li>
+<li>死锁预防:<ol>
+<li>破坏互斥条件：比如把一些互斥资源改成共享的；缺点：有些资源无法共享</li>
+<li>破坏不可剥夺条件：比如当一个进程请求新的资源得不到满足的时候就释放手头的资源，以后需要的时候再申请；或者通过操作系统强行剥夺调度；缺点：实现复杂，系统开销大可能导致饥饿；</li>
+<li>破坏请求和保持条件：比如静态分配方法，即进程在运行前一次申请完它所需要的全部资源，在它的资源未满足前，不让它投入运行。一旦投入运行后，这些资源就一直归它所有，该进程就不会再请求别的任何资源了；缺点：资源利用率低可能导致饥饿</li>
+<li>破坏循环等待条件：比如顺序资源分配方法，先给系统中的资源编号，规定每个进程必须按<strong>编号递增</strong>的顺序请求资源，同类资源（即编号相同的资源）一次申请完。缺点：不方便增加新设备，资源浪费</li>
+</ol>
+</li>
+<li>死锁避免：<ol>
+<li>安全序列：指如果系统按照这种序列分配资源，则每个进程都能顺利完成。只要能找出一个安全序列，系统就是安全状态。当然，安全序列可能有多个。</li>
+<li>银行家算法</li>
+</ol>
+</li>
+<li>死锁检测：<ol>
+<li>操作系统可以基于资源分配图的方式检测。</li>
+<li>linux提供了<a href="https://www.cnblogs.com/still-smile/p/12410692.html" target="_blank" rel="noopener">Lockdep</a>，可以协助发现死锁；lockdep可以跟踪每个锁类的自身状态，也跟踪各个锁类之间的依赖关系，通过一系列的验证规则，确保锁类状态和锁类之间的依赖总是正确的。</li>
+</ol>
+</li>
+<li>死锁解除：<ol>
+<li>撤消所有的死锁进程</li>
+<li>连续撤消死锁进程直至不再存在死锁</li>
+<li>连续剥夺资源直到不再存在死锁</li>
+<li>把每个死锁进程备份到前面定义的某个检查点，并重新启动所有进程</li>
+</ol>
+</li>
+</ol>
+<h2 id="多线程基本模型"><a href="#多线程基本模型" class="headerlink" title="多线程基本模型"></a>多线程基本模型</h2><p>这部分包含了这些模型的问题；具体解决思路和代码见model_example</p>
+<h3 id="生产者消费者模型"><a href="#生产者消费者模型" class="headerlink" title="生产者消费者模型"></a>生产者消费者模型</h3><p>一个系统中，存在生产者和消费者两种角色，他们通过内存缓冲区进行通信，生产者生产消费者需要的资料，消费者把资料做成产品；具体而言:</p>
+<ol>
+<li>生产者生产数据到缓冲区中，消费者从缓冲区中取数据。</li>
+<li>如果缓冲区已经满了，则生产者线程阻塞。</li>
+<li>如果缓冲区为空，那么消费者线程阻塞。</li>
+</ol>
+<h3 id="读者写者问题"><a href="#读者写者问题" class="headerlink" title="读者写者问题"></a>读者写者问题</h3><p>有两组并发进程：读者和写者，共享一个文件F，要求:</p>
+<ol>
+<li>允许多个读者同时执行读操作</li>
+<li>任一写者在完成写操作之前不允许其它读者或写者工作</li>
+<li>写者执行写操作前，应让已有的写者和读者全部退出<br>对于该问题有三种解决的方向：读者优先，写者优先，读写公平</li>
+</ol>
+<h3 id="银行家算法"><a href="#银行家算法" class="headerlink" title="银行家算法"></a>银行家算法</h3><p>这是一种死锁避免的实现:</p>
+<p>假定小城镇银行家拥有资金数量为$\Sigma$,被N个客户共享，银行家对客户提出下列约束条件:每个客户必须预先说明所要的最大资金量;每个客户每次提出部分资金量的申请并获得分配；如果银行满足客户对资金的最大需求量，那么客户在资金运作后，应在有限时间内全部归还银行。</p>
+<p>只要客户遵守上述约束条件，银行家将保证做到：若一个客户所要的最大资金量不超过$\Sigma$，银行一定会接纳此客户并满足其资金需求；银行在收到一个客户的资金申请时，可能会因资金不足而让客户等待，但保证在有限时间内让客户获得资金。</p>
+<p>在银行家算法中，客户可看做进程，资金可看做资源，银行家可看做操作系统。银行家算法虽然能避免死锁，但是在操作系统中实际应用时却很难实现，因为要求所涉及的进程不相交，即不能有同步要求，而且要知道进程的总数和每个进程请求的最大资源数，这些都很难办到。</p>
+<h3 id="哲学家就餐问题"><a href="#哲学家就餐问题" class="headerlink" title="哲学家就餐问题"></a>哲学家就餐问题</h3><p>假设有五位哲学家围坐在一张圆形餐桌旁，做以下两件事情之一：<strong>吃饭，或者思考</strong>。<strong>吃东西</strong>的时候，他们就<strong>停止思考</strong>，思考的时候也停止吃东西。餐桌上有<strong>五碗</strong>意大利面，每位哲学家之间<strong>各有一支餐叉</strong>。因为用一支餐叉很难吃到意大利面，所以假设哲学家必须用<strong>两支餐叉</strong>吃东西。他们只能使用自己左右手边的那两支餐叉。</p>
+<p>问题在于如何设计一套规则，使得在哲学家们在完全不交谈，也就是无法知道其他人可能在什么时候要吃饭或者思考的情况下，可以在这两种状态下永远交替下去。</p>
+<h2 id="线程安全相关"><a href="#线程安全相关" class="headerlink" title="线程安全相关"></a>线程安全相关</h2><h3 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h3><p>TOBEDONE</p>
+<h3 id="可重入函数"><a href="#可重入函数" class="headerlink" title="可重入函数"></a>可重入函数</h3><p>TOBEDONE</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
 <li><a href="https://paul.pub/cpp-concurrency/" target="_blank" rel="noopener">C++并发编程</a></li>
 <li><a href="https://changkun.de/modern-cpp/zh-cn/07-thread/index.html" target="_blank" rel="noopener">现代C++教程/并行并发</a></li>
 <li><a href="https://gutsgwh1997.github.io/categories/C/C-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" target="_blank" rel="noopener">C++多线程专栏</a></li>
@@ -426,7 +489,7 @@ y=x操作涉及到两个成员的操作，也就是<code>shared_ptr</code>中裸
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2023-08-20T16:07:56.145Z" itemprop="dateUpdated">2023-08-21 00:07:56</time>
+    Last updated: <time datetime="2023-08-24T03:39:24.852Z" itemprop="dateUpdated">2023-08-24 11:39:24</time>
 </span><br>
 
 
