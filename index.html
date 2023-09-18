@@ -164,6 +164,60 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-飞书及反向代理配置"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2023-09-18 08:38:54" datetime="2023-09-18T00:38:54.000Z"  itemprop="datePublished">2023-09-18</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2023/09/18/%E9%A3%9E%E4%B9%A6%E5%8F%8A%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/">飞书机器人及反向代理配置</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        飞书配置及frp反代过程记录环境及需求
+公网服务器A，假设为 1.1.1.1；内网服务器B，假设为2.2.2.2；目的是公网服务器A暴露端口(23333)给飞书API，然后通过frp反代给内网服务器B的nonebot(1234端口)；
+
+飞书及机器人配置流程
+安装需要的环境，注意python3版本大于3.8;
+
+pipx及nb-cli安装:
+1234python -m pip install...
+    
+
+        <a href="/2023/09/18/%E9%A3%9E%E4%B9%A6%E5%8F%8A%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" rel="tag">开发记录</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-算法板子"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -633,61 +687,6 @@ Slow...
     <div class="post-footer">
         
 	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RDMA/" rel="tag">RDMA</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-hexo表格生成问题"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-10-19 23:08:23" datetime="2022-10-19T15:08:23.000Z"  itemprop="datePublished">2022-10-19</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2022/10/19/hexo%E8%A1%A8%E6%A0%BC%E7%94%9F%E6%88%90%E9%97%AE%E9%A2%98/">hexo表格生成问题</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        问题hexo对于表格的解析存在几种问题：
-表格前后需要空一行不然无法渲染(typora可以渲染)| a    | b    || —- | —- || c    | d    |另外在缩进的情况下也无法渲染表格
-
-测试：
-表格如下：
-| a    | b    || —- | —- || c    | d    |
-
-
-正常的表格12345678文字：1. 测试| a    | b    |...
-    
-
-        <a href="/2022/10/19/hexo%E8%A1%A8%E6%A0%BC%E7%94%9F%E6%88%90%E9%97%AE%E9%A2%98/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo%E9%85%8D%E7%BD%AE/" rel="tag">hexo配置</a></li></ul>
 
     </div>
     
