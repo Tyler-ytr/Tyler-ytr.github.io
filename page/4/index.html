@@ -164,6 +164,120 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-hacker-delight-reading"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2021-10-29 12:29:48" datetime="2021-10-29T04:29:48.000Z"  itemprop="datePublished">2021-10-29</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">阅读笔记</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2021/10/29/hacker-delight-reading/">hacker&#39;s delight 阅读</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        主要是P4使用中可能会需要一些骚操作，遂阅读此书；
+
+默认字长为32位；
+
+ch2
+最右边的位元：
+
+考虑用x+1,x-1配上与或非取反进行操作，比如$x \&amp; (x-1)$;
+$\neg x\&amp;(x+1)$,$\neg x\&amp;(x-1)$,$\neg x |(x+1)$……
+这块建议查书；
+
+
+从右到左的可计算性：
+
+如果一个函数能够以位元为单位从右到左计算出来，那...
+    
+
+        <a href="/2021/10/29/hacker-delight-reading/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hacker-s-delight/" rel="tag">hacker's delight</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-p4-overview"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2021-10-25 13:05:18" datetime="2021-10-25T05:05:18.000Z"  itemprop="datePublished">2021-10-25</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2021/10/25/p4-overview/">p4_overview</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        主要来自对https://github.com/jafingerhut/p4-guide/blob/master/README-p4lang-repos.md 的学习
+文档与博客官方文档
+p4文档页面
+p4runtime文档
+p4_16语言文档
+p4_16 Portable Switch Architecture (PSA)文档
+p4 Portable NIC Architecture (P...
+    
+
+        <a href="/2021/10/25/p4-overview/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/p4/" rel="tag">p4</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/p4-guide/" rel="tag">p4 guide</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-hello-world"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -574,112 +688,12 @@ Java...
 
         </li>
     
-        <li class="post-list-item fade">
-            <article id="post-学校服务器访问外网的配置"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2021-07-02 15:37:05" datetime="2021-07-02T07:37:05.000Z"  itemprop="datePublished">2021-07-02</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2021/07/02/%E5%AD%A6%E6%A0%A1%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91%E7%9A%84%E9%85%8D%E7%BD%AE/">学校服务器访问外网的配置</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        访问外网的配置服务器1命令行中使用:
-1setproxy
-就可以通过代理服务器1的服务器1的端口访问外网。
-NAT的方法(目前不用，仅作参考)服务器1可以上外网；服务器2不能上外网，但是在内网与服务器1互通；下面的操作是用iptables在服务器1上对服务器2搭建一个NAT; 并且修改服务器2的默认路由，达到服务器2访问外网的目的；
-服务器11iptables -t nat -A POSTR...
-    
-
-        <a href="/2021/07/02/%E5%AD%A6%E6%A0%A1%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91%E7%9A%84%E9%85%8D%E7%BD%AE/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-p4学习-6"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2021-04-20 12:16:42" datetime="2021-04-20T04:16:42.000Z"  itemprop="datePublished">2021-04-20</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/">p4学习-6:实现网络测量</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        p4学习-6:实现网络测量实验目标这个练习的目标是写一个P4程序允许一个主机区检测网络中所有链路的利用情况。这个练习是在基础的IPV4 forwarding练习上搭建的。具体来说，我们将修改基本的P4程序，以处理源路由探测包，使其能够在每一跳提取出口链路利用率，并将其交付给主机进行监控。
-探测包由下面三种header types组成:
-1234567891011121314151617181...
-    
-
-        <a href="/2021/04/20/p4%E5%AD%A6%E4%B9%A0-6/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/p4/" rel="tag">p4</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
     </ul>
 
     
 <nav id="page-nav">
     <div class="inner">
-    <a class="extend prev" rel="prev" href="/page/3/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/5/">下一页</a>
+    <a class="extend prev" rel="prev" href="/page/3/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/">下一页</a>
     </div>
 </nav>
 
@@ -707,7 +721,7 @@ NAT的方法(目前不用，仅作参考)服务器1可以上外网；服务器2�
         </p>
     </div>
     <div class="bottom">
-        <p><span>Tyler-yin &copy; 2015 - 2023</span>
+        <p><span>Tyler-yin &copy; 2015 - 2024</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

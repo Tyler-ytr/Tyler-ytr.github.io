@@ -164,6 +164,103 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
+            <article id="post-C-各类题目整理"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2022-11-17 16:38:30" datetime="2022-11-17T08:38:30.000Z"  itemprop="datePublished">2022-11-17</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2022/11/17/C-%E5%90%84%E7%B1%BB%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/">C++各类题目整理</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        C++各类题目算法位运算快速判断二进制编码中“1”有奇数个还是偶数个12345678int odd_ones(unsigned x) &#123;	x = x ^ (x &gt;&gt; 16);      x = x ^ (x &gt;&gt; 8);     x = x ^ (x &gt;&gt; 4);      x = x ^ (x &gt;&gt; 2);      x = x ^...
+    
+
+        <a href="/2022/11/17/C-%E5%90%84%E7%B1%BB%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-ibv_post_send的机制"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2022-10-27 13:54:43" datetime="2022-10-27T05:54:43.000Z"  itemprop="datePublished">2022-10-27</time>
+
+        
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/">ibv_post_send的机制</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        概括本文介绍了发生在CPU和网卡之间通过PCIe来传输信息和基于Inifiniband互联发送完成信号的一系列协调事件
+正文在Inifiband上面发送信息的传统方法是通过Verb API. libibverbs是这个API的标准实现，目前由Linux-RDMA社区维护。
+Verbs可以分为两类：慢速和快速函数( slow-path and fast-path functions)
+Slow...
+    
+
+        <a href="/2022/10/27/ibv_post_send%E7%9A%84%E6%9C%BA%E5%88%B6/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RDMA/" rel="tag">RDMA</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-hexo表格生成问题"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -584,117 +681,12 @@ RDMA技术整理3 RDMA基本功能RDMA基本元素参考于知乎专栏
 
         </li>
     
-        <li class="post-list-item fade">
-            <article id="post-RDMA-learning"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-04-16 15:35:20" datetime="2022-04-16T07:35:20.000Z"  itemprop="datePublished">2022-04-16</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2022/04/16/RDMA-learning/">RDMA技术整理1</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        RDMA技术整理1 DMA技术概述RDMA全称是Remote Direct Memory Access，基本理念可以看成是远程的DMA技术，目的是为了解决网络传输中数据处理的延迟。因此首先了解一下DMA技术
-DMA技术与零拷贝参考于该博客
-该技术用于I/O过程。众所周知，磁盘速度相对于内存以及CPU cache非常慢，因此有很多用于优化磁盘的技术比如零拷贝，异步I/O等等。DMA也是其中的技...
-    
-
-        <a href="/2022/04/16/RDMA-learning/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RDMA/" rel="tag">RDMA</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-算法框架"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2022-02-15 10:50:07" datetime="2022-02-15T02:50:07.000Z"  itemprop="datePublished">2022-02-15</time>
-
-        
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/">算法模板</a><ul class="article-category-list-child"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/leetcode%E5%88%B7%E9%A2%98/">leetcode刷题</a></li></ul></li></ul>
-
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2022/02/15/%E7%AE%97%E6%B3%95%E6%A1%86%E6%9E%B6/">算法框架</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        参考https://labuladong.gitee.io/ 进行模板的整理
-数据结构二叉树
-                
-                    
-                    
-                
-                image-20220215105403320
-            
-二叉搜索树
-               ...
-    
-
-        <a href="/2022/02/15/%E7%AE%97%E6%B3%95%E6%A1%86%E6%9E%B6/" class="post-more waves-effect waves-button">
-            Continue reading...
-        </a>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
     </ul>
 
     
 <nav id="page-nav">
     <div class="inner">
-    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
     </div>
 </nav>
 
@@ -722,7 +714,7 @@ DMA技术与零拷贝参考于该博客
         </p>
     </div>
     <div class="bottom">
-        <p><span>Tyler-yin &copy; 2015 - 2023</span>
+        <p><span>Tyler-yin &copy; 2015 - 2024</span>
             <span>
                 
                 Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>

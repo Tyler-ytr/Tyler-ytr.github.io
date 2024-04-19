@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Tofino实现多pipeline不同程序的方法 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="p4">
+    <meta name="description" content="Tofino 实现多pipeline不同程序的方法PS：tna_32q_multiprogram的原始位置为:  &#x2F;home&#x2F;admin&#x2F;bin&#x2F;bf-sde-9.7.0&#x2F;pkgsrc&#x2F;p4-examples&#x2F;p4_16_programs&#x2F;tna_32q_multiprogram本教程当前版本仅仅关心它的P4文件，控制面下表暂未探索  编译：分别编译两个文件，案例如下:  12~&#x2F;bin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tofino实现多pipeline不同程序的方法">
+<meta property="og:url" content="http://tyler-ytr.github.io/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="Tofino 实现多pipeline不同程序的方法PS：tna_32q_multiprogram的原始位置为:  &#x2F;home&#x2F;admin&#x2F;bin&#x2F;bf-sde-9.7.0&#x2F;pkgsrc&#x2F;p4-examples&#x2F;p4_16_programs&#x2F;tna_32q_multiprogram本教程当前版本仅仅关心它的P4文件，控制面下表暂未探索  编译：分别编译两个文件，案例如下:  12~&#x2F;bin">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-04-19T06:55:10.000Z">
+<meta property="article:modified_time" content="2024-04-19T06:56:10.867Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="p4">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Tofino实现多pipeline不同程序的方法</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Tofino实现多pipeline不同程序的方法</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2024-04-19T06:55:10.000Z" itemprop="datePublished" class="page-time">
+  2024-04-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Tofino-实现多pipeline不同程序的方法"><span class="post-toc-number">1.</span> <span class="post-toc-text">Tofino 实现多pipeline不同程序的方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#案例中的文件"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">案例中的文件</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Tofino实现多pipeline不同程序的方法"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Tofino实现多pipeline不同程序的方法</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2024-04-19 14:55:10" datetime="2024-04-19T06:55:10.000Z"  itemprop="datePublished">2024-04-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="Tofino-实现多pipeline不同程序的方法"><a href="#Tofino-实现多pipeline不同程序的方法" class="headerlink" title="Tofino 实现多pipeline不同程序的方法"></a>Tofino 实现多pipeline不同程序的方法</h1><p>PS：tna_32q_multiprogram的原始位置为:  /home/admin/bin/bf-sde-9.7.0/pkgsrc/p4-examples/p4_16_programs/tna_32q_multiprogram<br>本教程当前版本仅仅关心它的P4文件，控制面下表暂未探索</p>
+<ol>
+<li>编译：分别编译两个文件，案例如下:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~&#x2F;bin&#x2F;bf-sde-9.7.0&#x2F;tools&#x2F;p4_build.sh ~&#x2F;p4_program&#x2F;tna_32q_multiprogram&#x2F;program_a&#x2F;tna_32q_multiprogram_a.p4</span><br><span class="line">~&#x2F;bin&#x2F;bf-sde-9.7.0&#x2F;tools&#x2F;p4_build.sh ~&#x2F;p4_program&#x2F;tna_32q_multiprogram&#x2F;program_b&#x2F;tna_32q_multiprogram_b.p4</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>修改.conf文件:<ol>
+<li>通过第一步之后，在形如/home/admin/bin/bf-sde-9.7.0/install/share/p4/targets/tofino 的文件夹中会有.conf文件，案例中名称为tna_32q_multiprogram_a.conf和tna_32q_multiprogram_b.conf；</li>
+<li>复制tna_32q_multiprogram_a.conf，重命名为tna_32q_multiprogram.conf</li>
+<li>在新文件中复制tna_32q_multiprogram_b.conf的”p4_programs”中的大括号的内容到tna_32q_multiprogram.conf中，并且修改pipe_scope变量指定pipeline；<strong>注意</strong>：我们的tofino1交换机只有两个pipeline 因此应该分别为0和1；</li>
+</ol>
+</li>
+<li>运行：$SDE/run_switchd.sh -p tna_32q_multiprogram 这一步最后的名字和conf文件的前半部分相同。</li>
+</ol>
+<h2 id="案例中的文件"><a href="#案例中的文件" class="headerlink" title="案例中的文件"></a>案例中的文件</h2><ol>
+<li>tna_32q_multiprogram_a.conf</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;chip_list&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;id&quot;: &quot;asic-0&quot;,</span><br><span class="line">            &quot;chip_family&quot;: &quot;tofino&quot;,</span><br><span class="line">            &quot;instance&quot;: 0,</span><br><span class="line">            &quot;pcie_sysfs_prefix&quot;: &quot;&#x2F;sys&#x2F;devices&#x2F;pci0000:00&#x2F;0000:00:03.0&#x2F;0000:05:00.0&quot;,</span><br><span class="line">            &quot;pcie_domain&quot;: 0,</span><br><span class="line">            &quot;pcie_bus&quot;: 5,</span><br><span class="line">            &quot;pcie_fn&quot;: 0,</span><br><span class="line">            &quot;pcie_dev&quot;: 0,</span><br><span class="line">            &quot;pcie_int_mode&quot;: 1,</span><br><span class="line">            &quot;sds_fw_path&quot;: &quot;share&#x2F;tofino_sds_fw&#x2F;avago&#x2F;firmware&quot;</span><br><span class="line">            &quot;sds_fw_path&quot;: &quot;share&#x2F;tofino_sds_fw&#x2F;avago&#x2F;firmware&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;instance&quot;: 0,</span><br><span class="line">    &quot;p4_devices&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;device-id&quot;: 0,</span><br><span class="line">            &quot;p4_programs&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;program-name&quot;: &quot;tna_32q_multiprogram_a&quot;,</span><br><span class="line">                    &quot;bfrt-config&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_a&#x2F;bf-rt.json&quot;,</span><br><span class="line">                    &quot;p4_pipelines&quot;: [</span><br><span class="line">                        &#123;</span><br><span class="line">                            &quot;p4_pipeline_name&quot;: &quot;profile_a&quot;,</span><br><span class="line">                            &quot;context&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_a&#x2F;profile_a&#x2F;context.json&quot;,</span><br><span class="line">                            &quot;config&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_a&#x2F;profile_a&#x2F;tofino.bin&quot;,</span><br><span class="line">                            &quot;pipe_scope&quot;: [</span><br><span class="line">                                0,</span><br><span class="line">                                1,</span><br><span class="line">                                2,</span><br><span class="line">                                3</span><br><span class="line">                            ],</span><br><span class="line">                            &quot;path&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_a&quot;</span><br><span class="line">                        &#125;</span><br><span class="line">                    ]</span><br><span class="line">                &#125;</span><br><span class="line">            ],</span><br><span class="line">            &quot;agent0&quot;: &quot;lib&#x2F;libpltfm_mgr.so&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>tna_32q_multiprogram_b.conf</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;chip_list&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;id&quot;: &quot;asic-0&quot;,</span><br><span class="line">            &quot;chip_family&quot;: &quot;tofino&quot;,</span><br><span class="line">            &quot;instance&quot;: 0,</span><br><span class="line">            &quot;pcie_sysfs_prefix&quot;: &quot;&#x2F;sys&#x2F;devices&#x2F;pci0000:00&#x2F;0000:00:03.0&#x2F;0000:05:00.0&quot;,</span><br><span class="line">            &quot;pcie_domain&quot;: 0,</span><br><span class="line">            &quot;pcie_bus&quot;: 5,</span><br><span class="line">            &quot;pcie_fn&quot;: 0,</span><br><span class="line">            &quot;pcie_dev&quot;: 0,</span><br><span class="line">            &quot;pcie_int_mode&quot;: 1,</span><br><span class="line">            &quot;sds_fw_path&quot;: &quot;share&#x2F;tofino_sds_fw&#x2F;avago&#x2F;firmware&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;instance&quot;: 0,</span><br><span class="line">    &quot;p4_devices&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;device-id&quot;: 0,</span><br><span class="line">            &quot;p4_programs&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;program-name&quot;: &quot;tna_32q_multiprogram_b&quot;,</span><br><span class="line">                    &quot;bfrt-config&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_b&#x2F;bf-rt.json&quot;,</span><br><span class="line">                    &quot;p4_pipelines&quot;: [</span><br><span class="line">                        &#123;</span><br><span class="line">                            &quot;p4_pipeline_name&quot;: &quot;profile_b&quot;,</span><br><span class="line">                            &quot;context&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_b&#x2F;profile_b&#x2F;context.json&quot;,</span><br><span class="line">                            &quot;config&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_b&#x2F;profile_b&#x2F;tofino.bin&quot;,</span><br><span class="line">                            &quot;pipe_scope&quot;: [</span><br><span class="line">                                0,</span><br><span class="line">                                1,</span><br><span class="line">                                2,</span><br><span class="line">                                3</span><br><span class="line">                            ],</span><br><span class="line">                            &quot;path&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_b&quot;</span><br><span class="line">                        &#125;</span><br><span class="line">                    ]</span><br><span class="line">                &#125;</span><br><span class="line">            ],</span><br><span class="line">            &quot;agent0&quot;: &quot;lib&#x2F;libpltfm_mgr.so&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>tna_32q_multiprogram.conf</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;chip_list&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;id&quot;: &quot;asic-0&quot;,</span><br><span class="line">            &quot;chip_family&quot;: &quot;tofino&quot;,</span><br><span class="line">            &quot;instance&quot;: 0,</span><br><span class="line">            &quot;pcie_sysfs_prefix&quot;: &quot;&#x2F;sys&#x2F;devices&#x2F;pci0000:00&#x2F;0000:00:03.0&#x2F;0000:05:00.0&quot;,</span><br><span class="line">            &quot;pcie_domain&quot;: 0,</span><br><span class="line">            &quot;pcie_bus&quot;: 5,</span><br><span class="line">            &quot;pcie_fn&quot;: 0,</span><br><span class="line">            &quot;pcie_dev&quot;: 0,</span><br><span class="line">            &quot;pcie_int_mode&quot;: 1,</span><br><span class="line">            &quot;sds_fw_path&quot;: &quot;share&#x2F;tofino_sds_fw&#x2F;avago&#x2F;firmware&quot;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;instance&quot;: 0,</span><br><span class="line">    &quot;p4_devices&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;device-id&quot;: 0,</span><br><span class="line">            &quot;p4_programs&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;program-name&quot;: &quot;tna_32q_multiprogram_a&quot;,</span><br><span class="line">                    &quot;bfrt-config&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_a&#x2F;bf-rt.json&quot;,</span><br><span class="line">                    &quot;p4_pipelines&quot;: [</span><br><span class="line">                        &#123;</span><br><span class="line">                            &quot;p4_pipeline_name&quot;: &quot;profile_a&quot;,</span><br><span class="line">                            &quot;context&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_a&#x2F;profile_a&#x2F;context.json&quot;,</span><br><span class="line">                            &quot;config&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_a&#x2F;profile_a&#x2F;tofino.bin&quot;,</span><br><span class="line">                            &quot;pipe_scope&quot;: [</span><br><span class="line">                                0</span><br><span class="line">                            ],</span><br><span class="line">                            &quot;path&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_a&quot;</span><br><span class="line">                        &#125;</span><br><span class="line">                    ]</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;program-name&quot;: &quot;tna_32q_multiprogram_b&quot;,</span><br><span class="line">                    &quot;bfrt-config&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_b&#x2F;bf-rt.json&quot;,</span><br><span class="line">                    &quot;p4_pipelines&quot;: [</span><br><span class="line">                        &#123;</span><br><span class="line">                            &quot;p4_pipeline_name&quot;: &quot;profile_b&quot;,</span><br><span class="line">                            &quot;context&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_b&#x2F;profile_b&#x2F;context.json&quot;,</span><br><span class="line">                            &quot;config&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_b&#x2F;profile_b&#x2F;tofino.bin&quot;,</span><br><span class="line">                            &quot;pipe_scope&quot;: [</span><br><span class="line">                                1</span><br><span class="line">                            ],</span><br><span class="line">                            &quot;path&quot;: &quot;share&#x2F;tofinopd&#x2F;tna_32q_multiprogram_b&quot;</span><br><span class="line">                        &#125;</span><br><span class="line">                    ]</span><br><span class="line">                &#125;</span><br><span class="line">            ],</span><br><span class="line">            &quot;agent0&quot;: &quot;lib&#x2F;libpltfm_mgr.so&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2024-04-19T06:56:10.867Z" itemprop="dateUpdated">2024-04-19 14:56:10</time>
+</span><br>
+
+
+        
+        Link：<a href="/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/" target="_blank" rel="external">http://tyler-ytr.github.io/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/p4/" rel="tag">p4</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/&title=《Tofino实现多pipeline不同程序的方法》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/&title=《Tofino实现多pipeline不同程序的方法》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Tofino实现多pipeline不同程序的方法》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2024/04/19/TNA%E6%9E%B6%E6%9E%84%E6%89%8B%E5%86%8C%E7%BF%BB%E8%AF%91/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">TNA架构手册翻译</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2023/09/18/%E9%A3%9E%E4%B9%A6%E5%8F%8A%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">飞书机器人及反向代理配置</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2024</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/&title=《Tofino实现多pipeline不同程序的方法》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/&title=《Tofino实现多pipeline不同程序的方法》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Tofino实现多pipeline不同程序的方法》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2024/04/19/Tofino%E5%AE%9E%E7%8E%B0%E5%A4%9Apipeline%E4%B8%8D%E5%90%8C%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%96%B9%E6%B3%95/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASYAAAEmCAAAAADqr2IGAAAElklEQVR42u3aS3LcOBAFQN3/0prtOCxR71Wxww0quXK0aJJILFC/j4/4+vzr+u73///173u+e/L107577/UX5v/3tgsTJkyYML0lU/7o2S/XHNegmwXvNwYTJkyYMD2JKXnc9WF8fYYmQEkAMQsIknX9sCJMmDBhwvTLmJJltEdvsrDZnUnIggkTJkyYMN1wrC5KzLN7ZskzJkyYMGF6HlP+uKgkGrdCr+/JF9wWc19YC8eECRMmTG/G1B7JT/r3zRcmTJgwYXozps/yyou5s23ID+N2uKcdhP3jf2HChAkTpmOZ2hLqrIm4j1buGtOZrRcTJkyYMD2PqR2saVPl2TULI2bNS0yYMGHC9FSm9mV5Ytk2ONtAJFlq3lL92HtjwoQJE6ZDmNqjul1S+5y20HzXlmDChAkTpmcwzZqUbfqaEORhSp76bhqomDBhwoTpRKb8+M+x2jJxPhI0S2vb4OOLb8OECRMmTA9iuiu9nKWjebKab17bpo2SXkyYMGHCdCBT/hGzxefcryjytiFFNLKDCRMmTJgOYdoc522a2oYFsyZrXuSNNhsTJkyYMD2IqW315YvJi7zJ4mftzFkCjwkTJkyYTmealUdfnZrm8zPt8FCbnGPChAkTpnOZXvGyzcDNXQXlu+78oSKOCRMmTJgOYUoW2RZ/8zQ4H37N0+ZNGPHRxkeYMGHChOmNmfIibNLsbNPLV7wxT9qLsSFMmDBhwvQIpn3R9vqXdvB01uDMC8TFPZgwYcKE6XCmNuGc9fiSJHZ2YCfPzBPpuuuLCRMmTJgOYcpbiXm7MQ8Cki9pW6Gbdf3xV0yYMGHC9AimvNW3Ge55xe/JRrbBRy2NCRMmTJjekmlWDN2M/rSl3haobayuFokJEyZMmN6e6RVjOvuPblPlV6zri9QXEyZMmDAdyJQkwG0Lc9Mc3aS116Xh2dgQJkyYMGF6BlNbJJ19+p5+U+TNG6U/bCcmTJgwYTqKaZaUzhqfeak3Oeb3KW4RrGDChAkTpmOZcoI8Sb7342YBwQbuhyADEyZMmDAdy7Q/jGepZhKatPSzIKYodmPChAkTpkOYNgM07RE7+8R22/Zf+MW7MGHChAnTsUwJ1qxc2w7N5N3X/Jn5VaS7mDBhwoTpKKY84cxHeTYNyNkyNul0ETdhwoQJE6YDmfLgYF/wzQOOvBmZt0I3o0iYMGHChOlcpiQznnVH2yGb2fGcl4nbTcKECRMmTE9lasumLdm+nRnVrUfhSBE1YMKECROmA5nyRDRpc7ZPyJ95V6u1qApgwoQJE6ZjmWbF1jzd3Y/X5MXffBtuuDBhwoQJ0yFMn+XVHtuzp+UJeRuszFqnmDBhwoTpXKb9wTxLd2cDNHcVefN33RZPYcKECROmf8rUNg7z9HIzOjPbyLzImw8hYcKECROmZzDlL87Hd/KSccKXcMw2KdpgTJgwYcL0a5jysm975OcF2ZbphqAEEyZMmDD9SqYZzax0my87T2uLkAUTJkyYMB3OlCerSQk1x20X35aV9+NHmDBhwoTpdKa2Wbj/oLYE3HLnQzkrFEyYMGHC9O5M/wEMujsb+vr6SAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
