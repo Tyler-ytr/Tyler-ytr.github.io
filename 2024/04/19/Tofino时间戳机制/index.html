@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Tofino时间戳机制 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="p4">
+    <meta name="description" content="Tofino时间戳机制时间戳的作用 调试，例如确定硬件 pipeline 中某个部分的延迟 确定硬件 pipeline 的总延迟，然后通过 PTP 协议对交换机进行同步  Global Time Counter and Timestamp Information AvailableTofino 有一个全局 Time Counter，由两部分构成，分别是 48-bit Nanosecond comp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tofino时间戳机制">
+<meta property="og:url" content="http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="Tofino时间戳机制时间戳的作用 调试，例如确定硬件 pipeline 中某个部分的延迟 确定硬件 pipeline 的总延迟，然后通过 PTP 协议对交换机进行同步  Global Time Counter and Timestamp Information AvailableTofino 有一个全局 Time Counter，由两部分构成，分别是 48-bit Nanosecond comp">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/picture/image-20240419154127387.png">
+<meta property="article:published_time" content="2024-04-19T07:37:02.000Z">
+<meta property="article:modified_time" content="2024-04-19T07:48:27.848Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="p4">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/picture/image-20240419154127387.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Tofino时间戳机制</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Tofino时间戳机制</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2024-04-19T07:37:02.000Z" itemprop="datePublished" class="page-time">
+  2024-04-19
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Tofino时间戳机制"><span class="post-toc-number">1.</span> <span class="post-toc-text">Tofino时间戳机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#时间戳的作用"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">时间戳的作用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Global-Time-Counter-and-Timestamp-Information-Available"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Global Time Counter and Timestamp Information Available</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Tofino时间戳机制"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Tofino时间戳机制</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2024-04-19 15:37:02" datetime="2024-04-19T07:37:02.000Z"  itemprop="datePublished">2024-04-19</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="Tofino时间戳机制"><a href="#Tofino时间戳机制" class="headerlink" title="Tofino时间戳机制"></a>Tofino时间戳机制</h1><h2 id="时间戳的作用"><a href="#时间戳的作用" class="headerlink" title="时间戳的作用"></a>时间戳的作用</h2><ol>
+<li>调试，例如确定硬件 pipeline 中某个部分的延迟</li>
+<li>确定硬件 pipeline 的总延迟，然后通过 PTP 协议对交换机进行同步</li>
+</ol>
+<h2 id="Global-Time-Counter-and-Timestamp-Information-Available"><a href="#Global-Time-Counter-and-Timestamp-Information-Available" class="headerlink" title="Global Time Counter and Timestamp Information Available"></a>Global Time Counter and Timestamp Information Available</h2><p>Tofino 有一个全局 Time Counter，由两部分构成，分别是 <strong>48-bit Nanosecond component</strong> 和 <strong>28-bit Fractional component</strong></p>
+<ul>
+<li>Tofino 芯片的全局时钟速度是 1.22GHz (TF1) 或 1.5GHz (TF2)，以 TF1 为例，每个时钟对应约 0.819ns，该值称为 Global Time Counter Increment，会在每个时钟周期增加到 Fractional component Global Time Counter Increment 的默认值通过芯片运行速度自动计算得出，但也可以由用户通过控制面修改</li>
+<li>48-bit Nanosecond component <strong>在 Tofino 上次 reset 时，从 0 开始计数</strong>；Fractional component 的整数部分每增加 1，Nanosecond component 就增加 1；约 3 天会 roll over 一次（约 78 小时） 时间戳也可以与现实世界的时间同步，但这需要额外硬件</li>
+</ul>
+<p>全局 Time Counter 每 1ns 都会向 MAC, Parser 等硬件 block 分发时间信息，可以用来记录数据包在不同处理阶段的时间戳</p>
+<ul>
+<li>因此，Tofino 芯片中不同 pipe，不同硬件 block 的时间都是同步的</li>
+</ul>
+<p>从 Global Time Counter 发出的时间信息可以在 7 个地方记录</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="picture/image-20240419154127387.png" alt="Tofino逐包时间戳" title="">
+                </div>
+                <div class="image-caption">Tofino逐包时间戳</div>
+            </figure>
+<p>不同 TS 的采样位置：</p>
+<ul>
+<li>TS1(iTS) 和 TS6(eTS) 分别在 Ingress MAC 和 Egress MAC 采集，其<strong>差值代表了数据包在交换机内经历的总时长</strong>，用于更新 PTP 协议的 Correction Field 以实现更准确的时间同步</li>
+<li>TS2 和 TS5 分别在 Ingress parser 和 Egress Parser 采集，与 TS3 / TS6 的<strong>差值代表了数据包在两处 Pipeline 中经历的时长</strong></li>
+<li>TS3 和 TS4 在进出 TM 时采集，<strong>代表数据包的排队时延</strong>，这部分时延是 P4 交换机中唯一会出现<strong>大幅变化</strong>的时延</li>
+</ul>
+<p>TS1-TS5 自动保存在数据包的 Intrinsic metadata 中，可以直接在 P4 程序中读取：</p>
+<table>
+<thead>
+<tr>
+<th>时间戳</th>
+<th>类型</th>
+<th>元变量</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TS1 / iTS</td>
+<td>ingress_intrinsic_metadata_t</td>
+<td>bit<48> ingress_mac_tstamp;</td>
+<td>IEEE 1588 timestamp (ns), taken upon arrival at ingress MAC.</td>
+</tr>
+<tr>
+<td>TS2</td>
+<td>ingress_intrinsic_metadata_from_parser_t</td>
+<td>bit<48> global_tstamp;</td>
+<td>Global timestamp (ns), taken upon arrival at ingress parser.</td>
+</tr>
+<tr>
+<td>TS3</td>
+<td>egress_intrinsic_metadata_t</td>
+<td>bit<18> enq_tstamp; // TF1 <br>bit<32> enq_tstamp; // TF2</td>
+<td>Global timestamp (ns), taken when the packet is enqueued in the TM.</td>
+</tr>
+<tr>
+<td>TS4 (Derived)</td>
+<td>egress_intrinsic_metadata_t</td>
+<td>bit<18> deq_timedelta; // TF1<br> bit<32> deq_timedelta; // TF2</td>
+<td>Time delta (ns) between the packet’s enqueue and dequeue in the TM. TS4 can be derived by adding TS3 and deq_timedelta.</td>
+</tr>
+<tr>
+<td>TS5</td>
+<td>egress_intrinsic_metadata_from_parser_t</td>
+<td>bit<48> global_tstamp;</td>
+<td>Global timestamp (ns), taken upon arrival at egress parser.</td>
+</tr>
+</tbody>
+</table>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2024-04-19T07:48:27.848Z" itemprop="dateUpdated">2024-04-19 15:48:27</time>
+</span><br>
+
+
+        
+        Link：<a href="/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/p4/" rel="tag">p4</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/&title=《Tofino时间戳机制》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/&title=《Tofino时间戳机制》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Tofino时间戳机制》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2024/04/19/TNA%E6%9E%B6%E6%9E%84%E6%89%8B%E5%86%8C%E7%BF%BB%E8%AF%91/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">TNA架构手册翻译</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2024</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/&title=《Tofino时间戳机制》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/&title=《Tofino时间戳机制》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Tofino时间戳机制》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADNklEQVR42u3aSW7jQBAEQP3/0xpgTgbGojKryYHYCp4EmktH81Cu5fGIj+ff4+fvn8fxlSt//fea5DmnHdjY2Ng3YT8Pj+PXzJb16kxyPt+s48+DjY2NvR97tvRkg/JtPQ5FK8EMGxsbG/tNMAiCU/7MJLVo78XGxsbGzpebB6c8+H1E3MbGxsb+ePZKqpBvRJvetE2IS2pp2NjY2B/PnjV6P/P35f1tbGxs7A9jP0dHErqO04kkQLbhrVg/NjY29kbsvMmaR4S2YDQrLc2Gex7JlBA2Njb2DdmzAtMMfFZ4a1dSfHlsbGzsW7ET0srITt5gaEtFK81pbGxs7J3YeRM3SSFWhn7yYlBefnqzfdjY2NibsvP0Iy/iJ4tbGfHJRdjY2Nj7sdtizWw72lL+SjoUFbCwsbGxt2O3acnK4M76EM+saPVLAMPGxsbeiJ0UhmaBJKfO0ps8s6hnlLCxsbFvxW4L6yvhZ7bpedEqOo+NjY29HTsPDAkmbxIkb59twZsPiY2Njb0du31QuylnbdblqQg2Njb2bdltcb8doMzTjOsavdjY2Ni7stePNtStLDcPUUlwxcbGxt6JvdKCbYtNsxRi5WnY2NjY38luk4f8mnbQ5/jDtAESGxsbe2/2LIzlOc1sHLMNcrkCGxsbew92O46TF+4TQHK+TXiiD4aNjY29Efu6MNNuUDviM3vv5dEVGxsb+7+z8xA1K9+sNIDbJkHRQsbGxsbeiN2mGStBLqe2qcjS/BE2Njb2zdltOf6spGKlAdCGw5e1NGxsbOwt2Ge1ZmfjOG1x/zjcrjwNGxsbew/2LIC1DYD2mvZd7SARNjY29q7s2Zk2AUjuytvJwyYBNjY29nbss5qseapQNGVPanhgY2Nj78R+lke+uGFiULYBZq0IbGxs7J3YK8Fglhi0pf+8UTELtNjY2Nh7sNugNRu7aRu3x0ErH9YZJiTY2NjYN2TnS1kZo5klKuuJzS/rwcbGxv5idtsAWBnNaQd3ioYENjY29ley23/386J8OxiUl7RergEbGxt7O3by0LYQ3y6lvasNctjY2Ni7smdjNNG/+wtN4vzeNuxhY2Njb8T+A2kkO06DE8cVAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
