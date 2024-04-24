@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Tofino控制面 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="p4">
+    <meta name="description" content="运行.&#x2F;run_switchd.sh -p &lt;program_name&gt;或者.&#x2F;run_switchd.sh -p &lt;program_name&gt; --arch&#x3D;tf可以进入bf_shell 控制面操作up需要的端口需要注意的是 这里的端口是与实际接线有关的 如果不确定的话需要去机房实地考察接线情况或者咨询网管 另外以下所有交互界面使用?都可以获得一定的帮助：  使用如下命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tofino控制面">
+<meta property="og:url" content="http://tyler-ytr.github.io/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="运行.&#x2F;run_switchd.sh -p &lt;program_name&gt;或者.&#x2F;run_switchd.sh -p &lt;program_name&gt; --arch&#x3D;tf可以进入bf_shell 控制面操作up需要的端口需要注意的是 这里的端口是与实际接线有关的 如果不确定的话需要去机房实地考察接线情况或者咨询网管 另外以下所有交互界面使用?都可以获得一定的帮助：  使用如下命令">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-04-24T13:50:00.000Z">
+<meta property="article:modified_time" content="2024-04-24T15:04:41.568Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="p4">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Tofino控制面</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Tofino控制面</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2024-04-24T13:50:00.000Z" itemprop="datePublished" class="page-time">
+  2024-04-24
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#控制面操作"><span class="post-toc-number">1.</span> <span class="post-toc-text">控制面操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#up需要的端口"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">up需要的端口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#下表"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">下表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#debug-抓包操作-snapshot"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">debug 抓包操作 snapshot</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Tofino控制面"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Tofino控制面</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2024-04-24 21:50:00" datetime="2024-04-24T13:50:00.000Z"  itemprop="datePublished">2024-04-24</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/p4%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">p4语言学习</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>运行<code>./run_switchd.sh -p &lt;program_name&gt;</code>或者<code>./run_switchd.sh -p &lt;program_name&gt; --arch=tf</code>可以进入<code>bf_shell</code></p>
+<h2 id="控制面操作"><a href="#控制面操作" class="headerlink" title="控制面操作"></a>控制面操作</h2><h3 id="up需要的端口"><a href="#up需要的端口" class="headerlink" title="up需要的端口"></a>up需要的端口</h3><p>需要注意的是 这里的端口是与实际接线有关的 如果不确定的话需要去机房实地考察接线情况或者咨询网管</p>
+<p>另外以下所有交互界面使用?都可以获得一定的帮助：</p>
+<ol>
+<li><p>使用如下命令可以查看目前的端口联通情况:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bfshell&gt; ucli</span><br><span class="line">bfsde&gt; pm</span><br><span class="line">bfsde.pm&gt; show</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="2">
+<li><p>在<code>bfsde.pm&gt;</code> 界面使用如下命令可以配置端口的开启和关闭:</p>
+</li>
+<li><p>端口开启:</p>
+<ol>
+<li><code>port add &lt;conn_id/chnl&gt; &lt;speed&gt; &lt;fec&gt;</code>这里的fec可以选RS/NONE/FC;哪一个能用用哪一个</li>
+<li><code>port enb  &lt;conn_id/chnl&gt;</code></li>
+</ol>
+</li>
+<li><p>端口开启的例子(比如13口开100G;因为是100G所以只能13/0):</p>
+<ol>
+<li><code>port-add 13/0 100G RS</code></li>
+<li><code>port-enb 13/0</code></li>
+<li><code>show</code> (多次 如果正常的话OPR那一栏会从DWN变成UP)</li>
+</ol>
+</li>
+<li><p>端口关闭例子:</p>
+<ol>
+<li><code>port-dis 13/0</code> 这个对应于enb指令</li>
+<li><code>port-del 13/0</code></li>
+</ol>
+</li>
+<li><p><code>bfsde.pm&gt;</code>可以通过<code>..</code>退到<code>bfsde&gt;</code>;</p>
+</li>
+</ol>
+<h3 id="下表"><a href="#下表" class="headerlink" title="下表"></a>下表</h3><p>需要注意的是 并不是物理上的13口就意味着形如:</p>
+<p><code>ig_intr_tm_md.ucast_egress_port = port;</code></p>
+<p>这条命令中的port为13；</p>
+<p>事实上，需要在<code>bfsde.pm&gt;</code>中使用<code>show -a</code>进行确认:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">------+----+---+----+-------+----+--+--+---+---+---+--------+----------------+----------------+-</span><br><span class="line">PORT |MAC |D_P|P&#x2F;PT|SPEED  |FEC |AN|KR|RDY|ADM|OPR|LPBK    |FRAMES RX       |FRAMES TX       |E</span><br><span class="line">-----+----+---+----+-------+----+--+--+---+---+---+--------+----------------+----------------+-</span><br><span class="line">12&#x2F;3 |12&#x2F;3| 39|0&#x2F;39|-------|----|--|--|NO |---|---|--------|----------------|----------------|-</span><br><span class="line">13&#x2F;0 |11&#x2F;0| 28|0&#x2F;28|100G   | RS |Au|Au|YES|ENB|UP | NONE   | 53             | 0              |- </span><br><span class="line">13&#x2F;1 |11&#x2F;1| 29|0&#x2F;29|-------|----|--|--|YES|---|---|--------|----------------|----------------|-</span><br><span class="line">13&#x2F;2 |11&#x2F;2| 30|0&#x2F;30|-------|----|--|--|YES|---|---|--------|----------------|----------------|-</span><br><span class="line">13&#x2F;3 |11&#x2F;3| 31|0&#x2F;31|-------|----|--|--|YES|---|---|--------|----------------|----------------|-</span><br><span class="line">14&#x2F;0 |10&#x2F;0| 20|0&#x2F;20|100G   | RS |Au|Au|YES|ENB|UP | NONE   | 73             | 0              |- </span><br><span class="line">14&#x2F;1 |10&#x2F;1| 21|0&#x2F;21|-------|----|--|--|YES|---|---|--------|----------------|----------------|-</span><br></pre></td></tr></table></figure>
+<p>比如这里应该是28;</p>
+<p>因此在aplusb.p4中下ipv4表的时候应该的值为:</p>
+<p><strong>对应14口</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bfrt.aplusb.pipe.SwitchIngress.ipv4_lpm.add_with_ipv4_forward(hdr_ipv4_dstAddr&#x3D;&quot;192.168.42.8&quot;,dstAddr&#x3D;&quot;10:70:fd:00:d8:ac&quot;,port&#x3D;20)</span><br></pre></td></tr></table></figure>
+<p><strong>对应13口:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bfrt.aplusb.pipe.SwitchIngress.ipv4_lpm.add_with_ipv4_forward(hdr_ipv4_dstAddr&#x3D;&quot;192.168.42.7&quot;,dstAddr&#x3D;&quot;10:70:fd:00:da:cc&quot;,port&#x3D;28)</span><br></pre></td></tr></table></figure>
+<h3 id="debug-抓包操作-snapshot"><a href="#debug-抓包操作-snapshot" class="headerlink" title="debug 抓包操作 snapshot"></a>debug 抓包操作 snapshot</h3><p>能够在交换机控制面装多个”钩子“，并且打印符合”钩子“要求的第一个数据包经 过的时候的stage信息；</p>
+<ol>
+<li><code>snap-create -d 0 -p 0xFFFF -s 0 -e 11 -i 0</code><ol>
+<li><code>-s 0 -e 11</code>表示从第0个stage到第11个stage的信息</li>
+</ol>
+</li>
+<li><code>snap-ig-mode-set -h 0xff581 -m 1</code><ol>
+<li>这里的<code>0xff581</code>来自于第一条的输出；相当于一个handler</li>
+</ol>
+</li>
+<li><code>snap-trig-add -h 0xff581 -n hdr_ipv4_dstAddr -v 0 -m 0</code><ol>
+<li>这是用于匹配的规则；这里表示监视<code>hdr_ipv4_dstAddr</code>这个信息，-v表示 值,-m表示掩码；值掩码符合要求的时候发生命中</li>
+<li>这种规则可以有多条</li>
+</ol>
+</li>
+<li><code>snap-state-set -h 0xff581 -e 1</code><ol>
+<li>表示启用<code>0xff581</code>这个监视器</li>
+</ol>
+</li>
+<li><code>snap-capture-get -h 0xff581 -p 0</code><ol>
+<li>打印信息；这个时候直接打印是啥都没有的；只有符合条件的第一个包经 过交换机才能抓到东西（可以打印每一个stage的匹配情况）</li>
+</ol>
+</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2024-04-24T15:04:41.568Z" itemprop="dateUpdated">2024-04-24 23:04:41</time>
+</span><br>
+
+
+        
+        Link：<a href="/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/" target="_blank" rel="external">http://tyler-ytr.github.io/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/p4/" rel="tag">p4</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/&title=《Tofino控制面》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/&title=《Tofino控制面》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Tofino控制面》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2024/04/19/Tofino%E6%97%B6%E9%97%B4%E6%88%B3%E6%9C%BA%E5%88%B6/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Tofino时间戳机制</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2024</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/&title=《Tofino控制面》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/&title=《Tofino控制面》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Tofino控制面》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2024/04/24/Tofino%E6%8E%A7%E5%88%B6%E9%9D%A2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACxUlEQVR42u3aQW4bMQwF0Nz/0inQVYHW4/9JqfHizSoYj0d6CiDSpL6+4uv79/X86Z9X8obnO3+/7XkOqwsPDw9vNPVXVzu55P53cD0vXPJdPDw8vNu85628DQzPQz4HgDxsRAEMDw8P70d5syGTIHHqW3h4eHifxktKD8mi5IWM5zng4eHh/SzvRlEgvxLw9VoLHh4eXsxrG2Cf8PfF/h4eHh7eoqu+CRVt8bc9TBDNEw8PD+8CLy8ZJEcE8rLFqWQ6Chh4eHh4R3mzA1L5Qav9UibvfPkkHh4e3gVe/kFeLNgswazFVZRx8fDw8A7xZgWF9luzIJQfLCh+AeDh4eEteG3dYjZknqAn7CLY4OHh4V3gta2mWVG1Lebmi1sn1nh4eHhrXhIG2oJpm/gmyFkQwsPDw7vBy8NAXjJoQ8Kq6pwsOh4eHt4FXj5kkoK37bRNyaNI0/Hw8PAO8WbNp/2dzWIVh8Dw8PDwLvCSTXa/le9T7bas/JUPhoeHh1fOM2/h502vWWKdbPFJEw4PDw/vf/Lawdon82c2pZB//GLAw8PDO8rLf/znhwn2W3/bEnvzBjw8PLyjvLb00JZ3Z5ObHfB6+X/Dw8PDO8rLW1/PU8yHbJtkedOrPlOGh4eHt+C1ZYLZEYFZIaMtbbx5Hg8PD+8QL59EvtEnW/lsEevEHQ8PD+8Cr92C85ZYnhy3xxHaQgYeHh7eWV4ycNsA27S+NmGgKOPi4eHhHeLV7aW4YdZOrj2mEFWp8fDw8Na8G02vlt2GpSIdx8PDw7vAm0WSFj9blDZsbGaCh4eH1/LaDboFt/fzUaL/Gx4eHt41Xl6KbdPZ/dGBPMy8ORmBh4eH92G8/eGAfNNPSs94eHh4n8BrN/0bhdo6NcfDw8O7xmu39Xy7n6XaeVvrTfKNh4eHd4E3a4BtUuq8GDEbFw8PD+8a7xfx1Bg8SK4+mgAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
