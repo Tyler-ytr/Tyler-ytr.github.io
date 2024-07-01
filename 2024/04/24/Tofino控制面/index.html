@@ -29,7 +29,7 @@
 <meta property="og:description" content="运行.&#x2F;run_switchd.sh -p &lt;program_name&gt;或者.&#x2F;run_switchd.sh -p &lt;program_name&gt; --arch&#x3D;tf可以进入bf_shell 控制面操作up需要的端口需要注意的是 这里的端口是与实际接线有关的 如果不确定的话需要去机房实地考察接线情况或者咨询网管 另外以下所有交互界面使用?都可以获得一定的帮助：  使用如下命令">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-04-24T13:50:00.000Z">
-<meta property="article:modified_time" content="2024-04-24T15:04:41.568Z">
+<meta property="article:modified_time" content="2024-04-25T06:32:28.583Z">
 <meta property="article:author" content="Tyler-yin">
 <meta property="article:tag" content="p4">
 <meta name="twitter:card" content="summary">
@@ -174,7 +174,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#控制面操作"><span class="post-toc-number">1.</span> <span class="post-toc-text">控制面操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#up需要的端口"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">up需要的端口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#下表"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">下表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#debug-抓包操作-snapshot"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">debug 抓包操作 snapshot</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#控制面操作"><span class="post-toc-number">1.</span> <span class="post-toc-text">控制面操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#up需要的端口"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">up需要的端口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#控制面下表"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">控制面下表</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#手动下表案例"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">手动下表案例</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#python下表"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">python下表</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#debug-抓包操作-snapshot"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">debug 抓包操作 snapshot</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -233,18 +233,18 @@
 <li><p><code>bfsde.pm&gt;</code>可以通过<code>..</code>退到<code>bfsde&gt;</code>;</p>
 </li>
 </ol>
-<h3 id="下表"><a href="#下表" class="headerlink" title="下表"></a>下表</h3><p>需要注意的是 并不是物理上的13口就意味着形如:</p>
+<h3 id="控制面下表"><a href="#控制面下表" class="headerlink" title="控制面下表"></a>控制面下表</h3><h4 id="手动下表案例"><a href="#手动下表案例" class="headerlink" title="手动下表案例"></a>手动下表案例</h4><p>需要注意的是 并不是物理上的13口就意味着形如:</p>
 <p><code>ig_intr_tm_md.ucast_egress_port = port;</code></p>
 <p>这条命令中的port为13；</p>
 <p>事实上，需要在<code>bfsde.pm&gt;</code>中使用<code>show -a</code>进行确认:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">------+----+---+----+-------+----+--+--+---+---+---+--------+----------------+----------------+-</span><br><span class="line">PORT |MAC |D_P|P&#x2F;PT|SPEED  |FEC |AN|KR|RDY|ADM|OPR|LPBK    |FRAMES RX       |FRAMES TX       |E</span><br><span class="line">-----+----+---+----+-------+----+--+--+---+---+---+--------+----------------+----------------+-</span><br><span class="line">12&#x2F;3 |12&#x2F;3| 39|0&#x2F;39|-------|----|--|--|NO |---|---|--------|----------------|----------------|-</span><br><span class="line">13&#x2F;0 |11&#x2F;0| 28|0&#x2F;28|100G   | RS |Au|Au|YES|ENB|UP | NONE   | 53             | 0              |- </span><br><span class="line">13&#x2F;1 |11&#x2F;1| 29|0&#x2F;29|-------|----|--|--|YES|---|---|--------|----------------|----------------|-</span><br><span class="line">13&#x2F;2 |11&#x2F;2| 30|0&#x2F;30|-------|----|--|--|YES|---|---|--------|----------------|----------------|-</span><br><span class="line">13&#x2F;3 |11&#x2F;3| 31|0&#x2F;31|-------|----|--|--|YES|---|---|--------|----------------|----------------|-</span><br><span class="line">14&#x2F;0 |10&#x2F;0| 20|0&#x2F;20|100G   | RS |Au|Au|YES|ENB|UP | NONE   | 73             | 0              |- </span><br><span class="line">14&#x2F;1 |10&#x2F;1| 21|0&#x2F;21|-------|----|--|--|YES|---|---|--------|----------------|----------------|-</span><br></pre></td></tr></table></figure>
 <p>比如这里应该是28;</p>
-<p>因此在aplusb.p4中下ipv4表的时候应该的值为:</p>
+<p>在<code>bfshell</code>输入<code>bfrt_python</code>可以下类似于如下的表项：</p>
 <p><strong>对应14口</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bfrt.aplusb.pipe.SwitchIngress.ipv4_lpm.add_with_ipv4_forward(hdr_ipv4_dstAddr&#x3D;&quot;192.168.42.8&quot;,dstAddr&#x3D;&quot;10:70:fd:00:d8:ac&quot;,port&#x3D;20)</span><br></pre></td></tr></table></figure>
 <p><strong>对应13口:</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bfrt.aplusb.pipe.SwitchIngress.ipv4_lpm.add_with_ipv4_forward(hdr_ipv4_dstAddr&#x3D;&quot;192.168.42.7&quot;,dstAddr&#x3D;&quot;10:70:fd:00:da:cc&quot;,port&#x3D;28)</span><br></pre></td></tr></table></figure>
-<h3 id="debug-抓包操作-snapshot"><a href="#debug-抓包操作-snapshot" class="headerlink" title="debug 抓包操作 snapshot"></a>debug 抓包操作 snapshot</h3><p>能够在交换机控制面装多个”钩子“，并且打印符合”钩子“要求的第一个数据包经 过的时候的stage信息；</p>
+<h4 id="python下表"><a href="#python下表" class="headerlink" title="python下表"></a>python下表</h4><h3 id="debug-抓包操作-snapshot"><a href="#debug-抓包操作-snapshot" class="headerlink" title="debug 抓包操作 snapshot"></a>debug 抓包操作 snapshot</h3><p>能够在交换机控制面装多个”钩子“，并且打印符合”钩子“要求的第一个数据包经 过的时候的stage信息；</p>
 <ol>
 <li><code>snap-create -d 0 -p 0xFFFF -s 0 -e 11 -i 0</code><ol>
 <li><code>-s 0 -e 11</code>表示从第0个stage到第11个stage的信息</li>
@@ -276,7 +276,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2024-04-24T15:04:41.568Z" itemprop="dateUpdated">2024-04-24 23:04:41</time>
+    Last updated: <time datetime="2024-04-25T06:32:28.583Z" itemprop="dateUpdated">2024-04-25 14:32:28</time>
 </span><br>
 
 
@@ -353,7 +353,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2024/06/05/Linux%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B01/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Linux内核设计与实现阅读笔记1</h4>
+      </a>
+    </div>
   
 
   
