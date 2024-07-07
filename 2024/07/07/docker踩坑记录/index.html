@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>docker踩坑记录 | Tyler-yin&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="计算机网络,开发记录">
+    <meta name="description" content="起因是想要配置一个抢票的docker，结果过程异常艰辛，深入探索了墙内docker的配置。 问题1：dockerhub被墙在当前时间点，dockerhub被墙，国内的镜像站也纷纷闭站不好用了，使用先前的教程修改daemon.json文件不太好使； 解决方案参考博客：https:&#x2F;&#x2F;kebingzao.com&#x2F;2019&#x2F;02&#x2F;22&#x2F;docker-container-proxy&#x2F;  使用v2raya配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker踩坑记录">
+<meta property="og:url" content="http://tyler-ytr.github.io/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="Tyler-yin&#39;s blog">
+<meta property="og:description" content="起因是想要配置一个抢票的docker，结果过程异常艰辛，深入探索了墙内docker的配置。 问题1：dockerhub被墙在当前时间点，dockerhub被墙，国内的镜像站也纷纷闭站不好用了，使用先前的教程修改daemon.json文件不太好使； 解决方案参考博客：https:&#x2F;&#x2F;kebingzao.com&#x2F;2019&#x2F;02&#x2F;22&#x2F;docker-container-proxy&#x2F;  使用v2raya配">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-07T09:03:29.000Z">
+<meta property="article:modified_time" content="2024-07-07T09:10:22.661Z">
+<meta property="article:author" content="Tyler-yin">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="开发记录">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="Tyler-yin&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.7.2">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/Tyler.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tyler-yin</h5>
+          <a href="mailto:ytrpossible@gmail.com" title="ytrpossible@gmail.com" class="mail">ytrpossible@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Index
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/Tyler-ytr/" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/friends"  >
+                <i class="icon icon-lg icon-address-book"></i>
+                Friends
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-link"></i>
+                link
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">docker踩坑记录</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">docker踩坑记录</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2024-07-07T09:03:29.000Z" itemprop="datePublished" class="page-time">
+  2024-07-07
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#问题1：dockerhub被墙"><span class="post-toc-number">1.</span> <span class="post-toc-text">问题1：dockerhub被墙</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解决方案"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">解决方案</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#问题2：容器使用时无法apt-get-update"><span class="post-toc-number">2.</span> <span class="post-toc-text">问题2：容器使用时无法apt-get update</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-docker踩坑记录"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">docker踩坑记录</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2024-07-07 17:03:29" datetime="2024-07-07T09:03:29.000Z"  itemprop="datePublished">2024-07-07</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">个人总结</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>起因是想要配置一个抢票的docker，结果过程异常艰辛，深入探索了墙内docker的配置。</p>
+<h2 id="问题1：dockerhub被墙"><a href="#问题1：dockerhub被墙" class="headerlink" title="问题1：dockerhub被墙"></a>问题1：dockerhub被墙</h2><p>在当前时间点，dockerhub被墙，国内的镜像站也纷纷闭站不好用了，使用先前的教程修改daemon.json文件不太好使；</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>参考博客：<a href="https://kebingzao.com/2019/02/22/docker-container-proxy/" target="_blank" rel="noopener">https://kebingzao.com/2019/02/22/docker-container-proxy/</a></p>
+<ol>
+<li>使用<a href="https://github.com/v2rayA/v2rayA/tree/180a655e4948b9cc81a40ee88b9f3d2f0af3c7d9" target="_blank" rel="noopener">v2raya</a>配置透明代理，可以从中获得端口号。</li>
+<li>根据该<a href="https://docs.docker.com/network/proxy/" target="_blank" rel="noopener">文档</a>配置<code>~/.docker/config.json</code>，如果没有该文件需要新建。（网址为127.0.0.1，端口号从步骤1获得）</li>
+<li>在构建docker镜像的时候使用<code>--network=host</code>命令，例如:<code>docker build --network=host -t test .</code>。该命令可以让容器将共享宿主机的网络堆栈，包括 IP 地址和端口号。</li>
+</ol>
+<h2 id="问题2：容器使用时无法apt-get-update"><a href="#问题2：容器使用时无法apt-get-update" class="headerlink" title="问题2：容器使用时无法apt-get update"></a>问题2：容器使用时无法apt-get update</h2><ol>
+<li>同问题1配置好<code>~/.docker/config.json</code></li>
+<li>在启动容器的时候加上<code>--network=host</code>命令，此时可以借助宿主机的透明代理进行加速。</li>
+</ol>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2024-07-07T09:10:22.661Z" itemprop="dateUpdated">2024-07-07 17:10:22</time>
+</span><br>
+
+
+        
+        Link：<a href="/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" target="_blank" rel="external">http://tyler-ytr.github.io/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://Tyler-ytr.github.io">
+            <img src="/img/Tyler.png" alt="Tyler-yin">
+            Tyler-yin
+        </a>
+    </footer>
+</blockquote>
+
+        
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" rel="tag">开发记录</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/&title=《docker踩坑记录》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/&title=《docker踩坑记录》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《docker踩坑记录》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2024/06/05/Linux%E5%86%85%E6%A0%B8%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B01/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Linux内核设计与实现阅读笔记1</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "NoLhoWnmbSW89zV4zc04RPwx-gzGzoHsz",
+            appKey: "SSdRGaHcdjoKc7cJJpOlJIqJ",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license noopener" href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Tyler-yin &copy; 2015 - 2024</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://tyler-ytr.github.io/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/&title=《docker踩坑记录》 — Tyler-yin's blog&pic=http://Tyler-ytr.github.io/img/Tyler.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://tyler-ytr.github.io/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/&title=《docker踩坑记录》 — Tyler-yin's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://tyler-ytr.github.io/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《docker踩坑记录》 — Tyler-yin's blog&url=http://tyler-ytr.github.io/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/&via=http://Tyler-ytr.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://tyler-ytr.github.io/2024/07/07/docker%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACtElEQVR42u3aQW7DQAgF0N7/0qnUVRZ1/IEhyeJ5FaXu2G8iDQj4+Ymvx9/1/Pn5m/yefIXk/mMXHh4eXuvVr66rB1y9XA57ff/rJ+br4OHh4e3xkmCQ/DV5oeTp1fe5/B4PDw/vo7zXYeN1eKgm2fmG4uHh4X0/Lz/Q5+WGZEPx8PDwPsWrHv3VkJCHjd73B2oteHh4eDFvUgj41Of1/h4eHh5eq6ueh4rJmskKzZXx8PDwFnh5ylttiU0abNWSxM2m4+Hh4R3l5Ydv78HVQm1106PfDQ8PD+8or/eKvYLFvGibBIOoSo2Hh4e3xstJvUS82iRr/hceHh7eUV7eUkpS7Xl6nQSSPBHHw8PD2+DlS+cvlw+t5il1kuJHb4WHh4c35kVl0OI+9RLofJ0Dk2J4eHh4Y17SmsoHp3obUU2mC4EBDw8P7ygvYczb/9WmWjVc3aT4eHh4eAu8amEiL6dOmli9EIKHh4f3ft5G42pSJZhsFh4eHt4Gr3rEV4NHPlIwv+dm6AoPDw/vEC8/sqsF1mQQKk+s52NeeHh4eGd5vRS2WTyNx7aqJYnoF8PDw8M7yps09asDVflz88T6cgU8PDy8o7y9BlV1tXyDCs0wPDw8vLfwqs37pDAxH9JKkul/7sTDw8Nb41XbS71RrZw3KZfg4eHhbfMm41bVdtQkNe+FKzw8PLwN3nygKl/nbDEiGh3Aw8PDW+Dl7fzqsT4vRlSHEm7ux8PDwzvEexSvKqOaUh8OJHh4eHhbOWrz2K0WUnsPngcbPDw8vA1eHgx6o1HVgkIvMNzUp/Hw8PAWeL0CRB5CJof+JITg4eHhfQ8vaY9V70+KudUiMh4eHt5neXk6Pi9YHIDh4eHhLfMmxYhJKbYXYJKNxsPDw9vjNUeaWql2PjqQl3TnbTY8PDy8mPcLIVDaT/F6cncAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.7.2"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.7.2" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '＞﹏＜';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '~\(≧▽≦)/~';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+</body>
+</html>
